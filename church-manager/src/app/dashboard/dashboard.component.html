@@ -1,1 +1,235 @@
-<p>dashboard works!</p>
+<div id="dashboard">
+  <div class="row">
+    <div class="col-6">
+      <h1 id="title">{{ title }}</h1>
+    </div>
+    <div class="col-2">
+      <div class="relative">
+        <input
+          type="search"
+          class="form-control header-search-input"
+          placeholder="Pesquisar"
+        />
+        <button class="btn center-v">
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 4rem">
+    <div class="col">
+      <mat-card class="mat-card" style="padding: 0">
+        <div class="row" style="padding: 10px">
+          <div class="col-12">
+            <img
+              style="width: 60px; height: 60px"
+              src="../../assets/images/icons8-igreja-128.png"
+            />
+          </div>
+          <div
+            class="col-6 d-flex justify-content-start align-items-center"
+            style="margin-top: 0.2rem"
+          >
+            <h4>Capelas</h4>
+          </div>
+          <div class="col-6 d-flex justify-content-end align-items-center">
+            <p>100</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col">
+      <mat-card class="mat-card" style="padding: 0">
+        <div class="row" style="padding: 10px">
+          <div class="col-12">
+            <img
+              style="width: 60px; height: 60px"
+              src="../../assets/images/icons8-grupo-de-usuário-homem-mulher-100.png"
+            />
+          </div>
+          <div class="col-6 d-flex justify-content-start align-items-center">
+            <h4>Dizimistas</h4>
+          </div>
+          <div class="col-6 d-flex justify-content-end align-items-center">
+            <p>200</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col">
+      <mat-card class="mat-card" style="padding: 0">
+        <div class="row" style="padding: 10px">
+          <div class="col-12">
+            <img
+              style="width: 60px; height: 60px"
+              src="../../assets/images/icons8-dinheiro-150.png"
+            />
+          </div>
+          <div
+            class="col-6 d-flex justify-content-start align-items-center"
+            style="margin-top: 0.2rem"
+          >
+            <h4>Dízimo</h4>
+          </div>
+          <div class="col-6 d-flex justify-content-end align-items-center">
+            <p>{{ 500 | currency: "BRL":true }}</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+  </div>
+
+  <div class="row" id="section-two">
+    <div class="col">
+      <div class="row">
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <h4 style="font-weight: 600">Atividades Recentes</h4>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center">
+          <div class="col">
+            <button class="btn" type="button">
+              <fa-icon [icon]="faArrowRight"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-5 d-flex justify-content-start align-items-center">
+          <p>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../assets/images/icons8-usuário-masculino-100.png"
+            />
+            José
+          </p>
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <p>Dízimo recebido</p>
+        </div>
+        <div class="col-5 d-flex justify-content-start align-items-center">
+          <p>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../assets/images/icons8-usuário-masculino-100.png"
+            />
+            Josefa
+          </p>
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <p>Dízimo recebido</p>
+        </div>
+        <div class="col-5 d-flex justify-content-start align-items-center">
+          <p>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../assets/images/icons8-usuário-masculino-100.png"
+            />
+            João
+          </p>
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <p>Dízimo recebido</p>
+        </div>
+        <div class="col-5 d-flex justify-content-start align-items-center">
+          <p>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../assets/images/icons8-usuário-masculino-100.png"
+            />
+            Maria
+          </p>
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <p>Dízimo recebido</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <h4 style="font-weight: 600">Atividades Recentes</h4>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center">
+          <div class="col">
+            <button class="btn" type="button">
+              <fa-icon [icon]="faArrowRight"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <canvas
+          baseChart
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          [plugins]="lineChartPlugins"
+        >
+        </canvas>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <h4 style="font-weight: 600">Últimas mensagens</h4>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center">
+          <div class="col">
+            <button class="btn" type="button">
+              <fa-icon [icon]="faArrowRight"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-5 d-flex justify-content-start align-items-center">
+          <p>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../assets/images/icons8-nova-mensagem-48.png"
+            />
+            José
+          </p>
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <p>Qual valor da camisa para festa</p>
+        </div>
+        <div class="col-5 d-flex justify-content-start align-items-center">
+          <p>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../assets/images/icons8-nova-mensagem-48.png"
+            />
+            Josefa
+          </p>
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <p>A missa será transmitida pela rádio?</p>
+        </div>
+        <div class="col-5 d-flex justify-content-start align-items-center">
+          <p>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../assets/images/icons8-nova-mensagem-48.png"
+            />
+            João
+          </p>
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <p>O sacerdote estará disponível hoje?</p>
+        </div>
+        <div class="col-5 d-flex justify-content-start align-items-center">
+          <p>
+            <img
+              style="width: 30px; height: 30px"
+              src="../../assets/images/icons8-nova-mensagem-48.png"
+            />
+            Maria
+          </p>
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center">
+          <p>Quando haverá missa?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

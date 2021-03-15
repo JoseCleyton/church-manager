@@ -1,0 +1,25 @@
+#menu {
+  margin-left: 0.3rem;
+  width: 10rem;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.icons-menu {
+  padding: 0.7rem;
+}
+
+.icons-menu button:hover {
+  border-bottom: solid 1px blue;
+}
+
+#title {
+  margin-top: 3rem;
+}
+
+#icon-account {
+  margin-top: 3rem;
+  padding: 1rem;
+}
