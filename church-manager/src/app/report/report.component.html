@@ -1,0 +1,42 @@
+<app-header></app-header>
+<div id="report" class="row">
+  <div class="col-12 d-flex justify-content-start align-items-center">
+    <h4 style="font-weight: 600">
+      Total : {{ 1000 | currency: "BRL":"symbol" }}
+    </h4>
+  </div>
+  <div class="col-xl-8 col-md-8 col-sm-12">
+    <canvas
+      baseChart
+      [datasets]="lineChartDataBar"
+      [labels]="lineChartLabelsBar"
+      [colors]="lineChartColorsBar"
+      [legend]="lineChartLegendBar"
+      [chartType]="lineChartTypeBar"
+      [plugins]="lineChartPluginsBar"
+    >
+    </canvas>
+  </div>
+  <div class="col-xl-4 col-md-4 col-sm-12">
+    <canvas
+      baseChart
+      [datasets]="lineChartDataDoughnutPie"
+      [labels]="lineChartLabelsDoughnutPie"
+      [colors]="lineChartColorsDoughnutPie"
+      [legend]="lineChartLegendDoughnutPie"
+      [chartType]="lineChartTypeDoughnutPie"
+      [plugins]="lineChartPluginsDoughnutPie"
+    >
+    </canvas>
+    <canvas
+      baseChart
+      [datasets]="lineChartDataLine"
+      [labels]="lineChartLabelsLine"
+      [colors]="lineChartColorsLine"
+      [legend]="lineChartLegendLine"
+      [chartType]="lineChartTypeLine"
+      [plugins]="lineChartPluginsLine"
+    >
+    </canvas>
+  </div>
+</div>

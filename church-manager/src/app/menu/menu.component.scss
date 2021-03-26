@@ -6,20 +6,57 @@
   justify-content: center;
   height: 100%;
 }
-
+#menu-up {
+  display: none;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+}
 .icons-menu {
   padding: 0.7rem;
-}
-
-.icons-menu button:hover {
-  border-bottom: solid 1px blue;
 }
 
 #title {
   margin-top: 3rem;
 }
 
+#title-up {
+  margin-top: 1rem;
+}
+
 #icon-account {
   margin-top: 3rem;
   padding: 1rem;
+}
+
+#icon-account-up {
+  margin-top: 0.2rem;
+}
+
+.img-26-26 {
+  width: 26px;
+  height: 26px;
+}
+
+.img-35-35 {
+  width: 35px;
+  height: 35px;
+}
+.img-10-10 {
+  width: 10px;
+  height: 10px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+@media screen and (max-width: 500px) {
+  #menu-up {
+    display: block;
+  }
+  #menu {
+    display: none;
+  }
 }

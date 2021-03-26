@@ -1,3 +1,4 @@
+import { HeaderModule } from './../header/header.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DashboardComponent } from './dashboard.component';
 import { NgModule } from '@angular/core';
@@ -9,6 +10,6 @@ import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [DashboardComponent],
-  imports: [CommonModule, DashboardRoutingModule, MatCardModule, FontAwesomeModule, ChartsModule],
+  imports: [CommonModule, DashboardRoutingModule, MatCardModule, FontAwesomeModule, ChartsModule, HeaderModule],
 })
 export class DashboardModule {}
