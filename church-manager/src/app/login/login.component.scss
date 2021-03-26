@@ -2,6 +2,14 @@
   padding: 2rem;
 }
 
+#title {
+  margin-top: 2rem;
+}
+
+#img-banner {
+  margin-top: 7.2rem;
+}
+
 #card-form-login mat-card {
   background-color: #738dda;
   color: white;
@@ -71,13 +79,17 @@ a {
   #img-banner {
     display: none;
   }
-  #card-form-login mat-card{
+  #card-form-login mat-card {
     height: 28rem;
   }
-  #title-form-login{
+  #title-form-login {
     margin-top: 2rem;
   }
-  #img-logo{
+  #img-logo {
     margin-right: 1rem;
+  }
+  #title {
+    margin-top: 1rem;
+    margin-bottom: 0;
   }
 }
