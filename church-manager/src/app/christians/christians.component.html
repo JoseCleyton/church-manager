@@ -1,215 +1,66 @@
 <app-header></app-header>
 <div id="list" class="row">
   <div class="table-responsive">
-    <app-page-header></app-page-header>
+    <app-page-header
+      [typesForm]="typesForm"
+      [typesFormFilter]="typesFormFilter"
+      [titleDialog]="title"
+      [titleFilter]="titleFilter"
+      [buttonsDialog]="buttonsDialog"
+      [buttonsFilter]="buttonsFilter"
+      [formAdd]="formAddCristian"
+      [formFilter]="formFilter"
+    ></app-page-header>
     <table class="table table-hover">
       <thead class="thead">
         <tr>
-          <th scope="col">Número</th>
+          <th scope="col">N.</th>
           <th scope="col">Nome</th>
-          <th scope="col">Endereço</th>
           <th scope="col">Telefone</th>
+          <th scope="col">E-mail</th>
           <th scope="col">Ação</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let item of data" (click)="selectChristian(item)">
           <td>
-            <p class="number-user">01</p>
+            <p class="number-user">{{ item.id }}</p>
           </td>
           <td>
             <img
               class="img-30-30"
               src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Josefina de Alencar Barbosa
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />
-            Rua da Alegria
-          </td>
-          <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-telefone-sem-uso-100.png"
-            />
-            (81) 9.9999-9999
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faEdit"></fa-icon>
-                Editar
-              </button>
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p class="number-user">02</p>
+            />{{ item.name }}
           </td>
           <td>
             <img
               class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />João Rufino de Matos
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />
-            Rua da Quarenta e cinco
-          </td>
-          <td>
-            <img
-              class="img-35-35"
               src="../../assets/images/icons8-telefone-sem-uso-100.png"
             />
-            (81) 9.0000-0000
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faEdit"></fa-icon>
-                Editar
-              </button>
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p class="number-user">03</p>
+            {{ item.phone }}
           </td>
           <td>
             <img
               class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Lucindalva Magalhães
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
+              src="../../assets/images/icons8-nova-mensagem-48.png"
             />
-           Rua Capitão Afonso
+            {{ item.email }}
           </td>
-          <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-telefone-sem-uso-100.png"
-            />
-            (81) 9.2345-0987
-          </td>
-          <td>
+          <td (click)="preventDefault($event)">
             <button class="btn" type="button" [matMenuTriggerFor]="menu">
               <fa-icon [icon]="faEllipsis"></fa-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="edit(item)">
                 <fa-icon [icon]="faEdit"></fa-icon>
                 Editar
               </button>
-              <button mat-menu-item>
+              <button mat-menu-item (click)="delete(item)">
                 <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
               </button>
             </mat-menu>
           </td>
         </tr>
-        <tr>
-          <td>
-            <p class="number-user">04</p>
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Carlos Amarantes Junior
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />
-            Rua Belmonte
-          </td>
-          <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-telefone-sem-uso-100.png"
-            />
-            (81) 9.9876-5432
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faEdit"></fa-icon>
-                Editar
-              </button>
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <p class="number-user">05</p>
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Maricelma Campos
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />
-            Av. Virando a Esquina
-          </td>
-          <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-telefone-sem-uso-100.png"
-            />
-            (81) 9.1234-5678
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faEdit"></fa-icon>
-                Editar
-              </button>
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-
-        <tr></tr>
       </tbody>
     </table>
     <app-paginator></app-paginator>

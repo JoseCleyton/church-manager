@@ -1,7 +1,16 @@
 <app-header></app-header>
 <div id="list" class="row">
   <div class="table-responsive">
-    <app-page-header></app-page-header>
+    <app-page-header
+      [typesForm]="typesForm"
+      [typesFormFilter]="typesFormFilter"
+      [titleDialog]="title"
+      [titleFilter]="titleFilter"
+      [buttonsDialog]="buttonsDialog"
+      [buttonsFilter]="buttonsFilter"
+      [formAdd]="formNewMessage"
+      [formFilter]="formFilter"
+    ></app-page-header>
     <table class="table table-hover">
       <thead class="thead">
         <tr>
@@ -12,129 +21,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let message of data" (click)="selectMessage(message)">
           <td>
             <img
               class="img-30-30"
               src="../../assets/images/icons8-usuário-masculino-100.png"
-            />João Lucas
+            />{{ message.sender }}
           </td>
           <td>
             <img
               class="img-30-30"
               src="../../assets/images/icons8-rótulo-100.png"
             />
-            Reunião
+            {{ message.title }}
           </td>
 
           <td>
             <img
               class="img-30-30"
               src="../../assets/images/icons8-data-até-64.png"
-            />28/02/2021 12:40
+            />{{ message.dateHour }}
           </td>
-          <td>
+          <td (click)="preventDefault($event)">
             <button class="btn" type="button" [matMenuTriggerFor]="menu">
               <fa-icon [icon]="faEllipsis"></fa-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Josefa
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-rótulo-100.png"
-            />
-            Anúncio
-          </td>
-
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-data-até-64.png"
-            />18/03/2021 08:12
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Maria
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-rótulo-100.png"
-            />
-            Conta de Água
-          </td>
-
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-data-até-64.png"
-            />15/03/2021 18:20
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />José
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-rótulo-100.png"
-            />
-            Conta de Luz
-          </td>
-
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-data-até-64.png"
-            />01/03/2021 15:56
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="delete(message)">
                 <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
               </button>
             </mat-menu>

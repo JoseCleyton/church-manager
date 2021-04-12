@@ -8,6 +8,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MessageRoutingModule } from './message-routing.module';
+import { DialogDeleteModule } from '../shared/components/ui/dialog-delete/dialog-delete.module';
+import { DialogViewModule } from '../shared/components/ui/dialog-view/dialog-view.module';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { MessageRoutingModule } from './message-routing.module';
     HeaderModule,
     PageHeaderModule,
     PaginatorModule,
-    MatMenuModule
+    MatMenuModule,
+    DialogViewModule
   ],
   exports: [MessageComponent]
 })

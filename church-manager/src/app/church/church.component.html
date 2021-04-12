@@ -1,7 +1,16 @@
 <app-header></app-header>
 <div id="list" class="row">
   <div class="table-responsive">
-    <app-page-header></app-page-header>
+    <app-page-header
+      [typesForm]="typesForm"
+      [typesFormFilter]="typesFormFilter"
+      [titleDialog]="title"
+      [titleFilter]="titleFilter"
+      [buttonsDialog]="buttonsDialog"
+      [buttonsFilter]="buttonsFilter"
+      [formAdd]="formAddChurch"
+      [formFilter]="formFilter"
+    ></app-page-header>
     <table class="table table-hover">
       <thead class="thead">
         <tr>
@@ -13,211 +22,43 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let item of data" (click)="selectChurch(item)">
           <td>
             <img
               class="img-30-30"
               src="../../assets/images/icons8-igreja-128.png"
             />
-            Santa Inês
+            {{ item.name }}
           </td>
           <td>
             <img
               class="img-40-40"
               src="../../assets/images/icons8-endereço-100.png"
-            />Alto Santa Inês
+            />{{ item.district }}
           </td>
           <td>
             <img
               class="img-30-30"
               src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Mark
+            />{{ item.responsible }}
           </td>
           <td>
             <img
               class="img-35-35"
               src="../../assets/images/icons8-chamada-em-conferência-50.png"
             />
-            250
+            {{ item.tithers }}
           </td>
-          <td>
+          <td (click)="preventDefault($event)">
             <button class="btn" type="button" [matMenuTriggerFor]="menu">
               <fa-icon [icon]="faEllipsis"></fa-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
+              <button mat-menu-item (click)="edit(item)">
                 <fa-icon [icon]="faEdit"></fa-icon>
                 Editar
               </button>
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-igreja-128.png"
-            />Santa Ana
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />
-            Caçatuba
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Jacob
-          </td>
-          <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-chamada-em-conferência-50.png"
-            />
-            100
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faEdit"></fa-icon>
-                Editar
-              </button>
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-igreja-128.png"
-            />
-            Santa Inês
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />Alto Santa Inês
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Mark
-          </td>
-          <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-chamada-em-conferência-50.png"
-            />
-            250
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faEdit"></fa-icon>
-                Editar
-              </button>
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-igreja-128.png"
-            />
-            Santa Inês
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />Alto Santa Inês
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Mark
-          </td>
-          <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-chamada-em-conferência-50.png"
-            />
-            250
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faEdit"></fa-icon>
-                Editar
-              </button>
-              <button mat-menu-item>
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
-              </button>
-            </mat-menu>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-igreja-128.png"
-            />
-            Santa Inês
-          </td>
-          <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />Alto Santa Inês
-          </td>
-          <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />Mark
-          </td>
-          <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-chamada-em-conferência-50.png"
-            />
-            250
-          </td>
-          <td>
-            <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <fa-icon [icon]="faEdit"></fa-icon>
-                Editar
-              </button>
-              <button mat-menu-item>
+              <button mat-menu-item (click)="delete(item)">
                 <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
               </button>
             </mat-menu>
