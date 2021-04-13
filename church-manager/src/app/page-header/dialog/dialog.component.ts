@@ -1,4 +1,4 @@
-import { faEnvelope, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 import { FormGroup } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,8 +9,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements OnInit {
-  public faEnvelope = faEnvelope;
-  public faEyeSlash = faEyeSlash;
 
   public formAdd: FormGroup;
   public formFilter: FormGroup;

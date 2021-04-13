@@ -1,4 +1,3 @@
-import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -8,9 +7,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public faEnvelope = faEnvelope;
-  public faEye = faEye;
-  public faEyeSlash = faEyeSlash;
 
   public showPassword = false;
 

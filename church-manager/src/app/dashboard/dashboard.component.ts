@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { faArrowRight, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { ChartDataSets } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 
@@ -10,8 +9,6 @@ import { Color, Label } from 'ng2-charts';
 })
 export class DashboardComponent implements OnInit {
   public title = 'Dashboard';
-  public faSearch = faSearch;
-  public faArrowRight = faArrowRight;
 
   public lineChartData: ChartDataSets[];
   public lineChartLabels: Label[];

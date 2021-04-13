@@ -3,11 +3,6 @@ import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-
 import { DialogComponent } from './../page-header/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {
-  faEllipsisH,
-  faEdit,
-  faMinusCircle,
-} from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -16,10 +11,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./christians.component.scss'],
 })
 export class ChristiansComponent implements OnInit {
-  public faEllipsis = faEllipsisH;
-  public faEdit = faEdit;
-  public faMinusCircle = faMinusCircle;
-
   public data = [];
 
   public title = 'Novo Dizimista';

@@ -1,4 +1,3 @@
-import { faEllipsisH, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,9 +10,6 @@ import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent implements OnInit {
-  public faEllipsis = faEllipsisH;
-  public faMinusCircle = faMinusCircle;
-
   public data = [];
 
   public title = 'Nova Mensagem';

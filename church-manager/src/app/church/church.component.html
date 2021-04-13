@@ -1,16 +1,9 @@
 <app-header></app-header>
 <div id="list" class="row">
   <div class="table-responsive">
-    <app-page-header
-      [typesForm]="typesForm"
-      [typesFormFilter]="typesFormFilter"
-      [titleDialog]="title"
-      [titleFilter]="titleFilter"
-      [buttonsDialog]="buttonsDialog"
-      [buttonsFilter]="buttonsFilter"
-      [formAdd]="formAddChurch"
-      [formFilter]="formFilter"
-    ></app-page-header>
+    <app-page-header [typesForm]="typesForm" [typesFormFilter]="typesFormFilter" [titleDialog]="title"
+      [titleFilter]="titleFilter" [buttonsDialog]="buttonsDialog" [buttonsFilter]="buttonsFilter"
+      [formAdd]="formAddChurch" [formFilter]="formFilter"></app-page-header>
     <table class="table table-hover">
       <thead class="thead">
         <tr>
@@ -24,42 +17,30 @@
       <tbody>
         <tr *ngFor="let item of data" (click)="selectChurch(item)">
           <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-igreja-128.png"
-            />
+            <img class="img-30-30" src="../../assets/images/icons8-igreja-128.png" />
             {{ item.name }}
           </td>
           <td>
-            <img
-              class="img-40-40"
-              src="../../assets/images/icons8-endereço-100.png"
-            />{{ item.district }}
+            <img class="img-40-40" src="../../assets/images/icons8-endereço-100.png" />{{ item.district }}
           </td>
           <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />{{ item.responsible }}
+            <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-100.png" />{{ item.responsible }}
           </td>
           <td>
-            <img
-              class="img-35-35"
-              src="../../assets/images/icons8-chamada-em-conferência-50.png"
-            />
+            <img class="img-35-35" src="../../assets/images/icons8-chamada-em-conferência-50.png" />
             {{ item.tithers }}
           </td>
           <td (click)="preventDefault($event)">
             <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
+              <mat-icon aria-hidden="false">more_horiz</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="edit(item)">
-                <fa-icon [icon]="faEdit"></fa-icon>
+                <mat-icon aria-hidden="false">edit</mat-icon>
                 Editar
               </button>
               <button mat-menu-item (click)="delete(item)">
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
+                <mat-icon aria-hidden="false">delete</mat-icon> Excluir
               </button>
             </mat-menu>
           </td>
