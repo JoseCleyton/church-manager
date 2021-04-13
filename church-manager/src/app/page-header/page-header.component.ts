@@ -1,7 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { faFilter, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DialogComponent } from './dialog/dialog.component';
 
 @Component({
@@ -10,8 +9,6 @@ import { DialogComponent } from './dialog/dialog.component';
   styleUrls: ['./page-header.component.scss'],
 })
 export class PageHeaderComponent implements OnInit {
-  public faFilter = faFilter;
-  public faPlus = faPlus;
 
   @Input() filters: any[];
   @Input() titleDialog: string;

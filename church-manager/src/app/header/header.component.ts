@@ -1,4 +1,3 @@
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,7 +7,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  public faSearch = faSearch;
   public title = '';
   constructor(private router: Router) {}
 

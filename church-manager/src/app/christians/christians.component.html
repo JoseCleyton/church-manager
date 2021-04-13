@@ -48,15 +48,15 @@
           </td>
           <td (click)="preventDefault($event)">
             <button class="btn" type="button" [matMenuTriggerFor]="menu">
-              <fa-icon [icon]="faEllipsis"></fa-icon>
+              <mat-icon aria-hidden="false">more_horiz</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="edit(item)">
-                <fa-icon [icon]="faEdit"></fa-icon>
+                <mat-icon aria-hidden="false">edit</mat-icon>
                 Editar
               </button>
               <button mat-menu-item (click)="delete(item)">
-                <fa-icon [icon]="faMinusCircle"></fa-icon> Excluir
+                <mat-icon aria-hidden="false">delete</mat-icon> Excluir
               </button>
             </mat-menu>
           </td>

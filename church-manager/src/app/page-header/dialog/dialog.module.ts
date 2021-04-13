@@ -1,4 +1,4 @@
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,9 +20,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     ReactiveFormsModule,
     TranslateModule,
-    MatSelectModule,
-    FontAwesomeModule
+    MatSelectModule
   ],
   exports: [DialogComponent],
 })
-export class DialogModule {}
+export class DialogModule { }

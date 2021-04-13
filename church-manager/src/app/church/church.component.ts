@@ -4,11 +4,6 @@ import { DialogComponent } from './../page-header/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import {
-  faEdit,
-  faEllipsisH,
-  faMinusCircle,
-} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-church',
@@ -16,10 +11,6 @@ import {
   styleUrls: ['./church.component.scss'],
 })
 export class ChurchComponent implements OnInit {
-  public faEllipsis = faEllipsisH;
-  public faEdit = faEdit;
-  public faMinusCircle = faMinusCircle;
-
   public title = 'Nova Capela';
   public titleFilter = 'Filtrar';
 
