@@ -3,9 +3,11 @@ import { HeaderModule } from './../header/header.module';
 import { ReportComponent } from './report.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ReportRoutingModule } from './report-routing.module';
-
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatButtonModule } from '@angular/material/button';
+import { PageHeaderModule } from '../page-header/page-header.module';
+import { PaginatorModule } from '../paginator/paginator.module';
 
 @NgModule({
   declarations: [ReportComponent],
@@ -13,7 +15,11 @@ import { ReportRoutingModule } from './report-routing.module';
     CommonModule,
     ReportRoutingModule,
     HeaderModule,
-    ChartsModule
-  ]
+    ChartsModule,
+    MatStepperModule,
+    MatButtonModule,
+    PageHeaderModule,
+    PaginatorModule,
+  ],
 })
-export class ReportModule { }
+export class ReportModule {}

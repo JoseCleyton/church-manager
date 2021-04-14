@@ -1,11 +1,12 @@
 import { Label, Color } from 'ng2-charts';
 import { ChartDataSets } from 'chart.js';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  styleUrls: ['./report.component.scss'],
 })
 export class ReportComponent implements OnInit {
   public lineChartDataBar: ChartDataSets[];
@@ -29,13 +30,85 @@ export class ReportComponent implements OnInit {
   public lineChartTypeLine;
   public lineChartPluginsLine;
 
-  constructor() { }
+  public tithes = [];
+  public data = [];
+  public formFilter: FormGroup;
+
+  public typesFormFilter = [
+    {
+      label: 'Nome',
+      formControlName: 'nameFilter',
+      type: 'input',
+      lenghtXl: 4,
+      lenghtMd: 12,
+      lenghtSm: 12,
+    },
+    {
+      label: 'Responsavel',
+      formControlName: 'responsibleFilter',
+      type: 'input',
+      lenghtXl: 4,
+      lenghtMd: 12,
+      lenghtSm: 12,
+    },
+    {
+      label: 'Bairro',
+      formControlName: 'districtFilter',
+      type: 'select',
+      select: [
+        { value: '1', name: 'Alto da Esperança' },
+        { value: '2', name: 'Alto Santa Inês' },
+        { value: '3', name: 'Centro' },
+      ],
+      lenghtXl: 4,
+      lenghtMd: 12,
+      lenghtSm: 12,
+    },
+  ];
+  public buttonsFilter = [
+    { function: 'Cancelar', type: 'basic', justify: 'start' },
+    { function: 'Aplicar', type: 'primary', justify: 'end' },
+  ];
+
+  public titleFilter = 'Filtrar';
+
+  public pageSize = 3;
+  public length = 100;
+  public pageSizeOptions = [2, 3];
+
+  constructor() {}
 
   ngOnInit(): void {
     this.createGraphBar();
     this.createGraphDoughnutPie();
     this.createGraphLine();
 
+    this.formFilter = new FormGroup({
+      nameFilter: new FormControl(null),
+      districtFilter: new FormControl(null),
+      responsibleFilter: new FormControl(null),
+    });
+
+    this.data = [
+      {
+        name: 'João',
+        month: '02',
+        value: '150',
+        date: '10/02/2021',
+      },
+      {
+        name: 'Maria',
+        month: '03',
+        value: '110',
+        date: '80/03/2021',
+      },
+      {
+        name: 'Severino',
+        month: '04',
+        value: '500',
+        date: '30/03/2021',
+      },
+    ];
   }
 
   private createGraphBar() {

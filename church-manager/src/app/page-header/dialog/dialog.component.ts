@@ -16,7 +16,7 @@ export class DialogComponent implements OnInit {
   public buttons: any[];
 
   public titleDialog: string;
-  public titleFiltter: string;
+  public titleFilter: string;
   public titleView: string;
 
   public typesForm: any[];
@@ -44,7 +44,7 @@ export class DialogComponent implements OnInit {
     if (this.type !== 'view') {
       this.formAdd = this.data.formAdd;
 
-      this.titleFiltter = this.data.tilteFiltter;
+      this.titleFilter = this.data.titleFilter;
 
       this.typesForm = this.data.typesForm;
       this.typesFormFilter = this.data.typesFormFilter;

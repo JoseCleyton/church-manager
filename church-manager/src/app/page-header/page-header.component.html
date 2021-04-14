@@ -1,5 +1,5 @@
 <div id="page-header" class="container">
-  <div class="row">
+  <div class="row" style="height: 2.5rem;">
     <div class="col-8 d-flex justify-content-end">
       <button mat-raised-button class="center-v" (click)="openDialogFilter()">
         Filtro
@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <div class="col-4 d-flex justify-content-start">
+    <div *ngIf="isAdd" class="col-4 d-flex justify-content-start">
       <button color="primary" mat-raised-button (click)="openDialogNew()">
         <mat-icon aria-hidden="false">add</mat-icon> Novo
       </button>
