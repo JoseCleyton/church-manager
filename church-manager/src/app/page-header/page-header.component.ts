@@ -19,9 +19,13 @@ export class PageHeaderComponent implements OnInit {
   @Input() typesFormFilter: any[];
   @Input() buttonsFilter: any;
   @Input() isAdd = true;
+
+  public isFilter = false;
+
   constructor(public dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   public openDialogNew() {
     this.dialog.open(DialogComponent, {

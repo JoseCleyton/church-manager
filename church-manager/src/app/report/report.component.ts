@@ -39,14 +39,16 @@ export class ReportComponent implements OnInit {
       label: 'Nome',
       formControlName: 'nameFilter',
       type: 'input',
+      placeholder: 'Ex. João',
       lenghtXl: 4,
       lenghtMd: 12,
       lenghtSm: 12,
     },
     {
-      label: 'Responsavel',
-      formControlName: 'responsibleFilter',
+      label: 'Data',
+      formControlName: 'date',
       type: 'input',
+      placeholder: 'Ex. 10/10/2010',
       lenghtXl: 4,
       lenghtMd: 12,
       lenghtSm: 12,
@@ -85,8 +87,8 @@ export class ReportComponent implements OnInit {
 
     this.formFilter = new FormGroup({
       nameFilter: new FormControl(null),
-      districtFilter: new FormControl(null),
-      responsibleFilter: new FormControl(null),
+      data: new FormControl(null),
+      districtFilter: new FormControl(null)
     });
 
     this.data = [
