@@ -9,7 +9,6 @@ import { DialogComponent } from './dialog/dialog.component';
   styleUrls: ['./page-header.component.scss'],
 })
 export class PageHeaderComponent implements OnInit {
-
   @Input() filters: any[];
   @Input() titleDialog: string;
   @Input() titleFilter: string;
@@ -19,7 +18,7 @@ export class PageHeaderComponent implements OnInit {
   @Input() typesForm: any[];
   @Input() typesFormFilter: any[];
   @Input() buttonsFilter: any;
-
+  @Input() isAdd = true;
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {}
@@ -45,7 +44,7 @@ export class PageHeaderComponent implements OnInit {
         filters: this.filters,
         typesFormFilter: this.typesFormFilter,
         formFilter: this.formFilter,
-        titleFiltter: this.titleFilter,
+        titleFilter: this.titleFilter,
         buttonsDialog: this.buttonsFilter,
       },
     });
