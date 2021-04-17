@@ -1,9 +1,9 @@
 import { DialogDeleteComponent } from '../shared/components/ui/dialog-delete/dialog-delete.component';
 import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-edit.component';
-import { DialogComponent } from './../page-header/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-view.component';
 
 @Component({
   selector: 'app-christians',
@@ -12,8 +12,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChristiansComponent implements OnInit {
   public data = [];
-
+  public type = 'christian';
   public title = 'Novo Dizimista';
+  public subTitle = 'Dados Pessoais';
   public titleFilter = 'Filtrar';
 
   public buttonsDialog = [
@@ -217,7 +218,7 @@ export class ChristiansComponent implements OnInit {
   }
 
   public selectChristian(christian: any) {
-    this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogViewComponent, {
       width: '1100px',
       data: {
         type: 'view',

@@ -1,9 +1,9 @@
 import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-edit.component';
 import { DialogDeleteComponent } from '../shared/components/ui/dialog-delete/dialog-delete.component';
-import { DialogComponent } from './../page-header/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-view.component';
 
 @Component({
   selector: 'app-church',
@@ -11,7 +11,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./church.component.scss'],
 })
 export class ChurchComponent implements OnInit {
+  public type = 'church';
   public title = 'Nova Capela';
+  public subTitle = 'Dados da Capela';
   public titleFilter = 'Filtrar';
 
   public buttonsDialog = [
@@ -187,7 +189,7 @@ export class ChurchComponent implements OnInit {
   }
 
   public selectChurch(church: any) {
-    this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogViewComponent, {
       width: '1100px',
       data: {
         type: 'view',

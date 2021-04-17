@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from './dialog/dialog.component';
+import { DialogAddComponent } from '../shared/components/ui/dialog-add/dialog-add.component';
 
 @Component({
   selector: 'app-page-header',
@@ -11,6 +11,7 @@ import { DialogComponent } from './dialog/dialog.component';
 export class PageHeaderComponent implements OnInit {
   @Input() filters: any[];
   @Input() titleDialog: string;
+  @Input() subTitle: string;
   @Input() titleFilter: string;
   @Input() buttonsDialog: any;
   @Input() formAdd: FormGroup;
@@ -19,37 +20,23 @@ export class PageHeaderComponent implements OnInit {
   @Input() typesFormFilter: any[];
   @Input() buttonsFilter: any;
   @Input() isAdd = true;
-
+  @Input() type: string;
   public isFilter = false;
 
   constructor(public dialog: MatDialog) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public openDialogNew() {
-    this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogAddComponent, {
       width: '900px',
       data: {
-        type: 'add',
+        type: this.type,
         typesForm: this.typesForm,
         titleDialog: this.titleDialog,
+        subTitle: this.subTitle,
         buttonsDialog: this.buttonsDialog,
         formAdd: this.formAdd,
-      },
-    });
-  }
-
-  public openDialogFilter() {
-    this.dialog.open(DialogComponent, {
-      width: '800px',
-      data: {
-        type: 'filter',
-        filters: this.filters,
-        typesFormFilter: this.typesFormFilter,
-        formFilter: this.formFilter,
-        titleFilter: this.titleFilter,
-        buttonsDialog: this.buttonsFilter,
       },
     });
   }

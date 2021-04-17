@@ -1,6 +1,5 @@
 import { DialogDeleteModule } from '../shared/components/ui/dialog-delete/dialog-delete.module';
 import { DialogEditModule } from '../shared/components/ui/dialog-edit/dialog-edit.module';
-import { DialogModule } from './../page-header/dialog/dialog.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { PaginatorModule } from './../paginator/paginator.module';
@@ -12,6 +11,7 @@ import { CommonModule } from '@angular/common';
 
 import { ChristiansRoutingModule } from './christians-routing.module';
 import { MatIconModule } from '@angular/material/icon';
+import { DialogViewModule } from '../shared/components/ui/dialog-view/dialog-view.module';
 @NgModule({
   declarations: [ChristiansComponent],
   imports: [
@@ -22,10 +22,10 @@ import { MatIconModule } from '@angular/material/icon';
     PageHeaderModule,
     MatMenuModule,
     MatDialogModule,
-    DialogModule,
     DialogEditModule,
     DialogDeleteModule,
-    MatIconModule
+    MatIconModule,
+    DialogViewModule,
   ],
   exports: [ChristiansComponent],
 })

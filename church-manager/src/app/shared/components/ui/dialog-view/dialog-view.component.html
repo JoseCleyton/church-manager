@@ -1,16 +1,16 @@
 <div class="container">
   <h1>{{ titleView }}</h1>
-  <div class="table-responsive" *ngIf="type === 'table'">
+  <div class="table-responsive">
     <table class="table table-hover">
       <thead class="thead">
         <tr>
-          <th scope="col" *ngFor="let header of data.tableHeader">
+          <th scope="col" *ngFor="let header of tableHeader">
             {{ header.name }}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngIf="typeOfData === 'christian'">
           <td>
             <p class="number-user">{{ selectedItem.id }}</p>
           </td>
@@ -39,29 +39,39 @@
             {{ selectedItem.district }}
           </td>
         </tr>
+
+        <tr *ngIf="typeOfData === 'church'">
+
+          <td>
+            {{ selectedItem.name }}
+          </td>
+          <td>
+            {{ selectedItem.phone }}
+          </td>
+          <td>
+            {{ selectedItem.email }}
+          </td>
+          <td>
+            {{ selectedItem.district }}
+          </td>
+          <td>
+            {{ selectedItem.responsible }}
+          </td>
+          <td>
+            {{ selectedItem.tithers }}
+          </td>
+          <td>
+            {{ selectedItem.money }}
+          </td>
+          <td>
+            {{ selectedItem.login }}
+          </td>
+        </tr>
+
       </tbody>
     </table>
   </div>
-  <div class="row" *ngIf="type === 'text'">
-    <div class="col-4">
-      <h3>Título: {{ data.title }}</h3>
-    </div>
-    <div class="col-4">
-      <h3>Remetente: {{ data.sender }}</h3>
-    </div>
-    <div class="col-4">
-      <h3>Data/Hora: {{ data.dateHour }}</h3>
-    </div>
-    <div class="col-12">
-      <textarea readonly style="width: 100%; height: 6rem">
-        {{ data.message }}
-      </textarea>
-    </div>
-  </div>
-  <div
-    [class]="'col d-flex justify-content-' + button.justify"
-    *ngFor="let button of buttons"
-  >
+  <div [class]="'col d-flex justify-content-' + button.justify" *ngFor="let button of buttons">
     <button mat-raised-button (click)="closeDialog()">
       {{ button.function }}
     </button>
