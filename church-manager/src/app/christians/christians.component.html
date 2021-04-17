@@ -1,16 +1,9 @@
 <app-header></app-header>
 <div id="list" class="row">
   <div class="table-responsive">
-    <app-page-header
-      [typesForm]="typesForm"
-      [typesFormFilter]="typesFormFilter"
-      [titleDialog]="title"
-      [titleFilter]="titleFilter"
-      [buttonsDialog]="buttonsDialog"
-      [buttonsFilter]="buttonsFilter"
-      [formAdd]="formAddCristian"
-      [formFilter]="formFilter"
-    ></app-page-header>
+    <app-page-header [type]="type" [typesForm]="typesForm" [typesFormFilter]="typesFormFilter" [titleDialog]="title"
+      [subTitle]="subTitle" [titleFilter]="titleFilter" [buttonsDialog]="buttonsDialog" [buttonsFilter]="buttonsFilter"
+      [formAdd]="formAddCristian" [formFilter]="formFilter"></app-page-header>
     <table class="table table-hover">
       <thead class="thead">
         <tr>
@@ -27,23 +20,14 @@
             <p class="number-user">{{ item.id }}</p>
           </td>
           <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-usuário-masculino-100.png"
-            />{{ item.name }}
+            <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-100.png" />{{ item.name }}
           </td>
           <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-telefone-sem-uso-100.png"
-            />
+            <img class="img-30-30" src="../../assets/images/icons8-telefone-sem-uso-100.png" />
             {{ item.phone }}
           </td>
           <td>
-            <img
-              class="img-30-30"
-              src="../../assets/images/icons8-nova-mensagem-48.png"
-            />
+            <img class="img-30-30" src="../../assets/images/icons8-nova-mensagem-48.png" />
             {{ item.email }}
           </td>
           <td (click)="preventDefault($event)">
