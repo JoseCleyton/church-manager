@@ -35,6 +35,10 @@
               <mat-icon aria-hidden="false">more_horiz</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openModal(item)">
+                <mat-icon aria-hidden="false">attach_money</mat-icon>
+                Dízimo
+              </button>
               <button mat-menu-item (click)="edit(item)">
                 <mat-icon aria-hidden="false">edit</mat-icon>
                 Editar

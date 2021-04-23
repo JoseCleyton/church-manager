@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-view.component';
+import { PayTithingComponent } from './pay-tithing/pay-tithing.component';
 
 @Component({
   selector: 'app-christians',
@@ -266,6 +267,14 @@ export class ChristiansComponent implements OnInit {
         type: 'christian',
         selected: christian,
         buttons: this.buttonsDelete,
+      },
+    });
+  }
+  public openModal(christian: any) {
+    this.dialog.open(PayTithingComponent, {
+      width: '600px',
+      data: {
+        selected: christian,
       },
     });
   }
