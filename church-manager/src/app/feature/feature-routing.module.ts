@@ -22,17 +22,14 @@ const routes: Routes = [
       {
         path: 'christians',
         loadChildren: () =>
-          import('../christians/christians.module').then((m) => m.ChristiansModule),
+          import('../christians/christians.module').then(
+            (m) => m.ChristiansModule
+          ),
       },
       {
         path: 'report',
         loadChildren: () =>
           import('../report/report.module').then((m) => m.ReportModule),
-      },
-      {
-        path: 'message',
-        loadChildren: () =>
-          import('../message/message.module').then((m) => m.MessageModule),
       },
     ],
   },
@@ -42,4 +39,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class FeatureRoutingModule { }
+export class FeatureRoutingModule {}
