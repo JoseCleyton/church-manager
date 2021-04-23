@@ -10,6 +10,7 @@ import { PageHeaderModule } from '../page-header/page-header.module';
 import { PaginatorModule } from '../paginator/paginator.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [ReportComponent],
@@ -23,7 +24,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     PageHeaderModule,
     PaginatorModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatIconModule,
   ],
 })
 export class ReportModule {}
