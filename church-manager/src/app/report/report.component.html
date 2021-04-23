@@ -1,9 +1,18 @@
 <app-header></app-header>
 <div id="report" class="row">
-  <div class="col-12 d-flex justify-content-start align-items-center ">
+  <div class="col-4 d-flex justify-content-start align-items-center">
     <h4 style="font-weight: 600;">
       Total : {{ 1000 | currency: "BRL":"symbol" }}
     </h4>
+  </div>
+  <div class="col-4 d-flex justify-content-start align-items-center">
+    <mat-form-field appearance="fill">
+      <mat-label>Capela</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let church of churchs" [value]="church.id">{{church.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 
   <div class="col-12">

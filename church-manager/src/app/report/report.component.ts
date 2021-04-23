@@ -78,6 +78,7 @@ export class ReportComponent implements OnInit {
   public length = 100;
   public pageSizeOptions = [2, 3];
 
+  public churchs = [];
   constructor() {}
 
   ngOnInit(): void {
@@ -88,7 +89,7 @@ export class ReportComponent implements OnInit {
     this.formFilter = new FormGroup({
       nameFilter: new FormControl(null),
       data: new FormControl(null),
-      districtFilter: new FormControl(null)
+      districtFilter: new FormControl(null),
     });
 
     this.data = [
@@ -109,6 +110,26 @@ export class ReportComponent implements OnInit {
         month: '04',
         value: '500',
         date: '30/03/2021',
+      },
+    ];
+
+    this.churchs = [
+      {
+        id: '1',
+        name: 'Matriz',
+      },
+      { id: '2', name: 'Santa Inês' },
+      {
+        id: '3',
+        name: 'Santa Ana',
+      },
+      {
+        id: '4',
+        name: 'Nossa Senhora do Rosário',
+      },
+      {
+        id: '5',
+        name: 'São José',
       },
     ];
   }
