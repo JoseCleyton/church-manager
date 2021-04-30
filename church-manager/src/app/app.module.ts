@@ -9,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { StateModule } from './state/state.module';
+import { AuthGuardGuard } from './core/auth/auth-guard.guard';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -22,6 +24,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginModule,
     FeatureModule,
     HttpClientModule,
+    StateModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -30,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
   ],
-  providers: [],
+  providers: [AuthGuardGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

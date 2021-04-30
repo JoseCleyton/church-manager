@@ -1,6 +1,6 @@
-import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardGuard } from './core/auth/auth-guard.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -13,6 +13,7 @@ const routes: Routes = [
     path: 'feature',
     loadChildren: () =>
       import('./feature/feature.module').then((m) => m.FeatureModule),
+    canActivate: [AuthGuardGuard],
   },
 ];
 
