@@ -11,12 +11,15 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { StateModule } from './state/state.module';
 import { AuthGuardGuard } from './core/auth/auth-guard.guard';
+import { Interceptor } from './core/interceptor/interceptor.module';
+import { LoadingService } from './shared/service/loading/loading.service';
+import { LoadingComponent } from './shared/components/ui/loading/loading.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LoadingComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,6 +28,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FeatureModule,
     HttpClientModule,
     StateModule,
+    Interceptor,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -33,7 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
   ],
-  providers: [AuthGuardGuard],
+  providers: [AuthGuardGuard, LoadingService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
