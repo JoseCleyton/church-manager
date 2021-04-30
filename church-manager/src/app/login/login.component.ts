@@ -1,27 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppState } from '../state';
+import * as fromLogin from '../state/login';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-
+export class LoginComponent implements OnInit, OnDestroy {
   public showPassword = false;
 
   public formLogin: FormGroup;
+  public subscription: Subscription = new Subscription();
 
-  constructor() { }
+  constructor(private store$: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
     this.createFormLogin();
+    this.subscribeToToken();
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   private createFormLogin() {
     this.formLogin = new FormGroup({
       login: new FormControl(null, [Validators.required]),
-      password: new FormControl(null, [Validators.required, Validators.min(1)])
+      password: new FormControl(null, [Validators.required, Validators.min(1)]),
     });
+  }
+
+  public authenticate() {
+    this.store$.dispatch(
+      new fromLogin.actions.Login({
+        login: this.formLogin.get('login').value,
+        password: this.formLogin.get('password').value,
+      })
+    );
+  }
+
+  public subscribeToToken() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromLogin.selectors.selectToken))
+        .subscribe((state) => {
+          if (state) {
+            localStorage.setItem('token', state);
+            this.router.navigateByUrl('feature/dashboard');
+          }
+        })
+    );
   }
 }

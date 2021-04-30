@@ -31,7 +31,7 @@
               <div class="relative">
                 <mat-form-field class="example-full-width">
                   <mat-label>Login</mat-label>
-                  <input matInput placeholder="Login..." />
+                  <input matInput placeholder="Login..." formControlName="login" />
                 </mat-form-field>
                 <mat-icon class="center-v" aria-hidden="false">person</mat-icon>
               </div>
@@ -40,7 +40,8 @@
               <div class="relative">
                 <mat-form-field class="example-full-width">
                   <mat-label>Senha</mat-label>
-                  <input [type]="showPassword ? 'text' : 'password'" matInput placeholder="Senha..." />
+                  <input [type]="showPassword ? 'text' : 'password'" matInput placeholder="Senha..."
+                    formControlName="password" />
                 </mat-form-field>
                 <button class="btn center-v-password" type="button" (click)="showPassword = !showPassword">
                   <mat-icon aria-hidden="false">{{ showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
@@ -54,7 +55,8 @@
             <a id="forget-password" routerLink="">Recuperar senha?</a>
           </div>
           <div id="btn-login" class="col d-flex justify-content-center align-items-center">
-            <button routerLink="/feature/dashboard" class="btn d-flex justify-content-center align-items-center">
+            <button (click)="authenticate()" [disabled]="formLogin.invalid"
+              class="btn d-flex justify-content-center align-items-center">
               Login
             </button>
           </div>
