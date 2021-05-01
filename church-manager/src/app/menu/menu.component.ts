@@ -1,6 +1,8 @@
 import { Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutComponent } from '../shared/components/ui/logout/logout.component';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -11,7 +13,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   public isAdmin = false;
 
   public subscription: Subscription = new Subscription();
-  constructor(private router: Router) {}
+  constructor(private router: Router, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.isAdmin = localStorage.getItem('isAdmin') === 'A' ? true : false;
@@ -26,5 +28,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.router.events.subscribe((url: any) => (this.url = url.url))
     );
+  }
+  public logout() {
+    this.dialog.open(LogoutComponent);
   }
 }

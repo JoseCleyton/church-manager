@@ -1,13 +1,11 @@
 import { Action } from '@ngrx/store';
 
 export enum LoginActionsTypes {
-  LOGIN = '[LOGIN] Login',
-  LOGIN_SUCCESS = '[Login] Login success',
-  LOGIN_ERROR = '[Login] Login error',
+  LOGIN = '[Login] Login',
+  LOGIN_SUCCESS = '[Login] Login Success',
+  LOGIN_ERROR = '[Login] Login Error',
 
   LOGOUT = '[Login] Logout',
-  LOGOUT_SUCCESS = '[Login] Logout success',
-  LOGOUT_ERROR = '[Login] Logout error',
 }
 
 export class Login implements Action {
@@ -20,4 +18,9 @@ export class LoginSuccess implements Action {
   constructor(public payload: any) {}
 }
 
-export type LoginActions = Login | LoginSuccess;
+export class Logout implements Action {
+  readonly type = LoginActionsTypes.LOGOUT;
+  constructor() {}
+}
+
+export type LoginActions = Login | LoginSuccess | Logout;

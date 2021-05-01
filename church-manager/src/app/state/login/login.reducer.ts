@@ -27,6 +27,12 @@ export function loginReducer(
         },
       };
     }
+    case LoginActionsTypes.LOGOUT: {
+      return {
+        ...state,
+        credentials: initialState.credentials,
+      };
+    }
     default:
       return state;
   }

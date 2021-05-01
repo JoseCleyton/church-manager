@@ -28,6 +28,6 @@ export class DialogDeleteComponent implements OnInit {
     this.dialogRef.close();
   }
   public delete() {
-    console.log('DELETE')
+    console.log('DELETE');
   }
 }
