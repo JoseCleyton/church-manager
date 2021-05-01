@@ -10,7 +10,7 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router) {}
 
   public authenticate(user: any): Observable<any> {
-    return this.http.post(`${URLS.apiRootDsv}auth/token`, user);
+    return this.http.post(`${URLS.apiRootPro}auth/token`, user);
   }
 
   public isAuthenticated(): boolean {
