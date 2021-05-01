@@ -1,0 +1,52 @@
+<app-header></app-header>
+<div id="list" class="row">
+  <div class="table-responsive">
+    <app-page-header [type]="type" [typesForm]="typesForm" [typesFormFilter]="typesFormFilter" [titleDialog]="title"
+      [subTitle]="subTitle" [titleFilter]="titleFilter" [buttonsDialog]="buttonsDialog" [buttonsFilter]="buttonsFilter"
+      [formAdd]="formAddChurch" [formFilter]="formFilter"></app-page-header>
+    <table class="table table-hover">
+      <thead class="thead">
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Bairro/Sítio</th>
+          <th scope="col">Responsável</th>
+          <th scope="col">Dizimistas</th>
+          <th scope="col">Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data" (click)="selectChurch(item)">
+          <td>
+            <img class="img-30-30" src="../../assets/images/icons8-igreja-128.png" />
+            {{ item.name }}
+          </td>
+          <td>
+            <img class="img-40-40" src="../../assets/images/icons8-endereço-100.png" />{{ item.district }}
+          </td>
+          <td>
+            <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-100.png" />{{ item.responsible }}
+          </td>
+          <td>
+            <img class="img-35-35" src="../../assets/images/icons8-chamada-em-conferência-50.png" />
+            {{ item.tithers }}
+          </td>
+          <td (click)="preventDefault($event)">
+            <button class="btn" type="button" [matMenuTriggerFor]="menu">
+              <mat-icon aria-hidden="false">more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="edit(item)">
+                <mat-icon aria-hidden="false">edit</mat-icon>
+                Editar
+              </button>
+              <button mat-menu-item (click)="delete(item)">
+                <mat-icon aria-hidden="false">delete</mat-icon> Excluir
+              </button>
+            </mat-menu>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <app-paginator></app-paginator>
+  </div>
+</div>

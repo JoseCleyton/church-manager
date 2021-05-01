@@ -1,0 +1,41 @@
+<div class="row" id="page-header">
+  <div *ngIf="!isFilter" class="col-10 d-flex justify-content-end">
+    <button mat-raised-button class="center-v" (click)="isFilter = !isFilter">
+      Filtro
+      <mat-icon aria-hidden="false">filter_list</mat-icon>
+    </button>
+  </div>
+  <div *ngIf="isFilter" class="col-10 d-flex justify-content-end">
+    <form [formGroup]="formFilter">
+      <div class="row">
+        <div *ngFor="let formType of typesFormFilter">
+          <div *ngIf="formType.type === 'input'" class="col" style="margin-top: 0.7rem;">
+            <mat-form-field class="example-full-width">
+              <mat-label>{{formType.label}}</mat-label>
+              <input matInput [placeholder]="formType.placeholder" [formControlName]="formType.formControlName">
+            </mat-form-field>
+          </div>
+          <div *ngIf="formType.type === 'select'" class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>{{formType.label}}</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let formOption of formType.select" [value]="formOption.value">{{formOption.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <button type="button" mat-button (click)="isFilter = !isFilter" style="margin-top: 0.3rem;">
+          <mat-icon aria-hidden="false">close</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="isAdd" class="col-2 d-flex justify-content-start" style="max-height: 2.4rem;">
+    <button color="primary" mat-raised-button (click)="openDialogNew()">
+      <mat-icon aria-hidden="false">add</mat-icon> Novo
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,169 @@
+<app-header></app-header>
+<div id="report" class="row">
+  <div class="col-xl-2 col-md-4 col-sm-6 d-flex justify-content-start align-items-center">
+    <h4 style="font-weight: 600;">
+      Total : {{ 1000 | currency: "BRL":"symbol" }}
+    </h4>
+  </div>
+  <div class="col-xl-3 col-md-5 col-sm-6 d-flex justify-content-start align-items-center">
+    <mat-form-field appearance="fill">
+      <mat-label>Capela</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let church of churchs" [value]="church.id">{{church.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-xl-7 col-md-9 col-sm-12 d-flex justify-content-start align-items-center">
+    <button *ngIf="!isFilter" mat-raised-button class="center-v" (click)="isFilter = !isFilter">
+      Filtro
+      <mat-icon aria-hidden="false">filter_list</mat-icon>
+    </button>
+    <div *ngIf="isFilter" class="row">
+      <div class="col-3">
+        <mat-form-field appearance="fill" style="max-width: 5rem; margin-right: 1rem;">
+          <mat-label>Dia</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let day of days" [value]="day">{{day}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <mat-form-field appearance="fill" style="max-width: 5rem; margin-right: 1rem;">
+          <mat-label>Mês</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let month of months" [value]="month">{{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-3" style="margin-right: 0; padding-right: 0;">
+        <mat-form-field appearance="fill" style="max-width: 5rem; margin-right: 1rem;">
+          <mat-label>Ano</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let year of years" [value]="year">{{year}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-1 justify-content-start"
+        style="margin-right: 0; margin-left:0; padding-right: 0; padding-left:0;">
+        <button type="button" mat-button color="primary" style="margin-top: 2rem; height: 2rem;">
+          <mat-icon aria-hidden="false">search</mat-icon>
+        </button>
+
+      </div>
+      <div class="col-1">
+        <button type="button" mat-button (click)="isFilter = !isFilter" style="margin-top: 2rem; height: 2rem;">
+          <mat-icon aria-hidden="false">close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <!-- 
+
+      <div *ngIf="isFilter" class="col-10 d-flex justify-content-start">
+        <mat-form-field appearance="fill" style="max-width: 5rem; margin-right: 1rem;">
+          <mat-label>Dia</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let day of days" [value]="day">{{day}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="max-width: 5rem; margin-right: 1rem;">
+          <mat-label>Mês</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let month of months" [value]="month">{{month}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="max-width: 5rem; margin-right: 1rem;">
+          <mat-label>Ano</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let year of years" [value]="year">{{year}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button type="button" mat-button color="primary" style="margin-top: 2rem; height: 2rem;">
+          <mat-icon aria-hidden="false">search</mat-icon>
+        </button>
+        <button type="button" mat-button (click)="isFilter = !isFilter" style="margin-top: 2rem; height: 2rem;">
+          <mat-icon aria-hidden="false">close</mat-icon>
+        </button>
+      </div>
+    -->
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <mat-horizontal-stepper labelPosition="bottom" #stepper style="margin-top: 0;">
+      <mat-step [stepControl]="lineChartDataBar">
+        <ng-template matStepLabel>Gráficos</ng-template>
+        <div class="row">
+          <div class="col-xl-8 col-md-8 col-sm-12">
+            <canvas baseChart [datasets]="lineChartDataBar" [labels]="lineChartLabelsBar" [colors]="lineChartColorsBar"
+              [legend]="lineChartLegendBar" [chartType]="lineChartTypeBar" [plugins]="lineChartPluginsBar">
+            </canvas>
+          </div>
+          <div class="col-xl-4 col-md-4 col-sm-12">
+            <canvas baseChart [datasets]="lineChartDataDoughnutPie" [labels]="lineChartLabelsDoughnutPie"
+              [colors]="lineChartColorsDoughnutPie" [legend]="lineChartLegendDoughnutPie"
+              [chartType]="lineChartTypeDoughnutPie" [plugins]="lineChartPluginsDoughnutPie">
+            </canvas>
+            <canvas baseChart [datasets]="lineChartDataLine" [labels]="lineChartLabelsLine"
+              [colors]="lineChartColorsLine" [legend]="lineChartLegendLine" [chartType]="lineChartTypeLine"
+              [plugins]="lineChartPluginsLine">
+            </canvas>
+          </div>
+        </div>
+
+      </mat-step>
+
+      <mat-step [stepControl]="tithes">
+        <ng-template matStepLabel>Relatório de Dízimos</ng-template>
+
+        <div class="table-responsive">
+          <app-page-header [typesFormFilter]="typesFormFilter" [titleFilter]="titleFilter"
+            [buttonsFilter]="buttonsFilter" [isAdd]="false" [formFilter]="formFilter"></app-page-header>
+          <table class="table table-hover">
+            <thead class="thead">
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Mês</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data" (click)="selectChurch(item)">
+                <td>
+                  <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-100.png" />
+                  {{ item.name }}
+                </td>
+                <td>
+                  <img class="img-40-40" src="../../assets/images/icons8-data-até-64.png" />{{ item.month }}
+                </td>
+                <td>
+                  <img class="img-30-30" src="../../assets/images/icons8-dinheiro-150.png" />{{
+                  item.value }}
+                </td>
+                <td>
+                  <img class="img-35-35" src="../../assets/images/icons8-data-até-64.png" />
+                  {{ item.date }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <app-paginator [pageSize]="pageSize" [length]="length" [pageSizeOptions]="pageSizeOptions"></app-paginator>
+        </div>
+
+      </mat-step>
+
+    </mat-horizontal-stepper>
+  </div>
+
+
+
+
+</div>

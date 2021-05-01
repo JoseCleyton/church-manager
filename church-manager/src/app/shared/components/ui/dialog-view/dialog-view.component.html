@@ -1,0 +1,79 @@
+<div class="container">
+  <h1>{{ titleView }}</h1>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="thead">
+        <tr>
+          <th scope="col" *ngFor="let header of tableHeader">
+            {{ header.name }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="typeOfData === 'christian'">
+          <td>
+            <p class="number-user">{{ selectedItem.id }}</p>
+          </td>
+          <td>
+            {{ selectedItem.name }}
+          </td>
+          <td>
+            {{ selectedItem.phone }}
+          </td>
+          <td>
+            {{ selectedItem.email }}
+          </td>
+          <td>
+            {{ selectedItem.birthDate }}
+          </td>
+          <td>
+            {{ selectedItem.city }}
+          </td>
+          <td>
+            {{ selectedItem.street }}
+          </td>
+          <td>
+            {{ selectedItem.number }}
+          </td>
+          <td>
+            {{ selectedItem.district }}
+          </td>
+        </tr>
+
+        <tr *ngIf="typeOfData === 'church'">
+
+          <td>
+            {{ selectedItem.name }}
+          </td>
+          <td>
+            {{ selectedItem.phone }}
+          </td>
+          <td>
+            {{ selectedItem.email }}
+          </td>
+          <td>
+            {{ selectedItem.district }}
+          </td>
+          <td>
+            {{ selectedItem.responsible }}
+          </td>
+          <td>
+            {{ selectedItem.tithers }}
+          </td>
+          <td>
+            {{ selectedItem.money }}
+          </td>
+          <td>
+            {{ selectedItem.login }}
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+  <div [class]="'col d-flex justify-content-' + button.justify" *ngFor="let button of buttons">
+    <button mat-raised-button (click)="closeDialog()">
+      {{ button.function }}
+    </button>
+  </div>
+</div>

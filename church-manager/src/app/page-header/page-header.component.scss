@@ -1,0 +1,32 @@
+#page-header {
+  margin-bottom: 1rem;
+  height: 2.5rem;
+  width: 67.2rem;
+}
+
+.relative {
+  position: relative;
+}
+
+.center-v {
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  display: block;
+  right: -0.1rem;
+}
+.header-button-filter {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  background-color: whitesmoke;
+  color: #4a535c;
+  width: 7rem;
+}
+.btn {
+  height: 2.5rem;
+}
+#new {
+  width: 7rem;
+  color: white;
+  background-color: #2c89ff;
+}

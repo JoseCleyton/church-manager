@@ -1,0 +1,111 @@
+<app-header></app-header>
+<div id="cards" class="row">
+  <div *ngIf="isAdmin" class="col">
+    <mat-card class="mat-card">
+      <div class="row">
+        <div class="col-12">
+          <img class="img-60-60" src="../../assets/images/icons8-igreja-128.png" />
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center margin-top-1">
+          <h4>Capelas</h4>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center margin-top-1">
+          <p class="p">100</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col">
+    <mat-card class="mat-card">
+      <div class="row">
+        <div class="col-12">
+          <img class="img-60-60" src="../../assets/images/icons8-grupo-de-usuário-homem-mulher-100.png" />
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center margin-top-1">
+          <h4>Dizimistas</h4>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center margin-top-1">
+          <p class="p">200</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col card-dizimo">
+    <mat-card class="mat-card">
+      <div class="row">
+        <div class="col-12">
+          <img class="img-60-60" src="../../assets/images/icons8-dinheiro-150.png" />
+        </div>
+        <div class="col-6 d-flex justify-content-start align-items-center margin-top-1">
+          <h4>Dízimo</h4>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center margin-top-1">
+          <p class="p">{{ 500 | currency: "BRL":"symbol" }}</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row" id="section-two">
+  <div class="col-xl-6 col-md-4 col-sm-12 margin-bottom-1">
+    <div class="row">
+      <div class="col-8 d-flex justify-content-start align-items-center">
+        <h4 style="font-weight: 600">Atividades Recentes</h4>
+      </div>
+      <div class="col-5 d-flex justify-content-start align-items-center">
+        <p>
+          <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-100.png" />
+          José
+        </p>
+      </div>
+      <div class="col-6 d-flex justify-content-start align-items-center">
+        <p>Dízimo recebido</p>
+      </div>
+      <div class="col-5 d-flex justify-content-start align-items-center">
+        <p>
+          <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-100.png" />
+          Josefa
+        </p>
+      </div>
+      <div class="col-6 d-flex justify-content-start align-items-center">
+        <p>Dízimo recebido</p>
+      </div>
+      <div class="col-5 d-flex justify-content-start align-items-center">
+        <p>
+          <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-100.png" />
+          João
+        </p>
+      </div>
+      <div class="col-6 d-flex justify-content-start align-items-center">
+        <p>Dízimo recebido</p>
+      </div>
+      <div class="col-5 d-flex justify-content-start align-items-center">
+        <p>
+          <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-100.png" />
+          Maria
+        </p>
+      </div>
+      <div class="col-6 d-flex justify-content-start align-items-center">
+        <p>Dízimo recebido</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-6 col-md-4 col-sm-12 margin-bottom-1">
+    <div class="row">
+      <div class="col-10 d-flex justify-content-start align-items-center">
+        <h4 style="font-weight: 600">Relatório</h4>
+      </div>
+      <div class="col-2 d-flex justify-content-center align-items-center">
+        <button class="btn" type="button" routerLink="/feature/report">
+          <mat-icon aria-hidden="false">arrow_right_alt</mat-icon>
+        </button>
+      </div>
+      <div class="col-12">
+        <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="lineChartColors"
+          [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>

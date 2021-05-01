@@ -1,0 +1,46 @@
+<div class="container">
+  <h1>{{ title }}</h1>
+
+  <form [formGroup]="form">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h4>Dados Pessoais</h4>
+        </div>
+        <div
+          [class]="
+            'col-xl-' +
+            type.lenghtXl +
+            ' ' +
+            'col-md-' +
+            type.lenghtMd +
+            ' ' +
+            'col-sm-12'
+          "
+          *ngFor="let type of formType"
+        >
+          <mat-form-field appearance="fill">
+            <mat-label>{{ type.label }}</mat-label>
+            <input matInput [formControlName]="type.formControlName" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div
+          [class]="'col d-flex justify-content-' + button.justify"
+          *ngFor="let button of buttons"
+        >
+          <button
+            mat-raised-button
+            [color]="button.type"
+            (click)="button.function === 'Cancelar' ? closeDialog() : edit()"
+            [disabled]="button.function === 'Editar' && form.invalid"
+          >
+            {{ button.function }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
