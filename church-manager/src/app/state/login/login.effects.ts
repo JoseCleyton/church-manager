@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { catchError, map, switchMap, delay, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { LoginService } from 'src/app/shared/service/login/login.service';
 import * as actions from './login.actions';
-
 @Injectable()
 export class LoginEffects {
   constructor(private actions$: Actions, private loginService: LoginService) {}
@@ -16,8 +14,7 @@ export class LoginEffects {
       this.loginService.authenticate(action.payload).pipe(
         map((response) => {
           return new actions.LoginSuccess(response);
-        }),
-        //catchError((err) => of(new fromAlert.actions.Error(err.error.message)))
+        })
       )
     )
   );

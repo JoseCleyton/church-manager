@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { URLS } from '../../constants/url.enum';
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router) {}
 
   public authenticate(user: any): Observable<any> {
-    return this.http.post(`${URLS.apiRootDsv}auth/token`, user);
+    return this.http.post(`${URLS.apiRootPro}auth/token`, user);
   }
 
   public isAuthenticated(): boolean {
@@ -24,6 +24,8 @@ export class LoginService {
 
   public logout() {
     localStorage.removeItem('token');
-    this.router.navigateByUrl('login');
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('login');
+    this.router.navigateByUrl('');
   }
 }

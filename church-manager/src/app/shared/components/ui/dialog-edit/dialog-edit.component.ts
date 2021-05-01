@@ -40,8 +40,6 @@ export class DialogEditComponent implements OnInit {
     }
 
     if (this.type === 'church') {
-      console.log(this.selected);
-      console.log(this.formType);
       this.form.get('name').setValue(this.selected.name);
       this.form.get('phone').setValue(this.selected.phone);
       this.form.get('email').setValue(this.selected.email);

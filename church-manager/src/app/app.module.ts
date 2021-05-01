@@ -14,12 +14,14 @@ import { AuthGuardGuard } from './core/auth/auth-guard.guard';
 import { Interceptor } from './core/interceptor/interceptor.module';
 import { LoadingService } from './shared/service/loading/loading.service';
 import { LoadingComponent } from './shared/components/ui/loading/loading.component';
+import { AlertComponent } from './shared/components/ui/alert/alert.component';
+import { MatIconModule } from '@angular/material/icon';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 @NgModule({
-  declarations: [AppComponent, LoadingComponent],
+  declarations: [AppComponent, LoadingComponent, AlertComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -29,6 +31,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     StateModule,
     Interceptor,
+    MatIconModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

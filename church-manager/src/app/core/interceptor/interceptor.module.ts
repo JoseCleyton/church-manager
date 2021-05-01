@@ -4,13 +4,15 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HTTP_INTERCEPTORS
+  HTTP_INTERCEPTORS,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Injectable, NgModule } from '@angular/core';
 import { catchError, finalize } from 'rxjs/operators';
 import { AppState } from 'src/app/state';
 import { LoadingService } from 'src/app/shared/service/loading/loading.service';
+import * as fromAlert from '../../state/alert';
 
 @Injectable()
 export class HttpsRequestInterceptor implements HttpInterceptor {
@@ -26,9 +28,19 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
     this.loadingService.requestStarted();
     if (localStorage.getItem('token') === null) {
       return next.handle(req).pipe(
-        catchError((error) => {
+        catchError((err: HttpErrorResponse) => {
           this.loadingService.requestEnded();
-          return throwError(error);
+          if (err.status.toString().includes('4')) {
+            this.store$.dispatch(
+              new fromAlert.actions.Error('Credenciais Inválidas')
+            );
+          }
+          if (err.status.toString().includes('5')) {
+            this.store$.dispatch(
+              new fromAlert.actions.Error('Erro Interno. Tente Novamente')
+            );
+          }
+          return throwError(err);
         }),
         finalize(() => {
           this.loadingService.requestEnded();
@@ -37,14 +49,24 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
     } else {
       const dupReq = req.clone({
         setHeaders: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
       return next.handle(dupReq).pipe(
-        catchError((error) => {
+        catchError((err) => {
           this.loadingService.requestEnded();
-          return throwError(error);
+          if (err.status.toString().includes('4')) {
+            this.store$.dispatch(
+              new fromAlert.actions.Error('Credenciais Inválidas')
+            );
+          }
+          if (err.status.toString().includes('5')) {
+            this.store$.dispatch(
+              new fromAlert.actions.Error('Erro Interno. Tente Novamente')
+            );
+          }
+          return throwError(err);
         }),
         finalize(() => {
           this.loadingService.requestEnded();
