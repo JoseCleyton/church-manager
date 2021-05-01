@@ -37,7 +37,7 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
     } else {
       const dupReq = req.clone({
         setHeaders: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`
         },
       });
 

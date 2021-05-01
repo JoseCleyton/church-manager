@@ -1,13 +1,15 @@
 import { LoginActions, LoginActionsTypes } from './login.actions';
 
 export interface LoginState {
-  token: string;
-  isAdmin: boolean;
+  credentials: {
+    token: string;
+    isAdmin: boolean;
+    login: string;
+  };
 }
 
 export const initialState: LoginState = {
-  token: undefined,
-  isAdmin: undefined,
+  credentials: undefined,
 };
 
 export function loginReducer(
@@ -18,11 +20,13 @@ export function loginReducer(
     case LoginActionsTypes.LOGIN_SUCCESS: {
       return {
         ...state,
-        token: action.payload.token,
-        isAdmin: action.payload.isAdmin,
+        credentials: {
+          token: action.payload.token,
+          isAdmin: action.payload.admin,
+          login: action.payload.login,
+        },
       };
     }
-
     default:
       return state;
   }

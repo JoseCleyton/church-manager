@@ -6,7 +6,6 @@
       </h3>
     </div>
   </div>
-
   <mat-toolbar>
     <div class="row d-flex justify-content-end align-items-center" style="width: 100%; margin: auto">
       <div class="col-3 icons-menu">
@@ -16,7 +15,7 @@
           <img class="img-26-26" src="../../assets/images/icons8-dashboard-layout-48.png" alt="" />
         </button>
       </div>
-      <div class="col-2 icons-menu">
+      <div *ngIf="isAdmin" class="col-2 icons-menu">
         <img *ngIf="url === '/feature/church'" class="img-10-10"
           src="../../assets/images/icons8-círculo-preenchido-16.png" />
         <button class="btn" routerLink="church">
@@ -59,7 +58,7 @@
         <img class="img-26-26" src="../../assets/images/icons8-dashboard-layout-48.png" alt="" />
       </button>
     </div>
-    <div class="col-12 icons-menu">
+    <div *ngIf="isAdmin" class="col-12 icons-menu">
       <img *ngIf="url === '/feature/church'" class="img-10-10"
         src="../../assets/images/icons8-círculo-preenchido-16.png" />
       <button class="btn" routerLink="church">
