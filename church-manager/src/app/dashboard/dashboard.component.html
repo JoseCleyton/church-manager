@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div id="cards" class="row">
-  <div class="col">
+  <div *ngIf="isAdmin" class="col">
     <mat-card class="mat-card">
       <div class="row">
         <div class="col-12">

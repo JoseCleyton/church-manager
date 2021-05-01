@@ -3,11 +3,7 @@ import { AppState } from 'src/app/state';
 
 export const selectLogin = (state: AppState) => state.login;
 
-export const selectToken = createSelector(
+export const selectCredentials = createSelector(
   selectLogin,
-  state => state.token
+  (state) => state.credentials
 );
-export const selectIsAdmin = createSelector(
-    selectLogin,
-    state => state.isAdmin
-  );

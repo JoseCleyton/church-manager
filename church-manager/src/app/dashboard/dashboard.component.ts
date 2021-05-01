@@ -9,6 +9,7 @@ import { Color, Label } from 'ng2-charts';
 })
 export class DashboardComponent implements OnInit {
   public title = 'Dashboard';
+  public isAdmin = false;
 
   public lineChartData: ChartDataSets[];
   public lineChartLabels: Label[];
@@ -20,6 +21,7 @@ export class DashboardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.isAdmin = localStorage.getItem('isAdmin') === 'A' ? true : false;
     this.lineChartData = [
       {
         data: [1000, 2000, 900],

@@ -8,10 +8,13 @@ import { Subscription } from 'rxjs';
 })
 export class MenuComponent implements OnInit, OnDestroy {
   public url = '';
+  public isAdmin = false;
+
   public subscription: Subscription = new Subscription();
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    this.isAdmin = localStorage.getItem('isAdmin') === 'A' ? true : false;
     this.url = this.router.url;
     this.subscribeToUrl();
   }
