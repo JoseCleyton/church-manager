@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of data" (click)="selectChurch(item)">
+        <tr *ngFor="let item of churchs" (click)="selectChurch(item)">
           <td>
             <img class="img-30-30" src="../../assets/images/icons8-igreja-128.png" />
             {{ item.name }}
@@ -28,7 +28,7 @@
           </td>
           <td>
             <img class="img-35-35" src="../../assets/images/icons8-chamada-em-conferência-50.png" />
-            {{ item.tithers }}
+            {{ item.numberOfTithers }}
           </td>
           <td (click)="preventDefault($event)">
             <button class="btn" type="button" [matMenuTriggerFor]="menu">

@@ -1,15 +1,11 @@
 import { AlertActions, AlertActionsTypes } from './alert.actions';
 
 export interface AlertState {
-  alertsSuccess: any[];
-  alertsErrs: any[];
-  alertsWarning: any[];
+  alerts: any[];
 }
 
 export const initialState: AlertState = {
-  alertsSuccess: [],
-  alertsErrs: [],
-  alertsWarning: [],
+  alerts: [],
 };
 
 export function alertReducer(
@@ -17,30 +13,16 @@ export function alertReducer(
   action: AlertActions
 ): AlertState {
   switch (action.type) {
-    case AlertActionsTypes.SUCCESS: {
+    case AlertActionsTypes.ADD_ALERT_SUCCESS: {
       return {
         ...state,
-        alertsSuccess: [...state.alertsSuccess, action.alert],
+        alerts: [...state.alerts, action.payload],
       };
     }
-    case AlertActionsTypes.ERROR: {
+    case AlertActionsTypes.REMOVE_ALERT: {
       return {
         ...state,
-        alertsErrs: [...state.alertsErrs, action.alert],
-      };
-    }
-    case AlertActionsTypes.WARNING: {
-      return {
-        ...state,
-        alertsWarning: [...state.alertsWarning, action.alert],
-      };
-    }
-    case AlertActionsTypes.RESET_ALERT: {
-      return {
-        ...state,
-        alertsSuccess: [],
-        alertsErrs: [],
-        alertsWarning: [],
+        alerts: state.alerts.filter((alert) => alert.id !== action.id),
       };
     }
     default:

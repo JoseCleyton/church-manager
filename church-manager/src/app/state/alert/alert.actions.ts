@@ -1,30 +1,31 @@
 import { Action } from '@ngrx/store';
 
 export enum AlertActionsTypes {
-  SUCCESS = '[ALERT] Success',
-  ERROR = '[ALERT] Error',
-  WARNING = '[ALERT] Warning',
+  ADD_ALERT = '[Alert] Add Alert',
+  ADD_ALERT_SUCCESS = '[Alert] Add Alert Success',
   RESET_ALERT = '[ALERT] Reset Alert',
+  REMOVE_ALERT = '[Alert] Remove Alert',
 }
 
-export class Success implements Action {
-  readonly type = AlertActionsTypes.SUCCESS;
-  constructor(public alert: any) {}
+export class AddAlert implements Action {
+  readonly type = AlertActionsTypes.ADD_ALERT;
+  constructor(public payload: any) {}
 }
-
-export class Error implements Action {
-  readonly type = AlertActionsTypes.ERROR;
-  constructor(public alert: any) {}
+export class AddAlertSuccess implements Action {
+  readonly type = AlertActionsTypes.ADD_ALERT_SUCCESS;
+  constructor(public payload: any) {}
 }
-
-export class Warning implements Action {
-  readonly type = AlertActionsTypes.WARNING;
-  constructor(public alert: any) {}
-}
-
 export class ResetAlert implements Action {
   readonly type = AlertActionsTypes.RESET_ALERT;
   constructor() {}
 }
+export class RemoveAlert implements Action {
+  readonly type = AlertActionsTypes.REMOVE_ALERT;
+  constructor(public id: number) {}
+}
 
-export type AlertActions = Success | Error | Warning | ResetAlert;
+export type AlertActions =
+  | ResetAlert
+  | AddAlert
+  | AddAlertSuccess
+  | RemoveAlert;

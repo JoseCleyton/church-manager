@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Church } from 'src/app/shared/model/church.model';
 
 @Component({
   selector: 'app-dialog-add',
@@ -39,7 +40,7 @@ export class DialogAddComponent implements OnInit {
     if (this.type === 'christian') {
       console.log('ADD Christian');
     } else if (this.type === 'church') {
-      console.log('ADD Church');
+     
     }
 
     this.formAdd.reset();

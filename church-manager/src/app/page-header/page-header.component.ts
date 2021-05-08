@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogAddComponent } from '../shared/components/ui/dialog-add/dialog-add.component';
+import { AddChurchComponent } from '../church/add-church/add-church.component';
 
 @Component({
   selector: 'app-page-header',
@@ -28,16 +28,10 @@ export class PageHeaderComponent implements OnInit {
   ngOnInit(): void {}
 
   public openDialogNew() {
-    this.dialog.open(DialogAddComponent, {
-      width: '900px',
-      data: {
-        type: this.type,
-        typesForm: this.typesForm,
-        titleDialog: this.titleDialog,
-        subTitle: this.subTitle,
-        buttonsDialog: this.buttonsDialog,
-        formAdd: this.formAdd,
-      },
-    });
+    if (this.type === 'church') {
+      this.dialog.open(AddChurchComponent, {
+        width: '900px',
+      });
+    }
   }
 }
