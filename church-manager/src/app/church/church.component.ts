@@ -2,15 +2,21 @@ import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-
 import { DialogDeleteComponent } from '../shared/components/ui/dialog-delete/dialog-delete.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-view.component';
-
+import * as fromChurch from '../state/church';
+import { Subscription } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { AppState } from '../state';
+import { Church } from '../shared/model/church.model';
+import { DeleteChurchComponent } from './delete-church/delete-church.component';
+import { EditChurchComponent } from './edit-church/edit-church.component';
 @Component({
   selector: 'app-church',
   templateUrl: './church.component.html',
   styleUrls: ['./church.component.scss'],
 })
-export class ChurchComponent implements OnInit {
+export class ChurchComponent implements OnInit, OnDestroy {
   public type = 'church';
   public title = 'Nova Capela';
   public subTitle = 'Dados da Capela';
@@ -120,74 +126,20 @@ export class ChurchComponent implements OnInit {
   public formAddChurch: FormGroup;
   public formFilter: FormGroup;
 
-  public data: any[];
+  public churchs: Church[];
 
-  constructor(public dialog: MatDialog) {}
+  public subscription: Subscription = new Subscription();
+
+  constructor(public dialog: MatDialog, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.formAddChurch = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      phone: new FormControl(null),
-      email: new FormControl(null),
-      district: new FormControl(null, [Validators.required]),
-      responsible: new FormControl(null, [Validators.required]),
-      login: new FormControl(null, [Validators.required]),
-    });
-
-    this.formFilter = new FormGroup({
-      nameFilter: new FormControl(null),
-      districtFilter: new FormControl(null),
-      responsibleFilter: new FormControl(null),
-    });
-
-    this.data = [
-      {
-        name: 'Santa Inês',
-        phone: '(81) 9.9976-1256',
-        email: 'teste1@123.com',
-        district: 'Alto Santa Inês',
-        responsible: 'Mark',
-        tithers: '250',
-        money: '1000',
-        login: '123456',
-        password: '123456',
-      },
-      {
-        name: 'Santa Ana',
-        phone: '(81) 9.9976-6754',
-        email: 'teste2@123.com',
-        district: 'Caçatuba',
-        responsible: 'José',
-        tithers: '100',
-        money: '500',
-        login: '123456',
-        password: '123456',
-      },
-      {
-        name: 'Nossa Senhora do Rosário',
-        phone: '(81) 9.9004-1234',
-        email: 'teste3@123.com',
-        district: 'Condique',
-        responsible: 'Maria',
-        tithers: '70',
-        money: '410',
-        login: '123456',
-        password: '123456',
-      },
-      {
-        name: 'São José',
-        phone: '(81) 9.7890-4106',
-        email: 'teste4@123.com',
-        district: 'Cutias',
-        responsible: 'josefa',
-        tithers: '50',
-        money: '258',
-        login: '123456',
-        password: '123456',
-      },
-    ];
+    this.createForms();
+    this.store$.dispatch(new fromChurch.actions.ListChurchs());
+    this.subscribeToChurchs();
   }
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
   public selectChurch(church: any) {
     this.dialog.open(DialogViewComponent, {
       width: '1100px',
@@ -216,27 +168,42 @@ export class ChurchComponent implements OnInit {
   }
 
   public edit(church: any) {
-    this.dialog.open(DialogEditComponent, {
-      width: '1100px',
-      data: {
-        title: 'Editar Capela',
-        type: 'church',
-        selected: church,
-        formType: this.typesForm,
-        form: this.formAddChurch,
-        buttons: this.buttonsEdit,
-      },
+    this.store$.dispatch(new fromChurch.actions.SelectChurch(church));
+    this.dialog.open(EditChurchComponent, {
+      width: '900px',
     });
   }
-  public delete(church: any) {
-    this.dialog.open(DialogDeleteComponent, {
-      width: '400px',
-      data: {
-        title: 'Deletar Capela',
-        type: 'church',
-        selected: church,
-        buttons: this.buttonsDelete,
-      },
+  public delete(church: Church) {
+    this.store$.dispatch(new fromChurch.actions.SelectChurch(church));
+    this.dialog.open(DeleteChurchComponent, {
+      width: '450px',
+    });
+  }
+
+  public subscribeToChurchs() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChurch.selectors.selectChurchs))
+        .subscribe((state) => {
+          this.churchs = state;
+        })
+    );
+  }
+
+  private createForms() {
+    this.formAddChurch = new FormGroup({
+      name: new FormControl(null, [Validators.required]),
+      phone: new FormControl(null),
+      email: new FormControl(null),
+      district: new FormControl(null, [Validators.required]),
+      responsible: new FormControl(null, [Validators.required]),
+      login: new FormControl(null, [Validators.required]),
+    });
+
+    this.formFilter = new FormGroup({
+      nameFilter: new FormControl(null),
+      districtFilter: new FormControl(null),
+      responsibleFilter: new FormControl(null),
     });
   }
 }

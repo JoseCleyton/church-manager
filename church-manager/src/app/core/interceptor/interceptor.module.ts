@@ -32,12 +32,18 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
           this.loadingService.requestEnded();
           if (err.status.toString().includes('4')) {
             this.store$.dispatch(
-              new fromAlert.actions.Error('Credenciais Inválidas')
+              new fromAlert.actions.AddAlert({
+                type: 'error',
+                message: 'Credenciais Inválidas',
+              })
             );
           }
           if (err.status.toString().includes('5')) {
             this.store$.dispatch(
-              new fromAlert.actions.Error('Erro Interno. Tente Novamente')
+              new fromAlert.actions.AddAlert({
+                type: 'error',
+                message: 'Erro Interno. Tente Novamente',
+              })
             );
           }
           return throwError(err);
@@ -58,12 +64,18 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
           this.loadingService.requestEnded();
           if (err.status.toString().includes('4')) {
             this.store$.dispatch(
-              new fromAlert.actions.Error('Credenciais Inválidas')
+              new fromAlert.actions.AddAlert({
+                type: 'error',
+                message: 'Credenciais Inválidas',
+              })
             );
           }
           if (err.status.toString().includes('5')) {
             this.store$.dispatch(
-              new fromAlert.actions.Error('Erro Interno. Tente Novamente')
+              new fromAlert.actions.AddAlert({
+                type: 'error',
+                message: 'Erro Interno. Tente Novamente',
+              })
             );
           }
           return throwError(err);
