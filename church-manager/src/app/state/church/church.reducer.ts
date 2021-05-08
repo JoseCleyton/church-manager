@@ -49,13 +49,13 @@ export function churchReducer(
       };
     }
     case ChurchActionsTypes.EDIT_CHURCH_SUCCES: {
+      const churchsAux = state.churchs.filter(
+        (church) => church.id !== action.payload.id
+      );
+
       return {
         ...state,
-        churchs: state.churchs.filter((church) => {
-          if (church.id === action.payload.id) {
-            church = action.payload;
-          }
-        }),
+        churchs: [...churchsAux, action.payload],
       };
     }
     default:
