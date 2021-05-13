@@ -35,7 +35,7 @@ export class AddChurchComponent implements OnInit {
     });
   }
 
-  add() {
+  public add() {
     const church: Church = {
       name: this.formAddChurch.get('name').value,
       city: this.formAddChurch.get('city').value,

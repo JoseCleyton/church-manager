@@ -2,17 +2,23 @@ import { DialogDeleteComponent } from '../shared/components/ui/dialog-delete/dia
 import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-view.component';
 import { PayTithingComponent } from './pay-tithing/pay-tithing.component';
-
+import { select, Store } from '@ngrx/store';
+import { AppState } from '../state';
+import * as fromChristian from '../state/christian';
+import { Subscription } from 'rxjs';
+import { Christian } from '../shared/model/christian.model';
+import { EditChristianComponent } from './edit-christian/edit-christian.component';
+import { DeleteChristianComponent } from './delete-christian/delete-christian.component';
 @Component({
   selector: 'app-christians',
   templateUrl: './christians.component.html',
   styleUrls: ['./christians.component.scss'],
 })
-export class ChristiansComponent implements OnInit {
-  public data = [];
+export class ChristiansComponent implements OnInit, OnDestroy {
+  public christians: Christian[] = [];
   public type = 'christian';
   public title = 'Novo Dizimista';
   public subTitle = 'Dados Pessoais';
@@ -149,10 +155,14 @@ export class ChristiansComponent implements OnInit {
 
   public formAddCristian: FormGroup;
   public formFilter: FormGroup;
+  public subscription: Subscription = new Subscription();
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.subscribeToChristians();
+    this.store$.dispatch(new fromChristian.actions.ListChristians());
+
     this.formAddCristian = new FormGroup({
       name: new FormControl(null, [Validators.required]),
       phone: new FormControl(null),
@@ -169,53 +179,10 @@ export class ChristiansComponent implements OnInit {
       monthBirthDateFilter: new FormControl(null),
       districtFilter: new FormControl(null),
     });
+  }
 
-    this.data = [
-      {
-        id: '1',
-        name: 'José',
-        city: 'Passira',
-        street: 'Av. Central',
-        number: '12',
-        district: 'Centro',
-        email: 'teste1@123.com',
-        phone: '(81) 9.9976-1256',
-        birthDate: '12/06/2000',
-      },
-      {
-        id: '2',
-        name: 'João',
-        city: 'Passira',
-        street: 'Rua Quarenta e Cinco',
-        number: '90',
-        district: 'Alto da Esperança',
-        email: 'teste2@123.com',
-        phone: '(81) 9.9387-4578',
-        birthDate: '30/10/1967',
-      },
-      {
-        id: '3',
-        name: 'Maria',
-        city: 'Passira',
-        street: 'Rua de Baixo',
-        number: '567',
-        district: 'Alto da Alegria',
-        email: 'teste3@123.com',
-        phone: '(81) 9.8790-4537',
-        birthDate: '22/01/1956',
-      },
-      {
-        id: '4',
-        name: 'Josefa',
-        city: 'Passira',
-        street: 'Av. Mascarenhas',
-        number: '009',
-        district: 'Centro',
-        email: 'teste4@123.com',
-        phone: '(81) 9.7964-5678',
-        birthDate: '18/10/2002',
-      },
-    ];
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   public selectChristian(christian: any) {
@@ -246,28 +213,16 @@ export class ChristiansComponent implements OnInit {
     event.stopPropagation();
   }
 
-  public edit(christian: any) {
-    this.dialog.open(DialogEditComponent, {
-      width: '1100px',
-      data: {
-        title: 'Editar Dizimista',
-        type: 'christian',
-        selected: christian,
-        formType: this.typesForm,
-        form: this.formAddCristian,
-        buttons: this.buttonsEdit,
-      },
+  public edit(christian: Christian) {
+    this.store$.dispatch(new fromChristian.actions.SelectChristian(christian));
+    this.dialog.open(EditChristianComponent, {
+      width: '700px',
     });
   }
-  public delete(christian: any) {
-    this.dialog.open(DialogDeleteComponent, {
+  public delete(christian: Christian) {
+    this.store$.dispatch(new fromChristian.actions.SelectChristian(christian));
+    this.dialog.open(DeleteChristianComponent, {
       width: '400px',
-      data: {
-        title: 'Deletar Dizimista',
-        type: 'christian',
-        selected: christian,
-        buttons: this.buttonsDelete,
-      },
     });
   }
   public openModal(christian: any) {
@@ -277,5 +232,15 @@ export class ChristiansComponent implements OnInit {
         selected: christian,
       },
     });
+  }
+
+  public subscribeToChristians() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChristian.selectors.selectChristians))
+        .subscribe((state) => {
+          this.christians = state;
+        })
+    );
   }
 }

@@ -126,7 +126,7 @@ export class ChurchComponent implements OnInit, OnDestroy {
   public formAddChurch: FormGroup;
   public formFilter: FormGroup;
 
-  public churchs: Church[];
+  public churchs: Church[] = [];
 
   public subscription: Subscription = new Subscription();
 

@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { DeleteChurchComponent } from './delete-church/delete-church.component';
 import { EditChurchComponent } from './edit-church/edit-church.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [ChurchComponent, AddChurchComponent, DeleteChurchComponent, EditChurchComponent],
@@ -34,6 +35,7 @@ import { EditChurchComponent } from './edit-church/edit-church.component';
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
+    NgxMaskModule.forRoot()
   ]
 })
 export class ChurchModule { }

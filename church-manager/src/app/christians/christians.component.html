@@ -14,8 +14,8 @@
           <th scope="col">Ação</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let item of data" (click)="selectChristian(item)">
+      <tbody *ngIf="christians.length > 0; else empty">
+        <tr *ngFor="let item of christians" (click)="selectChristian(item)">
           <td>
             <p class="number-user">{{ item.id }}</p>
           </td>
@@ -50,6 +50,13 @@
           </td>
         </tr>
       </tbody>
+      <ng-template #empty>
+        <tr>
+          <td colspan="5">
+            <div class="alert alert-warning d-flex justify-content-center">Nenhum resultado para sua busca</div>
+          </td>
+        </tr>
+      </ng-template>
     </table>
     <app-paginator></app-paginator>
   </div>

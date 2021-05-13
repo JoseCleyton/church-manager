@@ -24,8 +24,11 @@ export class DeleteChurchComponent implements OnInit, OnDestroy {
     this.subscribeToSelectChurch();
   }
 
-  ngOnDestroy() {}
-  closeDialog(): void {
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  public closeDialog(): void {
     this.dialogRef.close();
   }
 
