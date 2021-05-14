@@ -12,3 +12,8 @@ export const selectSelectedChristian = createSelector(
   selectChristian,
   (state) => state.selectedChristian
 );
+
+export const selectQuantityChristians = createSelector(
+  selectChristian,
+  (state) => state.quantityChristians
+);

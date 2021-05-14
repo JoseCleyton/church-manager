@@ -39,6 +39,28 @@ export class ChristianEffects {
     )
   );
   @Effect()
+  getQuantityChristians$ = this.actions$.pipe(
+    ofType<actions.GetQuantityChristians>(
+      actions.ChristianActionsTypes.GET_QUANTITY_CHRISTIANS
+    ),
+    switchMap(() =>
+      this.christianService.getQuantityChristians().pipe(
+        map(
+          (response) => {
+            return new actions.GetQuantityChristiansSucces(response);
+          },
+          catchError((error) => {
+            new fromAlert.actions.AddAlert({
+              type: 'error',
+              message: error.message,
+            });
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+  @Effect()
   addChristian$ = this.actions$.pipe(
     ofType<actions.AddChristian>(actions.ChristianActionsTypes.ADD_CHRISTIAN),
     switchMap((action) =>

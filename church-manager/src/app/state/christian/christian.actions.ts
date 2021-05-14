@@ -2,6 +2,9 @@ import { Action } from '@ngrx/store';
 import { Christian } from 'src/app/shared/model/christian.model';
 
 export enum ChristianActionsTypes {
+  GET_QUANTITY_CHRISTIANS = '[Christian] Get Quantity Christian',
+  GET_QUANTITY_CHRISTIANS_SUCCESS = '[Christian] Get Quantity Christian Success',
+
   LIST_CHRISTIANS = '[Christian] List Christians',
   LIST_CHRISTIAN_SUCCES = '[Christian] List Christians Success',
 
@@ -54,6 +57,14 @@ export class EditChristianSucces implements Action {
   readonly type = ChristianActionsTypes.EDIT_CHRISTIAN_SUCCES;
   constructor(public payload: Christian) {}
 }
+export class GetQuantityChristians implements Action {
+  readonly type = ChristianActionsTypes.GET_QUANTITY_CHRISTIANS;
+  constructor() {}
+}
+export class GetQuantityChristiansSucces implements Action {
+  readonly type = ChristianActionsTypes.GET_QUANTITY_CHRISTIANS_SUCCESS;
+  constructor(public payload: any) {}
+}
 export type ChristianActions =
   | ListChristians
   | ListChristiansSuccess
@@ -63,4 +74,6 @@ export type ChristianActions =
   | DeleteChristian
   | DeleteChristianSucces
   | EditChristian
-  | EditChristianSucces;
+  | EditChristianSucces
+  | GetQuantityChristians
+  | GetQuantityChristiansSucces;

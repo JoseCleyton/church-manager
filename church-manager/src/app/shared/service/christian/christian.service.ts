@@ -13,6 +13,9 @@ export class ChristianService {
   public listChristians() {
     return this.http.get(`${URLS.apiRootDsv}christian`);
   }
+  public getQuantityChristians() {
+    return this.http.get(`${URLS.apiRootDsv}christian/quantity`);
+  }
   public addChristian(christian: Christian): Observable<Christian> {
     return this.http.post<Christian>(`${URLS.apiRootDsv}christian`, christian);
   }

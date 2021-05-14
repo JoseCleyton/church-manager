@@ -225,12 +225,10 @@ export class ChristiansComponent implements OnInit, OnDestroy {
       width: '400px',
     });
   }
-  public openModal(christian: any) {
+  public openModalPayTithing(christian: any) {
+    this.store$.dispatch(new fromChristian.actions.SelectChristian(christian));
     this.dialog.open(PayTithingComponent, {
-      width: '600px',
-      data: {
-        selected: christian,
-      },
+      width: '600px'
     });
   }
 

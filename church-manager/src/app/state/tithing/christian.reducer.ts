@@ -1,5 +1,5 @@
 import { Christian } from 'src/app/shared/model/christian.model';
-import { ChristianActions, ChristianActionsTypes } from './christian.actions';
+import { ChristianActions, ChristianActionsTypes } from './tithing.actions';
 
 export interface ChristianState {
   christians: Christian[];
