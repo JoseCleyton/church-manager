@@ -7,6 +7,7 @@ import { FeatureRoutingModule } from './feature-routing.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LogoutModule } from '../shared/components/ui/logout/logout.module';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [FeatureComponent, MenuComponent],
   imports: [
@@ -15,6 +16,7 @@ import { LogoutModule } from '../shared/components/ui/logout/logout.module';
     MatToolbarModule,
     MatDialogModule,
     LogoutModule,
+    MatIconModule,
   ],
 })
 export class FeatureModule {}

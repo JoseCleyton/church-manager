@@ -93,23 +93,6 @@ export class EditChurchComponent implements OnInit, OnDestroy {
       numberOfTithers: new FormControl(this.selectedChurch.numberOfTithers, [
         Validators.min(1),
       ]),
-      // login: new FormControl(null, [Validators.minLength(5)]),
-      // password: new FormControl(null, [Validators.minLength(5)]),
     });
-    /*
-    this.formEditChurch.get('name').setValue(this.selectedChurch.name);
-    this.formEditChurch.get('phone').setValue(this.selectedChurch.phone);
-    this.formEditChurch.get('email').setValue(this.selectedChurch.email);
-    this.formEditChurch.get('city').setValue(this.selectedChurch.city);
-    this.formEditChurch.get('district').setValue(this.selectedChurch.district);
-    this.formEditChurch.get('street').setValue(this.selectedChurch.street);
-    this.formEditChurch
-      .get('responsible')
-      .setValue(this.selectedChurch.responsible);
-    this.formEditChurch
-      .get('numberOfTithers')
-      .setValue(this.selectedChurch.numberOfTithers);
-    this.formEditChurch.get('login').setValue(this.selectedChurch.user.login);
-    */
   }
 }

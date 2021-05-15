@@ -17,8 +17,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { AddChristianComponent } from './add-christian/add-christian.component';
+import { NgxMaskModule } from 'ngx-mask';
+import { EditChristianComponent } from './edit-christian/edit-christian.component';
+import { DeleteChristianComponent } from './delete-christian/delete-christian.component';
 @NgModule({
-  declarations: [ChristiansComponent, PayTithingComponent],
+  declarations: [ChristiansComponent, PayTithingComponent, AddChristianComponent, EditChristianComponent, DeleteChristianComponent],
   imports: [
     CommonModule,
     ChristiansRoutingModule,
@@ -35,6 +39,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    NgxMaskModule.forRoot()
   ],
   exports: [ChristiansComponent],
 })

@@ -4,6 +4,6 @@ export class User {
   public id?: number;
   public login: string;
   public password: string;
-  public isAdmin: boolean;
+  public admin: boolean;
   public church?: Church;
 }

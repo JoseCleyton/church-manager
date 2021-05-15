@@ -30,6 +30,12 @@ export function churchReducer(
         churchs: action.payload,
       };
     }
+    case ChurchActionsTypes.LIST_ALL_CHURCHS_SUCCES: {
+      return {
+        ...state,
+        churchs: action.payload,
+      };
+    }
     case ChurchActionsTypes.ADD_CHURCH_SUCCES: {
       return {
         ...state,
