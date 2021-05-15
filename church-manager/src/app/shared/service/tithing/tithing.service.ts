@@ -10,8 +10,14 @@ import { Tithing } from '../../model/tithing.model';
 export class TithingService {
   constructor(private http: HttpClient) {}
 
-  public listTithings(dateStart: string, dateEnd: string) {
-    return this.http.get(`${URLS.apiRootDsv}tithing?dateStart=${dateStart}&dateEnd=${dateEnd}`);
+  public fetchLatestRecords() {
+    return this.http.get(`${URLS.apiRootDsv}tithing/latest-records`);
+  }
+
+  public listTithings(idChurch: number, dateStart: string, dateEnd: string) {
+    return this.http.get(
+      `${URLS.apiRootDsv}tithing/${idChurch}?dateStart=${dateStart}&dateEnd=${dateEnd}`
+    );
   }
   public getTotal() {
     return this.http.get(`${URLS.apiRootDsv}tithing/total`);

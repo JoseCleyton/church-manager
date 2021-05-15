@@ -26,6 +26,7 @@ export class ChurchEffects {
       )
     )
   );
+
   @Effect()
   listChurchs$ = this.actions$.pipe(
     ofType<actions.ListChurchs>(actions.ChurchActionsTypes.LIST_CHURCHS),
@@ -37,6 +38,19 @@ export class ChurchEffects {
       )
     )
   );
+
+  @Effect()
+  listAllChurchs$ = this.actions$.pipe(
+    ofType<actions.ListAllChurchs>(actions.ChurchActionsTypes.LIST_ALL_CHURCHS),
+    switchMap(() =>
+      this.churchService.listAllChurchs().pipe(
+        map((response) => {
+          return new actions.ListAllChurchsSuccess(response);
+        })
+      )
+    )
+  );
+
   @Effect()
   addChurch$ = this.actions$.pipe(
     ofType<actions.AddChurch>(actions.ChurchActionsTypes.ADD_CHURCH),
@@ -54,6 +68,7 @@ export class ChurchEffects {
       )
     )
   );
+
   @Effect()
   deleteChurch$ = this.actions$.pipe(
     ofType<actions.DeleteChurch>(actions.ChurchActionsTypes.DELET_CHURCH),
@@ -71,6 +86,7 @@ export class ChurchEffects {
       )
     )
   );
+
   @Effect()
   editChurch$ = this.actions$.pipe(
     ofType<actions.EditChurch>(actions.ChurchActionsTypes.EDIT_CHURCH),

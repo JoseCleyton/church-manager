@@ -12,3 +12,8 @@ export const selectTithings = createSelector(
   selectTithing,
   (state) => state.tithings
 );
+
+export const selectPageInfo = createSelector(
+  selectTithing,
+  (state) => state.pageInfo
+);

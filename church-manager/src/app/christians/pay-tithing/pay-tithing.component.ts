@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { select, Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import * as fromTithing from '../../state/tithing';
   templateUrl: './pay-tithing.component.html',
   styleUrls: ['./pay-tithing.component.scss'],
 })
-export class PayTithingComponent implements OnInit {
+export class PayTithingComponent implements OnInit, OnDestroy {
   public title = 'Pagar Dízimo';
   public formTither: FormGroup;
   public selectedChristian: Christian;
@@ -26,6 +26,10 @@ export class PayTithingComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribeToSelectChristian();
+  }
+  
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   public subscribeToSelectChristian() {
@@ -56,7 +60,7 @@ export class PayTithingComponent implements OnInit {
       christian: this.selectedChristian,
       value: this.formTither.get('value').value,
     };
-    
+
     this.store$.dispatch(new fromTithing.actions.AddTithing(tithing));
     this.formTither.reset();
     this.closeDialog();

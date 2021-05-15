@@ -15,6 +15,9 @@ export class ChurchService {
   public listChurchs() {
     return this.http.get(`${URLS.apiRootDsv}church`);
   }
+  public listAllChurchs() {
+    return this.http.get(`${URLS.apiRootDsv}church/all`);
+  }
   public addChurch(church: Church): Observable<Church> {
     return this.http.post<Church>(`${URLS.apiRootDsv}church`, church);
   }

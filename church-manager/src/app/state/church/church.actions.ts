@@ -8,6 +8,9 @@ export enum ChurchActionsTypes {
   LIST_CHURCHS = '[Church] List Churchs',
   LIST_CHURCHS_SUCCES = '[Church] List Churchs Success',
 
+  LIST_ALL_CHURCHS = '[Church] List All Churchs',
+  LIST_ALL_CHURCHS_SUCCES = '[Church] List All Churchs Success',
+
   ADD_CHURCH = '[Church] Add Church',
   ADD_CHURCH_SUCCES = '[Church] Add Church Success',
 
@@ -36,6 +39,15 @@ export class ListChurchs implements Action {
 }
 export class ListChurchsSuccess implements Action {
   readonly type = ChurchActionsTypes.LIST_CHURCHS_SUCCES;
+  constructor(public payload: any) {}
+}
+
+export class ListAllChurchs implements Action {
+  readonly type = ChurchActionsTypes.LIST_ALL_CHURCHS;
+  constructor() {}
+}
+export class ListAllChurchsSuccess implements Action {
+  readonly type = ChurchActionsTypes.LIST_ALL_CHURCHS_SUCCES;
   constructor(public payload: any) {}
 }
 
@@ -70,6 +82,8 @@ export class EditChurchSucces implements Action {
 export type ChurchActions =
   | GetQuantity
   | GetQuantitySuccess
+  | ListAllChurchs
+  | ListAllChurchsSuccess
   | ListChurchs
   | ListChurchsSuccess
   | AddChurch

@@ -7,6 +7,8 @@ import { AppState } from '../state';
 import * as fromChurch from '../state/church';
 import * as fromChristian from '../state/christian';
 import * as fromTithing from '../state/tithing';
+import { Tithing } from '../shared/model/tithing.model';
+import { formatDate } from '../shared/utils/utils';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -16,19 +18,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public title = 'Dashboard';
   public isAdmin = false;
 
-  public lineChartData: ChartDataSets[];
-  public lineChartLabels: Label[];
-  public lineChartColors: Color[];
-  public lineChartLegend;
-  public lineChartType;
-  public lineChartPlugins;
+  public lineChartDataBar: ChartDataSets[];
+  public lineChartLabelsBar: Label[];
+  public lineChartColorsBar: Color[];
+  public lineChartLegendBar;
+  public lineChartTypeBar;
+
+  public lineChartDataPolarArea: ChartDataSets[];
+  public lineChartLabelsPolarArea: Label[];
+  public lineChartColorsPolarArea: Color[];
+  public lineChartLegendPolarArea;
+  public lineChartTypePolarArea;
 
   public quantityChurch: number;
   public quantityChristian: number;
   public totalTithings: number;
 
   public subscription: Subscription = new Subscription();
-
+  public tithings: Tithing[];
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
@@ -39,30 +46,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscribeToQuantityChurch();
     this.subscribeToQuantityChristians();
     this.subscribeToTotalTithings();
-    this.subscribeToListTithings()
-    this.lineChartData = [
-      {
-        data: [1000, 2000, 900],
-        label: 'Dízimos Últimos meses',
-      },
-    ];
-    this.lineChartLabels = ['Janeiro', 'Fevereiro', 'Março'];
-
-    this.lineChartColors = [
-      {
-        borderColor: 'white',
-        backgroundColor: [
-          'rgba(53, 121, 255)',
-          'rgb(249, 141, 180)',
-          'rgb(146, 207, 226',
-        ],
-      },
-    ];
-
-    this.lineChartLegend = 'true';
-
-    this.lineChartType = 'bar';
-    this.lineChartPlugins = [];
+    this.subscribeToListTithings();
   }
 
   ngOnDestroy() {
@@ -104,7 +88,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.store$
         .pipe(select(fromTithing.selectors.selectTithings))
         .subscribe((state) => {
-          console.log(state)
+          this.tithings = state;
+          if (this.tithings) {
+            this.createChartBar();
+            this.createChartPolarArea();
+          }
         })
     );
   }
@@ -118,6 +106,102 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private dispatchIsUser() {
     this.store$.dispatch(new fromChristian.actions.GetQuantityChristians());
     this.store$.dispatch(new fromTithing.actions.GetTotal());
-    this.store$.dispatch(new fromTithing.actions.ListTithings('2021-05-13', '2021-05-20'));
+    this.store$.dispatch(new fromTithing.actions.FetchLatestRecords());
+  }
+
+  private createChartBar() {
+    const dates = this.tithings.map((tithing) => tithing.date);
+
+    const datesFiltering = dates.filter(
+      (tithing, index) => dates.indexOf(tithing) === index
+    );
+    let dataValue = [];
+    for (let i = 0; i < datesFiltering.length; i++) {
+      const date = datesFiltering[i];
+      let value = 0;
+      for (let j = 0; j < this.tithings.length; j++) {
+        const tithing = this.tithings[j];
+        if (date === tithing.date) {
+          value += tithing.value;
+        }
+      }
+      dataValue.push(value);
+    }
+
+    this.lineChartDataBar = [
+      {
+        data: dataValue,
+        label: 'Dízimos Por dia',
+      },
+    ];
+
+    this.lineChartLabelsBar = datesFiltering.map((date) => formatDate(date));
+
+    this.lineChartColorsBar = [
+      {
+        borderColor: 'white',
+        backgroundColor: [
+          'rgba(53, 121, 255)',
+          'rgb(249, 141, 180)',
+          'rgb(146, 207, 226',
+          'rgb(121, 17, 74)',
+          'rgb(249, 255, 147)',
+          'rgb(255, 153, 255)',
+        ],
+      },
+    ];
+
+    this.lineChartLegendBar = 'true';
+
+    this.lineChartTypeBar = 'bar';
+  }
+
+  private createChartPolarArea() {
+    const dates = this.tithings.map((tithing) => tithing.date);
+
+    const datesFiltering = dates.filter(
+      (tithing, index) => dates.indexOf(tithing) === index
+    );
+    let dataValue = [];
+    for (let i = 0; i < datesFiltering.length; i++) {
+      const date = datesFiltering[i];
+      let value = 0;
+      for (let j = 0; j < this.tithings.length; j++) {
+        const tithing = this.tithings[j];
+        if (date === tithing.date) {
+          value += tithing.value;
+        }
+      }
+      dataValue.push(value);
+    }
+
+    this.lineChartDataPolarArea = [
+      {
+        data: dataValue,
+        label: 'Dízimos Por dia',
+      },
+    ];
+
+    this.lineChartLabelsPolarArea = datesFiltering.map((date) =>
+      formatDate(date)
+    );
+
+    this.lineChartColorsPolarArea = [
+      {
+        borderColor: 'white',
+        backgroundColor: [
+          'rgb(121, 17, 74)',
+          'rgb(249, 255, 147)',
+          'rgb(255, 153, 255)',
+          'rgba(53, 121, 255)',
+          'rgb(249, 141, 180)',
+          'rgb(146, 207, 226',
+        ],
+      },
+    ];
+
+    this.lineChartLegendPolarArea = 'true';
+
+    this.lineChartTypePolarArea = 'polarArea';
   }
 }

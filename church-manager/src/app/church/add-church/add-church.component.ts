@@ -47,7 +47,7 @@ export class AddChurchComponent implements OnInit {
       phone: this.formAddChurch.get('phone').value,
       numberOfTithers: this.formAddChurch.get('numberOfTithers').value,
       user: {
-        isAdmin: false,
+        admin: false,
         login: this.formAddChurch.get('login').value,
         password: this.formAddChurch.get('password').value,
       },

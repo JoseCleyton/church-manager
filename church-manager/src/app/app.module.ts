@@ -1,7 +1,7 @@
 import { FeatureModule } from './feature/feature.module';
 import { LoginModule } from './login/login.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +16,10 @@ import { LoadingService } from './shared/service/loading/loading.service';
 import { LoadingComponent } from './shared/components/ui/loading/loading.component';
 import { AlertComponent } from './shared/components/ui/alert/alert.component';
 import { MatIconModule } from '@angular/material/icon';
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localePt);
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -40,7 +44,11 @@ export function HttpLoaderFactory(http: HttpClient) {
       },
     }),
   ],
-  providers: [AuthGuardGuard, LoadingService],
+  providers: [
+    AuthGuardGuard,
+    LoadingService,
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

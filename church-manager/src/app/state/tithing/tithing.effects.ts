@@ -17,13 +17,15 @@ export class ChristianEffects {
   ) {}
 
   @Effect()
-  listTithings$ = this.actions$.pipe(
-    ofType<actions.ListTithings>(actions.TithingActionsTypes.LIST_TITHINGS),
-    switchMap((action) =>
-      this.tithingService.listTithings(action.dateStart, action.dateEnd).pipe(
+  fetchLatestRecords$ = this.actions$.pipe(
+    ofType<actions.FetchLatestRecords>(
+      actions.TithingActionsTypes.FETCH_LATEST_RECORDS
+    ),
+    switchMap(() =>
+      this.tithingService.fetchLatestRecords().pipe(
         map(
           (response) => {
-            return new actions.ListTithingsSuccess(response);
+            return new actions.FetchLatestRecordsSuccess(response);
           },
           catchError((error) => {
             new fromAlert.actions.AddAlert({
@@ -36,6 +38,31 @@ export class ChristianEffects {
       )
     )
   );
+
+  @Effect()
+  listTithings$ = this.actions$.pipe(
+    ofType<actions.ListTithings>(actions.TithingActionsTypes.LIST_TITHINGS),
+    switchMap((action) =>
+      this.tithingService.listTithings(action.idChurch, action.startDate, action.endDate).pipe(
+        map(
+          (response) => {
+            return new actions.ListTithingsSuccess(
+              { startDate: action.startDate, endDate: action.endDate },
+              response
+            );
+          },
+          catchError((error) => {
+            new fromAlert.actions.AddAlert({
+              type: 'error',
+              message: error.message,
+            });
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+
   @Effect()
   getTotal$ = this.actions$.pipe(
     ofType<actions.GetTotal>(actions.TithingActionsTypes.GET_TOTAL),
@@ -56,6 +83,7 @@ export class ChristianEffects {
       )
     )
   );
+
   @Effect()
   addTithing$ = this.actions$.pipe(
     ofType<actions.AddTithing>(actions.TithingActionsTypes.ADD_TITHING),

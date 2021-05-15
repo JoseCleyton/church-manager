@@ -1,12 +1,24 @@
 import { Tithing } from 'src/app/shared/model/tithing.model';
 import { TithingActionsTypes, TithingActions } from './tithing.actions';
 
+export interface PageInfo {
+  startDate: string;
+  endDate: string;
+}
 export interface TithingState {
+  pageInfo: PageInfo;
   total: number;
   tithings: Tithing[];
 }
 
 export const initialState: TithingState = {
+  pageInfo: {
+    startDate:
+      new Date().getFullYear() + '/0' + (new Date().getMonth() + 1) + '/01',
+
+    endDate:
+      new Date().getFullYear() + '/0' + (new Date().getMonth() + 1) + '/05',
+  },
   total: 0,
   tithings: [],
 };
@@ -31,6 +43,17 @@ export function tithingReducer(
     case TithingActionsTypes.LIST_TITHINGS_SUCCES: {
       return {
         ...state,
+        pageInfo: {
+          startDate: action.pageInfo.startDate,
+          endDate: action.pageInfo.endDate,
+        },
+        tithings: action.payload,
+      };
+    }
+    case TithingActionsTypes.FETCH_LATEST_RECORDS_SUCCES: {
+      return {
+        ...state,
+        pageInfo: state.pageInfo,
         tithings: action.payload,
       };
     }
