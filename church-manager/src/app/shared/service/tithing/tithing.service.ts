@@ -14,14 +14,26 @@ export class TithingService {
     return this.http.get(`${URLS.apiRootDsv}tithing/latest-records`);
   }
 
-  public listTithings(idChurch: number, dateStart: string, dateEnd: string) {
+  public listTithingsAdm(idChurch: number, dateStart: string, dateEnd: string) {
     return this.http.get(
       `${URLS.apiRootDsv}tithing/${idChurch}?dateStart=${dateStart}&dateEnd=${dateEnd}`
     );
   }
+  
+  public listTithings(dateStart: string, dateEnd: string) {
+    return this.http.get(
+      `${URLS.apiRootDsv}tithing?dateStart=${dateStart}&dateEnd=${dateEnd}`
+    );
+  }
+
   public getTotal() {
     return this.http.get(`${URLS.apiRootDsv}tithing/total`);
   }
+
+  public getTotalByChurch(idChurch: number) {
+    return this.http.get(`${URLS.apiRootDsv}tithing/total/${idChurch}`);
+  }
+
   public addTithing(tithing: Tithing): Observable<Tithing> {
     return this.http.post<Tithing>(`${URLS.apiRootDsv}tithing`, tithing);
   }

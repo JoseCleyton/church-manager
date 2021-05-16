@@ -40,10 +40,38 @@ export class ChristianEffects {
   );
 
   @Effect()
+  listTithingsAdm$ = this.actions$.pipe(
+    ofType<actions.ListTithingsAdm>(
+      actions.TithingActionsTypes.LIST_TITHINGS_ADM
+    ),
+    switchMap((action) =>
+      this.tithingService
+        .listTithingsAdm(action.idChurch, action.startDate, action.endDate)
+        .pipe(
+          map(
+            (response) => {
+              return new actions.ListTithingsAdmSuccess(
+                { startDate: action.startDate, endDate: action.endDate },
+                response
+              );
+            },
+            catchError((error) => {
+              new fromAlert.actions.AddAlert({
+                type: 'error',
+                message: error.message,
+              });
+              return EMPTY;
+            })
+          )
+        )
+    )
+  );
+
+  @Effect()
   listTithings$ = this.actions$.pipe(
     ofType<actions.ListTithings>(actions.TithingActionsTypes.LIST_TITHINGS),
     switchMap((action) =>
-      this.tithingService.listTithings(action.idChurch, action.startDate, action.endDate).pipe(
+      this.tithingService.listTithings(action.startDate, action.endDate).pipe(
         map(
           (response) => {
             return new actions.ListTithingsSuccess(
@@ -71,6 +99,29 @@ export class ChristianEffects {
         map(
           (response) => {
             return new actions.GetTotalSucces(response);
+          },
+          catchError((error) => {
+            new fromAlert.actions.AddAlert({
+              type: 'error',
+              message: error.message,
+            });
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+
+  @Effect()
+  getTotalByChurch$ = this.actions$.pipe(
+    ofType<actions.GetTotalByChurch>(
+      actions.TithingActionsTypes.GET_TOTAL_BY_CHURCH
+    ),
+    switchMap((action) =>
+      this.tithingService.getTotalByChurch(action.idChurch).pipe(
+        map(
+          (response) => {
+            return new actions.GetTotalByChurchSucces(response);
           },
           catchError((error) => {
             new fromAlert.actions.AddAlert({

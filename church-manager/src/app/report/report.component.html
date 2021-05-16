@@ -7,11 +7,11 @@
     </h4>
   </div>
 
-  <div class="col-xl-2 col-md-5 col-sm-6 d-flex justify-content-start align-items-center mr-1">
+  <div *ngIf="isAdmin" class="col-xl-2 col-md-5 col-sm-6 d-flex justify-content-start align-items-center mr-1">
     <form [formGroup]="formChurch">
       <mat-form-field>
         <mat-label>Capela</mat-label>
-        <mat-select formControlName="church">
+        <mat-select formControlName="church" (selectionChange)="changeChurch($event.value)">
           <mat-option *ngFor="let church of churchs" [value]="church.id">{{church.name}}
           </mat-option>
         </mat-select>
@@ -83,7 +83,7 @@
             <app-page-header [typesFormFilter]="typesFormFilter" [titleFilter]="titleFilter"
               [buttonsFilter]="buttonsFilter" [isAdd]="false" [formFilter]="formFilter"></app-page-header>
           -->
-          
+
           <table class="table table-hover">
             <thead class="thead">
               <tr>

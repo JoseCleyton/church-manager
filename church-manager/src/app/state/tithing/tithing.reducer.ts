@@ -40,7 +40,23 @@ export function tithingReducer(
         total: action.payload,
       };
     }
+    case TithingActionsTypes.GET_TOTAL_BY_CHURCH_SUCCESS: {
+      return {
+        ...state,
+        total: action.payload,
+      };
+    }
     case TithingActionsTypes.LIST_TITHINGS_SUCCES: {
+      return {
+        ...state,
+        pageInfo: {
+          startDate: action.pageInfo.startDate,
+          endDate: action.pageInfo.endDate,
+        },
+        tithings: action.payload,
+      };
+    }
+    case TithingActionsTypes.LIST_TITHINGS_ADM_SUCCES: {
       return {
         ...state,
         pageInfo: {

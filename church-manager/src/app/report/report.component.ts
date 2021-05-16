@@ -94,6 +94,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   public tithings: Tithing[];
   public pageInfo: PageInfoDateFilter;
   public subscription: Subscription = new Subscription();
+  public isAdmin = false;
 
   public formFilterDate: FormGroup;
 
@@ -105,6 +106,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.dateAdapter.setLocale('pt-BR');
   }
   ngOnInit(): void {
+    this.isAdmin = localStorage.getItem('isAdmin') === 'A' ? true : false;
+
     this.formChurch = new FormGroup({
       church: new FormControl(null, [Validators.required]),
     });
@@ -328,31 +331,72 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   private dispatchs() {
-    this.store$.dispatch(new fromChurch.actions.ListAllChurchs());
+    if (this.isAdmin) {
+      this.store$.dispatch(new fromChurch.actions.ListAllChurchs());
+    }
     this.store$.dispatch(new fromTithing.actions.GetTotal());
   }
 
   public searchByDate() {
-    this.store$.dispatch(
-      new fromTithing.actions.ListTithings(
-        this.formChurch.get('church').value,
-        this.datePipe.transform(
-          this.formFilterDate.get('startDate').value,
-          'yyyy-MM-dd'
-        ),
-        this.datePipe.transform(
-          this.formFilterDate.get('endDate').value,
-          'yyyy-MM-dd'
+    if (this.isAdmin) {
+      this.store$.dispatch(
+        new fromTithing.actions.ListTithingsAdm(
+          this.formChurch.get('church').value,
+          this.datePipe.transform(
+            this.formFilterDate.get('startDate').value,
+            'yyyy-MM-dd'
+          ),
+          this.datePipe.transform(
+            this.formFilterDate.get('endDate').value,
+            'yyyy-MM-dd'
+          )
         )
-      )
-    );
+      );
+    } else {
+      this.store$.dispatch(
+        new fromTithing.actions.ListTithings(
+          this.datePipe.transform(
+            this.formFilterDate.get('startDate').value,
+            'yyyy-MM-dd'
+          ),
+          this.datePipe.transform(
+            this.formFilterDate.get('endDate').value,
+            'yyyy-MM-dd'
+          )
+        )
+      );
+    }
   }
   private dispatchTithings() {
+    if (this.isAdmin) {
+      this.store$.dispatch(
+        new fromTithing.actions.ListTithingsAdm(
+          this.formChurch.get('church').value,
+          this.datePipe.transform(this.pageInfo.startDate, 'yyyy-MM-dd'),
+          this.datePipe.transform(this.pageInfo.endDate, 'yyyy-MM-dd')
+        )
+      );
+    } else {
+      this.store$.dispatch(
+        new fromTithing.actions.ListTithings(
+          this.datePipe.transform(this.pageInfo.startDate, 'yyyy-MM-dd'),
+          this.datePipe.transform(this.pageInfo.endDate, 'yyyy-MM-dd')
+        )
+      );
+    }
+  }
+
+  public changeChurch() {
     this.store$.dispatch(
-      new fromTithing.actions.ListTithings(
+      new fromTithing.actions.ListTithingsAdm(
         this.formChurch.get('church').value,
         this.datePipe.transform(this.pageInfo.startDate, 'yyyy-MM-dd'),
         this.datePipe.transform(this.pageInfo.endDate, 'yyyy-MM-dd')
+      )
+    );
+    this.store$.dispatch(
+      new fromTithing.actions.GetTotalByChurch(
+        this.formChurch.get('church').value
       )
     );
   }
