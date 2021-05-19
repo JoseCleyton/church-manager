@@ -11,6 +11,7 @@ import { AppState } from '../state';
 import { Church } from '../shared/model/church.model';
 import { DeleteChurchComponent } from './delete-church/delete-church.component';
 import { EditChurchComponent } from './edit-church/edit-church.component';
+import { Pageable } from '../shared/model/pageable.model';
 @Component({
   selector: 'app-church',
   templateUrl: './church.component.html',
@@ -127,14 +128,16 @@ export class ChurchComponent implements OnInit, OnDestroy {
   public formFilter: FormGroup;
 
   public churchs: Church[] = [];
+  public pageable: Pageable;
 
   public subscription: Subscription = new Subscription();
 
   constructor(public dialog: MatDialog, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.subscribeToPageable();
     this.createForms();
-    this.store$.dispatch(new fromChurch.actions.ListChurchs());
+    this.store$.dispatch(new fromChurch.actions.ListChurchs(this.pageable));
     this.subscribeToChurchs();
   }
   ngOnDestroy() {
@@ -186,6 +189,16 @@ export class ChurchComponent implements OnInit, OnDestroy {
         .pipe(select(fromChurch.selectors.selectChurchs))
         .subscribe((state) => {
           this.churchs = state;
+        })
+    );
+  }
+
+  public subscribeToPageable() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChurch.selectors.selectPageable))
+        .subscribe((state) => {
+          this.pageable = { ...state };
         })
     );
   }

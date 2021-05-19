@@ -12,6 +12,8 @@ import { Subscription } from 'rxjs';
 import { Christian } from '../shared/model/christian.model';
 import { EditChristianComponent } from './edit-christian/edit-christian.component';
 import { DeleteChristianComponent } from './delete-christian/delete-christian.component';
+import { Pageable } from '../shared/model/pageable.model';
+import { PageInfo } from '../shared/model/page-info.model';
 @Component({
   selector: 'app-christians',
   templateUrl: './christians.component.html',
@@ -156,12 +158,19 @@ export class ChristiansComponent implements OnInit, OnDestroy {
   public formAddCristian: FormGroup;
   public formFilter: FormGroup;
   public subscription: Subscription = new Subscription();
-
+  public pageable: Pageable;
+  public pageInfo: PageInfo;
+  public totalElements = 10;
+  public totalPages = 5;
   constructor(public dialog: MatDialog, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.subscribeToPageInfo();
+    this.subscribeToPageable();
     this.subscribeToChristians();
-    this.store$.dispatch(new fromChristian.actions.ListChristians());
+    this.store$.dispatch(
+      new fromChristian.actions.ListChristians(this.pageable)
+    );
 
     this.formAddCristian = new FormGroup({
       name: new FormControl(null, [Validators.required]),
@@ -228,7 +237,7 @@ export class ChristiansComponent implements OnInit, OnDestroy {
   public openModalPayTithing(christian: any) {
     this.store$.dispatch(new fromChristian.actions.SelectChristian(christian));
     this.dialog.open(PayTithingComponent, {
-      width: '600px'
+      width: '600px',
     });
   }
 
@@ -239,6 +248,40 @@ export class ChristiansComponent implements OnInit, OnDestroy {
         .subscribe((state) => {
           this.christians = state;
         })
+    );
+  }
+
+  public subscribeToPageable() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChristian.selectors.selectPageable))
+        .subscribe((state) => {
+          this.pageable = { ...state };
+        })
+    );
+  }
+
+  public subscribeToPageInfo() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChristian.selectors.selectPageInfo))
+        .subscribe((state) => {
+          this.pageInfo = { ...state };
+          this.totalElements = state.totalElements;
+          this.totalPages = state.totalPages;
+          console.log(this.pageInfo);
+        })
+    );
+  }
+
+  public loadPage(page: number) {
+    this.store$.dispatch(
+      new fromChristian.actions.ListChristians({
+        direction: this.pageable.direction,
+        size: this.pageable.size,
+        sort: this.pageable.sort,
+        page: page,
+      })
     );
   }
 }

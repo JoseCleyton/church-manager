@@ -17,3 +17,8 @@ export const selectSelectedChurch = createSelector(
   selectChurch,
   (state) => state.selectedChurch
 );
+
+export const selectPageable = createSelector(
+  selectChurch,
+  (state) => state.pageable
+);

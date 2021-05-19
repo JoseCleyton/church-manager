@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { URLS } from '../../constants/url.enum';
 import { Christian } from '../../model/christian.model';
+import { Pageable } from '../../model/pageable.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,10 @@ import { Christian } from '../../model/christian.model';
 export class ChristianService {
   constructor(private http: HttpClient) {}
 
-  public listChristians() {
-    return this.http.get(`${URLS.apiRootDsv}christian`);
+  public listChristians(pageable: Pageable) {
+    return this.http.get<any>(
+      `${URLS.apiRootDsv}christian?page=${pageable.page}&size=${pageable.size}&direction=${pageable.direction}&sort=${pageable.sort}`
+    );
   }
   public getQuantityChristians() {
     return this.http.get(`${URLS.apiRootDsv}christian/quantity`);

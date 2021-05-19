@@ -1,12 +1,9 @@
+import { PageInfoDateFilter } from 'src/app/shared/model/page-info-date-filter.model';
 import { Tithing } from 'src/app/shared/model/tithing.model';
 import { TithingActionsTypes, TithingActions } from './tithing.actions';
 
-export interface PageInfo {
-  startDate: string;
-  endDate: string;
-}
 export interface TithingState {
-  pageInfo: PageInfo;
+  pageInfo: PageInfoDateFilter;
   total: number;
   tithings: Tithing[];
 }

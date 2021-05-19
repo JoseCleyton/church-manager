@@ -17,3 +17,12 @@ export const selectQuantityChristians = createSelector(
   selectChristian,
   (state) => state.quantityChristians
 );
+
+export const selectPageable = createSelector(
+  selectChristian,
+  (state) => state.pageable
+);
+export const selectPageInfo = createSelector(
+  selectChristian,
+  (state) => state.pageInfo
+);

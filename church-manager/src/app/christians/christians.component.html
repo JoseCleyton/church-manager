@@ -58,6 +58,7 @@
         </tr>
       </ng-template>
     </table>
-    <app-paginator></app-paginator>
+    <app-paginator [pageSize]="pageable.size" [length]="pageInfo.totalElements" (pageEventEmitter)="loadPage($event)">
+    </app-paginator>
   </div>
 </div>

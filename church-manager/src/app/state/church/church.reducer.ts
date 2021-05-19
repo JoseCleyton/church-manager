@@ -1,13 +1,21 @@
 import { Church } from 'src/app/shared/model/church.model';
+import { Pageable } from 'src/app/shared/model/pageable.model';
 import { ChurchActions, ChurchActionsTypes } from './church.actions';
 
 export interface ChurchState {
+  pageable: Pageable;
   quantity: number;
   churchs: Church[];
   selectedChurch: Church;
 }
 
 export const initialState: ChurchState = {
+  pageable: {
+    direction: 'ASC',
+    size: 5,
+    page: 0,
+    sort: 'name',
+  },
   quantity: 0,
   churchs: [],
   selectedChurch: undefined,
@@ -27,6 +35,7 @@ export function churchReducer(
     case ChurchActionsTypes.LIST_CHURCHS_SUCCES: {
       return {
         ...state,
+        pageable: action.pageable,
         churchs: action.payload,
       };
     }

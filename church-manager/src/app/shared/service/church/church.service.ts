@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { URLS } from '../../constants/url.enum';
 import { Church } from '../../model/church.model';
+import { Pageable } from '../../model/pageable.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,8 +13,10 @@ export class ChurchService {
   public getChurchQuantity() {
     return this.http.get(`${URLS.apiRootDsv}church/quantity`);
   }
-  public listChurchs() {
-    return this.http.get(`${URLS.apiRootDsv}church`);
+  public listChurchs(pageable: Pageable) {
+    return this.http.get(
+      `${URLS.apiRootDsv}church?page=${pageable.page}&size=${pageable.size}&direction=${pageable.direction}&sort=${pageable.sort}`
+    );
   }
   public listAllChurchs() {
     return this.http.get(`${URLS.apiRootDsv}church/all`);

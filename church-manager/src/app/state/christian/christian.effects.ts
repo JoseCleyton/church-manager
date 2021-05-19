@@ -21,11 +21,18 @@ export class ChristianEffects {
     ofType<actions.ListChristians>(
       actions.ChristianActionsTypes.LIST_CHRISTIANS
     ),
-    switchMap(() =>
-      this.christianService.listChristians().pipe(
+    switchMap((action) =>
+      this.christianService.listChristians(action.pageable).pipe(
         map(
           (response) => {
-            return new actions.ListChristiansSuccess(response);
+            return new actions.ListChristiansSuccess(
+              { ...action.pageable },
+              {
+                totalElements: response.totalElements,
+                totalPages: response.totalPages,
+              },
+              response.content
+            );
           },
           catchError((error) => {
             new fromAlert.actions.AddAlert({
