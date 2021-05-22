@@ -21,6 +21,7 @@ import { AddChristianComponent } from './add-christian/add-christian.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { EditChristianComponent } from './edit-christian/edit-christian.component';
 import { DeleteChristianComponent } from './delete-christian/delete-christian.component';
+import { datePipeFormatPipe } from '../shared/pipes/datePipeTransform';
 @NgModule({
   declarations: [ChristiansComponent, PayTithingComponent, AddChristianComponent, EditChristianComponent, DeleteChristianComponent],
   imports: [
@@ -42,5 +43,6 @@ import { DeleteChristianComponent } from './delete-christian/delete-christian.co
     NgxMaskModule.forRoot()
   ],
   exports: [ChristiansComponent],
+  providers: [datePipeFormatPipe],
 })
 export class ChristiansModule {}

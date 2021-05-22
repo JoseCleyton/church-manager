@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Address } from 'src/app/shared/model/address.model';
 import { Christian } from 'src/app/shared/model/christian.model';
+import { datePipeFormatPipe } from 'src/app/shared/pipes/datePipeTransform';
 import { AppState } from 'src/app/state';
 import * as fromChristian from '../../state/christian';
 
@@ -16,7 +17,8 @@ export class AddChristianComponent implements OnInit {
   public formAddChristian: FormGroup;
   constructor(
     public dialogRef: MatDialogRef<AddChristianComponent>,
-    private store$: Store<AppState>
+    private store$: Store<AppState>,
+    private datePipe: datePipeFormatPipe
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +36,10 @@ export class AddChristianComponent implements OnInit {
       name: this.formAddChristian.get('name').value,
       email: this.formAddChristian.get('email').value,
       phone: this.formAddChristian.get('phone').value,
-      birthDate: this.formAddChristian.get('birthDate').value,
+      birthDate: this.datePipe.transform(
+        this.formAddChristian.get('birthDate').value,
+        'yyyy-MM-dd'
+      ),
       address: address,
     };
 

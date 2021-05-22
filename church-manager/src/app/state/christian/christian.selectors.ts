@@ -26,3 +26,7 @@ export const selectPageInfo = createSelector(
   selectChristian,
   (state) => state.pageInfo
 );
+export const selectFilters = createSelector(
+  selectChristian,
+  (state) => state.filters
+);

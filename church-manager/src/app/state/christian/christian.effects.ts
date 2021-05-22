@@ -22,27 +22,30 @@ export class ChristianEffects {
       actions.ChristianActionsTypes.LIST_CHRISTIANS
     ),
     switchMap((action) =>
-      this.christianService.listChristians(action.pageable).pipe(
-        map(
-          (response) => {
-            return new actions.ListChristiansSuccess(
-              { ...action.pageable },
-              {
-                totalElements: response.totalElements,
-                totalPages: response.totalPages,
-              },
-              response.content
-            );
-          },
-          catchError((error) => {
-            new fromAlert.actions.AddAlert({
-              type: 'error',
-              message: error.message,
-            });
-            return EMPTY;
-          })
+      this.christianService
+        .listChristians(action.filters, action.pageable)
+        .pipe(
+          map(
+            (response) => {
+              return new actions.ListChristiansSuccess(
+                { ...action.filters },
+                { ...action.pageable },
+                {
+                  totalElements: response.totalElements,
+                  totalPages: response.totalPages,
+                },
+                response.content
+              );
+            },
+            catchError((error) => {
+              new fromAlert.actions.AddAlert({
+                type: 'error',
+                message: error.message,
+              });
+              return EMPTY;
+            })
+          )
         )
-      )
     )
   );
   @Effect()

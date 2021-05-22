@@ -9,7 +9,7 @@
 }
 
 .center-v {
-  top: 50%;
+  top: 10%;
   transform: translateY(-50%);
   position: absolute;
   display: block;
@@ -29,4 +29,8 @@
   width: 7rem;
   color: white;
   background-color: #2c89ff;
+}
+
+#iconClose {
+  cursor: pointer;
 }

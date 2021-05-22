@@ -11,9 +11,9 @@ import { Pageable } from '../../model/pageable.model';
 export class ChristianService {
   constructor(private http: HttpClient) {}
 
-  public listChristians(pageable: Pageable) {
+  public listChristians(filters: any, pageable: Pageable) {
     return this.http.get<any>(
-      `${URLS.apiRootDsv}christian?page=${pageable.page}&size=${pageable.size}&direction=${pageable.direction}&sort=${pageable.sort}`
+      `${URLS.apiRootDsv}christian?name=${filters.name}&monthOfBirthday=${filters.monthOfBirthday}&page=${pageable.page}&size=${pageable.size}&direction=${pageable.direction}&sort=${pageable.sort}`
     );
   }
   public getQuantityChristians() {

@@ -13,9 +13,9 @@ export class ChurchService {
   public getChurchQuantity() {
     return this.http.get(`${URLS.apiRootDsv}church/quantity`);
   }
-  public listChurchs(pageable: Pageable) {
-    return this.http.get(
-      `${URLS.apiRootDsv}church?page=${pageable.page}&size=${pageable.size}&direction=${pageable.direction}&sort=${pageable.sort}`
+  public listChurchs(filters: any, pageable: Pageable) {
+    return this.http.get<any>(
+      `${URLS.apiRootDsv}church?name=${filters.name}&page=${pageable.page}&size=${pageable.size}&direction=${pageable.direction}&sort=${pageable.sort}`
     );
   }
   public listAllChurchs() {

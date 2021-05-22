@@ -22,3 +22,13 @@ export const selectPageable = createSelector(
   selectChurch,
   (state) => state.pageable
 );
+
+export const selectPageInfo = createSelector(
+  selectChurch,
+  (state) => state.pageInfo
+);
+
+export const selectFilters = createSelector(
+  selectChurch,
+  (state) => state.filters
+);

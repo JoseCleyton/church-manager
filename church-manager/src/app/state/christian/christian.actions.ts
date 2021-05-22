@@ -24,11 +24,16 @@ export enum ChristianActionsTypes {
 
 export class ListChristians implements Action {
   readonly type = ChristianActionsTypes.LIST_CHRISTIANS;
-  constructor(public pageable: Pageable) {}
+  constructor(public filters: any, public pageable: Pageable) {}
 }
 export class ListChristiansSuccess implements Action {
   readonly type = ChristianActionsTypes.LIST_CHRISTIAN_SUCCES;
-  constructor(public pageable: Pageable, public pageInfo: PageInfo, public payload: any) {}
+  constructor(
+    public filters: any,
+    public pageable: Pageable,
+    public pageInfo: PageInfo,
+    public payload: any
+  ) {}
 }
 
 export class AddChristian implements Action {

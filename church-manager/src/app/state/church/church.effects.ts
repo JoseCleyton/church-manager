@@ -31,11 +31,16 @@ export class ChurchEffects {
   listChurchs$ = this.actions$.pipe(
     ofType<actions.ListChurchs>(actions.ChurchActionsTypes.LIST_CHURCHS),
     switchMap((action) =>
-      this.churchService.listChurchs(action.pageable).pipe(
+      this.churchService.listChurchs(action.filters, action.pageable).pipe(
         map((response) => {
           return new actions.ListChurchsSuccess(
+            { ...action.filters },
             { ...action.pageable },
-            response
+            {
+              totalElements: response.totalElements,
+              totalPages: response.totalPages,
+            },
+            response.content
           );
         })
       )

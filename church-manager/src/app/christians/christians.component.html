@@ -1,9 +1,8 @@
 <app-header></app-header>
 <div id="list" class="row">
   <div class="table-responsive">
-    <app-page-header [type]="type" [typesForm]="typesForm" [typesFormFilter]="typesFormFilter" [titleDialog]="title"
-      [subTitle]="subTitle" [titleFilter]="titleFilter" [buttonsDialog]="buttonsDialog" [buttonsFilter]="buttonsFilter"
-      [formAdd]="formAddCristian" [formFilter]="formFilter"></app-page-header>
+    <app-page-header [type]="type" (searchNameChristian)="searchByNameChristian($event)"
+      (searchMonth)="searchByMonthBirthday($event)" (reset)="resetSearch()"></app-page-header>
     <table class="table table-hover">
       <thead class="thead">
         <tr>
