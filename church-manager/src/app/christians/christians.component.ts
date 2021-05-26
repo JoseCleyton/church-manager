@@ -1,25 +1,32 @@
-import { DialogDeleteComponent } from '../shared/components/ui/dialog-delete/dialog-delete.component';
-import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-view.component';
 import { PayTithingComponent } from './pay-tithing/pay-tithing.component';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../state';
 import * as fromChristian from '../state/christian';
-import { Subscription } from 'rxjs';
+import { fromEvent, Observable, Subscription } from 'rxjs';
 import { Christian } from '../shared/model/christian.model';
 import { EditChristianComponent } from './edit-christian/edit-christian.component';
 import { DeleteChristianComponent } from './delete-christian/delete-christian.component';
 import { Pageable } from '../shared/model/pageable.model';
 import { PageInfo } from '../shared/model/page-info.model';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 @Component({
   selector: 'app-christians',
   templateUrl: './christians.component.html',
   styleUrls: ['./christians.component.scss'],
 })
-export class ChristiansComponent implements OnInit, OnDestroy {
+export class ChristiansComponent implements OnInit, OnDestroy, AfterViewInit {
   public christians: Christian[] = [];
   public type = 'christian';
 
@@ -33,6 +40,10 @@ export class ChristiansComponent implements OnInit, OnDestroy {
   public pageable: Pageable;
   public pageInfo: PageInfo;
   public filters: any;
+  public selectedChristians: Christian[] = [];
+
+  @ViewChild('checkBox', { static: false }) public checkSelectAll: ElementRef;
+
   constructor(public dialog: MatDialog, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
@@ -40,6 +51,7 @@ export class ChristiansComponent implements OnInit, OnDestroy {
     this.subscribeToPageInfo();
     this.subscribeToPageable();
     this.subscribeToChristians();
+
     this.store$.dispatch(
       new fromChristian.actions.ListChristians(this.filters, this.pageable)
     );
@@ -64,6 +76,12 @@ export class ChristiansComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    fromEvent(this.checkSelectAll.nativeElement, 'click').subscribe((el) =>
+      console.log(el)
+    );
   }
 
   public selectChristian(christian: any) {
@@ -212,5 +230,45 @@ export class ChristiansComponent implements OnInit, OnDestroy {
         }
       )
     );
+  }
+
+  public selectAll() {
+    if (this.selectedChristians.length === 0) {
+      this.selectedChristians = [...this.christians];
+    } else {
+      this.selectedChristians = [];
+    }
+  }
+
+  public select(christian: Christian) {
+    const c = this.selectedChristians.find(
+      (element) => element.id === christian.id
+    );
+    if (c) {
+      this.selectedChristians = this.selectedChristians.filter(
+        (element) => element.id !== christian.id
+      );
+    } else {
+      this.selectedChristians.push(christian);
+    }
+  }
+
+  public isInserted(id: number): boolean {
+    return this.selectedChristians.some((element) => element.id === id);
+  }
+
+  public exportPdf() {
+    let doc = new jsPDF();
+    let col = ['Nome', 'Bairro'];
+    let rows = [];
+    for (var key in this.selectedChristians) {
+      let temp = [
+        this.selectedChristians[key].name,
+        this.selectedChristians[key].address.district,
+      ];
+      rows.push(temp);
+    }
+    doc.autoTable(col, rows, { styles: { fontSize: 20 } });
+    doc.save('dizimistas.pdf');
   }
 }

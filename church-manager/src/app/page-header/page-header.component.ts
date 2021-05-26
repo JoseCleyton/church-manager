@@ -101,19 +101,18 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public openDialogNew() {
-    if (this.type === 'church') {
-      this.dialog.open(AddChurchComponent, {
-        width: '900px',
-      });
-    }
-    if (this.type === 'christian') {
-      this.dialog.open(AddChristianComponent, {
-        width: '700px',
-      });
-    }
+  public openDialogNewChristian() {
+    this.dialog.open(AddChristianComponent, {
+      width: '700px',
+    });
   }
 
+  public openDialogNewChurch() {
+    this.dialog.open(AddChurchComponent, {
+      width: '900px',
+    });
+  }
+  
   public searchByNameChurch(nameChurch: string) {
     this.subjectSearchBynameChurch$.next(nameChurch);
     if (nameChurch.length === 0) {

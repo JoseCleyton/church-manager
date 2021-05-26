@@ -7,7 +7,7 @@ import { PageHeaderModule } from './../page-header/page-header.module';
 import { HeaderModule } from './../header/header.module';
 import { ChristiansComponent } from './christians.component';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { ChristiansRoutingModule } from './christians-routing.module';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,8 +22,16 @@ import { NgxMaskModule } from 'ngx-mask';
 import { EditChristianComponent } from './edit-christian/edit-christian.component';
 import { DeleteChristianComponent } from './delete-christian/delete-christian.component';
 import { datePipeFormatPipe } from '../shared/pipes/datePipeTransform';
+import { PipeModule } from '../shared/pipes/pipe.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 @NgModule({
-  declarations: [ChristiansComponent, PayTithingComponent, AddChristianComponent, EditChristianComponent, DeleteChristianComponent],
+  declarations: [
+    ChristiansComponent,
+    PayTithingComponent,
+    AddChristianComponent,
+    EditChristianComponent,
+    DeleteChristianComponent,
+  ],
   imports: [
     CommonModule,
     ChristiansRoutingModule,
@@ -40,9 +48,11 @@ import { datePipeFormatPipe } from '../shared/pipes/datePipeTransform';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    PipeModule,
+    MatCheckboxModule,
   ],
   exports: [ChristiansComponent],
-  providers: [datePipeFormatPipe],
+  providers: [datePipeFormatPipe, DatePipe],
 })
 export class ChristiansModule {}
