@@ -1,10 +1,43 @@
 <app-header></app-header>
 <div id="list" class="row mt-1">
-  <app-page-header [type]="type" (searchNameChristian)="searchByNameChristian($event)"
-    (searchMonth)="searchByMonthBirthday($event)" (reset)="resetSearch()"></app-page-header>
-  <div *ngIf="selectedChristians.length > 0" class="col mt-3" style="max-height: 2.4rem;">
+  <app-page-header
+    [type]="type"
+    (searchNameChristian)="searchByNameChristian($event)"
+    (searchMonth)="searchByMonthBirthday($event)"
+    (reset)="resetSearch()"
+  ></app-page-header>
+  <div
+    *ngIf="selectedChristians.length > 0"
+    class="col mt-3"
+    style="max-height: 2.4rem"
+  >
     <button mat-raised-button (click)="exportPdf()">
       <mat-icon aria-hidden="false">file_download</mat-icon>
+    </button>
+    <span class="ml-1" *ngIf="selectedChristians.length > 0">
+      Selecionados:
+      <span class="fw-600">{{ selectedChristians.length }} </span>
+    </span>
+    <span
+      class="ml-1"
+      *ngIf="
+        selectAllCheckBox && selectedChristians.length < pageInfo.totalElements
+      "
+      >Itens restantes:
+      <span class="fw-600"
+        >{{ pageInfo.totalElements - selectedChristians.length }}
+      </span></span
+    >
+    <button
+      *ngIf="
+        selectAllCheckBox && selectedChristians.length < pageInfo.totalElements
+      "
+      class="ml-1"
+      mat-raised-button
+      (click)="selectAllRetrive()"
+      style="color: blue"
+    >
+      Selecionar Todos
     </button>
   </div>
   <div class="table-responsive">
@@ -12,7 +45,11 @@
       <thead class="thead">
         <tr>
           <th>
-            <mat-checkbox class="example-margin" (click)="selectAll()"></mat-checkbox>
+            <mat-checkbox
+              #checkBoxAll
+              class="example-margin"
+              (change)="selectAll($event.checked)"
+            ></mat-checkbox>
           </th>
           <th scope="col">N.</th>
           <th scope="col">Nome</th>
@@ -24,20 +61,33 @@
       <tbody *ngIf="christians.length > 0; else empty">
         <tr *ngFor="let item of christians" (click)="selectChristian(item)">
           <td (click)="preventDefault($event)">
-            <mat-checkbox #checkBox class="example-margin" [value]="isInserted(item.id)" (click)="select(item)"></mat-checkbox>
+            <mat-checkbox
+              class="example-margin"
+              #checkBox
+              [value]="isInserted(item.id)"
+              (click)="select(item)"
+            ></mat-checkbox>
           </td>
           <td>
             <p class="number-user">{{ item.id }}</p>
           </td>
           <td>
-            <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-50.png" />{{ item.name }}
+            <img
+              class="img-30-30"
+              src="../../assets/images/icons8-usuário-masculino-50.png"
+            />{{ item.name }}
           </td>
           <td>
-            <img class="img-30-30" src="../../assets/images/icons8-data-até-64.png" />{{ item.birthDate |
-            date:'dd/MM/yyyy'}}
+            <img
+              class="img-30-30"
+              src="../../assets/images/icons8-data-até-64.png"
+            />{{ item.birthDate | date: "dd/MM/yyyy" }}
           </td>
           <td>
-            <img class="img-30-30" src="../../assets/images/icons8-telefone-sem-uso-100.png" />
+            <img
+              class="img-30-30"
+              src="../../assets/images/icons8-telefone-sem-uso-100.png"
+            />
             {{ item.phone | phoneCustom }}
           </td>
           <td (click)="preventDefault($event)">
@@ -63,12 +113,18 @@
       <ng-template #empty>
         <tr>
           <td colspan="5">
-            <div class="alert alert-warning d-flex justify-content-center">Nenhum resultado para sua busca</div>
+            <div class="alert alert-warning d-flex justify-content-center">
+              Nenhum resultado para sua busca
+            </div>
           </td>
         </tr>
       </ng-template>
     </table>
-    <app-paginator [pageSize]="pageable.size" [length]="pageInfo.totalElements" (pageEventEmitter)="loadPage($event)">
+    <app-paginator
+      [pageSize]="pageable.size"
+      [length]="pageInfo.totalElements"
+      (pageEventEmitter)="loadPage($event)"
+    >
     </app-paginator>
   </div>
 </div>

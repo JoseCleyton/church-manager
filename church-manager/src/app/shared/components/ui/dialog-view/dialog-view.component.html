@@ -1,12 +1,30 @@
 <div class="container">
-  <h1>{{ titleView }}</h1>
+  <h1>Visualizar Dados</h1>
   <div class="table-responsive">
     <table class="table table-hover">
       <thead class="thead">
-        <tr>
-          <th scope="col" *ngFor="let header of tableHeader">
-            {{ header.name }}
-          </th>
+        <tr *ngIf="typeOfData === 'christian'">
+          <th scope="col">N.</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Nascimento</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Telefone</th>
+          <th scope="col">Cidade</th>
+          <th scope="col">Bairro</th>
+          <th scope="col">Rua</th>
+          <th scope="col">Número</th>
+        </tr>
+        <tr *ngIf="typeOfData === 'church'">
+          <th scope="col">Nome</th>
+          <th scope="col">Responsavel</th>
+          <th scope="col">Dizimistas</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">Telefone</th>
+          <th scope="col">Login</th>
+          <th scope="col">Cidade</th>
+          <th scope="col">Bairro</th>
+          <th scope="col">Rua</th>
+          <th scope="col">Número</th>
         </tr>
       </thead>
       <tbody>
@@ -18,16 +36,52 @@
             {{ selectedItem.name }}
           </td>
           <td>
-            {{ selectedItem.phone }}
+            {{ selectedItem.birthDate | date: "dd/MM/yyyy" }}
           </td>
           <td>
             {{ selectedItem.email }}
           </td>
           <td>
-            {{ selectedItem.birthDate }}
+            {{ selectedItem.phone | phoneCustom }}
+          </td>
+          <td>
+            {{ selectedItem.address.city }}
+          </td>
+          <td>
+            {{ selectedItem.address.district }}
+          </td>
+          <td>
+            {{ selectedItem.address.street }}
+          </td>
+          <td>
+            {{ selectedItem.address.number }}
+          </td>
+        </tr>
+
+        <tr *ngIf="typeOfData === 'church'">
+          <td>
+            {{ selectedItem.name }}
+          </td>
+          <td>
+            {{ selectedItem.responsible }}
+          </td>
+          <td>
+            {{ selectedItem.numberOfTithers }}
+          </td>
+          <td>
+            {{ selectedItem.email }}
+          </td>
+          <td>
+            {{ selectedItem.phone | phoneCustom }}
+          </td>
+          <td>
+            {{ selectedItem.user.login }}
           </td>
           <td>
             {{ selectedItem.city }}
+          </td>
+          <td>
+            {{ selectedItem.district }}
           </td>
           <td>
             {{ selectedItem.street }}
@@ -35,45 +89,11 @@
           <td>
             {{ selectedItem.number }}
           </td>
-          <td>
-            {{ selectedItem.district }}
-          </td>
         </tr>
-
-        <tr *ngIf="typeOfData === 'church'">
-
-          <td>
-            {{ selectedItem.name }}
-          </td>
-          <td>
-            {{ selectedItem.phone }}
-          </td>
-          <td>
-            {{ selectedItem.email }}
-          </td>
-          <td>
-            {{ selectedItem.district }}
-          </td>
-          <td>
-            {{ selectedItem.responsible }}
-          </td>
-          <td>
-            {{ selectedItem.tithers }}
-          </td>
-          <td>
-            {{ selectedItem.money }}
-          </td>
-          <td>
-            {{ selectedItem.login }}
-          </td>
-        </tr>
-
       </tbody>
     </table>
   </div>
-  <div [class]="'col d-flex justify-content-' + button.justify" *ngFor="let button of buttons">
-    <button mat-raised-button (click)="closeDialog()">
-      {{ button.function }}
-    </button>
+  <div class="col d-flex justify-content-center">
+    <button mat-raised-button (click)="closeDialog()">Fechar</button>
   </div>
 </div>

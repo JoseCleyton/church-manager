@@ -1,8 +1,8 @@
 <app-header></app-header>
-<div id="list" class="row">
+<div id="list" class="row mt-1">
+  <app-page-header [type]="type" (searchNameChurch)="searchByNameChurch($event)" (reset)="resetSearch()">
+  </app-page-header>
   <div class="table-responsive">
-    <app-page-header [type]="type" (searchNameChurch)="searchByNameChurch($event)" (reset)="resetSearch()">
-    </app-page-header>
     <table class="table table-hover">
       <thead class="thead">
         <tr>

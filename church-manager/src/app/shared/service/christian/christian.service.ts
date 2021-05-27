@@ -28,4 +28,8 @@ export class ChristianService {
   public editChristian(christian: Christian): Observable<Christian> {
     return this.http.put<Christian>(`${URLS.apiRootDsv}christian`, christian);
   }
+
+  public retrieveChristians() {
+    return this.http.get<any>(`${URLS.apiRootDsv}christian/retrieve`);
+  }
 }

@@ -1,19 +1,18 @@
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-view.component';
 import { PayTithingComponent } from './pay-tithing/pay-tithing.component';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../state';
 import * as fromChristian from '../state/christian';
-import { fromEvent, Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Christian } from '../shared/model/christian.model';
 import { EditChristianComponent } from './edit-christian/edit-christian.component';
 import { DeleteChristianComponent } from './delete-christian/delete-christian.component';
@@ -21,12 +20,13 @@ import { Pageable } from '../shared/model/pageable.model';
 import { PageInfo } from '../shared/model/page-info.model';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { ChristianService } from '../shared/service/christian/christian.service';
 @Component({
   selector: 'app-christians',
   templateUrl: './christians.component.html',
   styleUrls: ['./christians.component.scss'],
 })
-export class ChristiansComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ChristiansComponent implements OnInit, OnDestroy {
   public christians: Christian[] = [];
   public type = 'christian';
 
@@ -42,9 +42,16 @@ export class ChristiansComponent implements OnInit, OnDestroy, AfterViewInit {
   public filters: any;
   public selectedChristians: Christian[] = [];
 
-  @ViewChild('checkBox', { static: false }) public checkSelectAll: ElementRef;
+  public selectAllCheckBox = false;
 
-  constructor(public dialog: MatDialog, private store$: Store<AppState>) {}
+  @ViewChildren('checkBox') public checkBox: any;
+  @ViewChild('checkBoxAll', { static: false }) public checkBoxAll: any;
+
+  constructor(
+    public dialog: MatDialog,
+    private store$: Store<AppState>,
+    private christianService: ChristianService
+  ) {}
 
   ngOnInit(): void {
     this.subscribeToFilters();
@@ -78,32 +85,12 @@ export class ChristiansComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  ngAfterViewInit() {
-    fromEvent(this.checkSelectAll.nativeElement, 'click').subscribe((el) =>
-      console.log(el)
-    );
-  }
-
-  public selectChristian(christian: any) {
+  public selectChristian(christian: Christian) {
+    this.store$.dispatch(new fromChristian.actions.SelectChristian(christian));
     this.dialog.open(DialogViewComponent, {
       width: '1100px',
       data: {
-        type: 'view',
         typeOfData: 'christian',
-        titleView: 'Visualizar Dados',
-        buttonsDialog: this.buttonsView,
-        tableHeader: [
-          { name: 'N.' },
-          { name: 'Nome' },
-          { name: 'Telefone' },
-          { name: 'E-mail' },
-          { name: 'Aniversário' },
-          { name: 'Cidade' },
-          { name: 'Rua' },
-          { name: 'Número' },
-          { name: 'Bairro' },
-        ],
-        tableBody: christian,
       },
     });
   }
@@ -232,11 +219,20 @@ export class ChristiansComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
-  public selectAll() {
-    if (this.selectedChristians.length === 0) {
+  public selectAll(completed: boolean) {
+    if (completed) {
+      this.selectAllCheckBox = true;
+      this.checkBox._results.forEach((element) => {
+        element._checked = true;
+      });
       this.selectedChristians = [...this.christians];
+      this.selectAllCheckBox = true;
     } else {
+      this.selectAllCheckBox = false;
       this.selectedChristians = [];
+      this.checkBox._results.forEach((element) => {
+        element._checked = false;
+      });
     }
   }
 
@@ -245,6 +241,8 @@ export class ChristiansComponent implements OnInit, OnDestroy, AfterViewInit {
       (element) => element.id === christian.id
     );
     if (c) {
+      this.selectAllCheckBox = false;
+      this.checkBoxAll._checked = false;
       this.selectedChristians = this.selectedChristians.filter(
         (element) => element.id !== christian.id
       );
@@ -270,5 +268,11 @@ export class ChristiansComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     doc.autoTable(col, rows, { styles: { fontSize: 20 } });
     doc.save('dizimistas.pdf');
+  }
+
+  public selectAllRetrive() {
+    this.christianService.retrieveChristians().subscribe((data) => {
+      this.selectedChristians = [...data];
+    });
   }
 }

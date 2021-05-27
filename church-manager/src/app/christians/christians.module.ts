@@ -1,5 +1,3 @@
-import { DialogDeleteModule } from '../shared/components/ui/dialog-delete/dialog-delete.module';
-import { DialogEditModule } from '../shared/components/ui/dialog-edit/dialog-edit.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { PaginatorModule } from './../paginator/paginator.module';
@@ -40,8 +38,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     PageHeaderModule,
     MatMenuModule,
     MatDialogModule,
-    DialogEditModule,
-    DialogDeleteModule,
     MatIconModule,
     DialogViewModule,
     ReactiveFormsModule,
@@ -51,6 +47,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     NgxMaskModule.forRoot(),
     PipeModule,
     MatCheckboxModule,
+    PageHeaderModule,
   ],
   exports: [ChristiansComponent],
   providers: [datePipeFormatPipe, DatePipe],

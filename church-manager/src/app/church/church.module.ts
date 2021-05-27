@@ -35,7 +35,8 @@ import { NgxMaskModule } from 'ngx-mask';
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    PageHeaderModule
   ]
 })
 export class ChurchModule { }

@@ -1,5 +1,3 @@
-import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-edit.component';
-import { DialogDeleteComponent } from '../shared/components/ui/dialog-delete/dialog-delete.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -55,25 +53,12 @@ export class ChurchComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public selectChurch(church: any) {
+  public selectChurch(church: Church) {
+    this.store$.dispatch(new fromChurch.actions.SelectChurch(church));
     this.dialog.open(DialogViewComponent, {
       width: '1100px',
       data: {
-        type: 'view',
         typeOfData: 'church',
-        titleView: 'Visualizar Dados',
-        buttonsDialog: this.buttonsView,
-        tableHeader: [
-          { name: 'Nome' },
-          { name: 'Telefone' },
-          { name: 'E-mail' },
-          { name: 'Bairro' },
-          { name: 'Responsavel' },
-          { name: 'Dizimistas' },
-          { name: 'Dízimos (Mês)' },
-          { name: 'Login' },
-        ],
-        tableBody: church,
       },
     });
   }
