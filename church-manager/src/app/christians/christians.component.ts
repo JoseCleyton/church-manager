@@ -1,8 +1,12 @@
-import { DialogDeleteComponent } from '../shared/components/ui/dialog-delete/dialog-delete.component';
-import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { DialogViewComponent } from '../shared/components/ui/dialog-view/dialog-view.component';
 import { PayTithingComponent } from './pay-tithing/pay-tithing.component';
 import { select, Store } from '@ngrx/store';
@@ -12,6 +16,11 @@ import { Subscription } from 'rxjs';
 import { Christian } from '../shared/model/christian.model';
 import { EditChristianComponent } from './edit-christian/edit-christian.component';
 import { DeleteChristianComponent } from './delete-christian/delete-christian.component';
+import { Pageable } from '../shared/model/pageable.model';
+import { PageInfo } from '../shared/model/page-info.model';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { ChristianService } from '../shared/service/christian/christian.service';
 @Component({
   selector: 'app-christians',
   templateUrl: './christians.component.html',
@@ -20,148 +29,39 @@ import { DeleteChristianComponent } from './delete-christian/delete-christian.co
 export class ChristiansComponent implements OnInit, OnDestroy {
   public christians: Christian[] = [];
   public type = 'christian';
-  public title = 'Novo Dizimista';
-  public subTitle = 'Dados Pessoais';
-  public titleFilter = 'Filtrar';
-
-  public buttonsDialog = [
-    { function: 'Cancelar', type: 'basic', justify: 'start' },
-    { function: 'Adicionar', type: 'primary', justify: 'end' },
-  ];
-
-  public buttonsEdit = [
-    { function: 'Cancelar', type: 'basic', justify: 'start' },
-    { function: 'Editar', type: 'primary', justify: 'end' },
-  ];
-
-  public buttonsDelete = [
-    { function: 'Cancelar', type: 'basic', justify: 'start' },
-    { function: 'Deletar', type: 'primary', justify: 'end' },
-  ];
-
-  public buttonsFilter = [
-    { function: 'Cancelar', type: 'basic', justify: 'start' },
-    { function: 'Aplicar', type: 'primary', justify: 'end' },
-  ];
 
   public buttonsView = [
     { function: 'Fechar', type: 'basic', justify: 'center' },
   ];
 
-  public typesForm = [
-    {
-      label: 'Nome',
-      formControlName: 'name',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 6,
-    },
-    {
-      label: 'Telefone',
-      formControlName: 'phone',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 6,
-    },
-    {
-      label: 'E-mail',
-      formControlName: 'email',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 6,
-    },
-    {
-      label: 'Data de Nascimento',
-      formControlName: 'birthDate',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 6,
-    },
-    {
-      label: 'Cidade',
-      formControlName: 'city',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 6,
-    },
-    {
-      label: 'Rua',
-      formControlName: 'street',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Número',
-      formControlName: 'number',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Bairro',
-      formControlName: 'district',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-  ];
-
-  public typesFormFilter = [
-    {
-      label: 'Nome',
-      formControlName: 'nameFilter',
-      type: 'input',
-      lenghtXl: 4,
-      lenghtMd: 12,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Mes de Nascimento',
-      formControlName: 'monthBirthDateFilter',
-      type: 'select',
-      select: [
-        { value: '1', name: 'Janeiro' },
-        { value: '2', name: 'Fevereiro' },
-        { value: '3', name: 'Março' },
-        { value: '4', name: 'Abril' },
-        { value: '5', name: 'Maio' },
-        { value: '6', name: 'Junho' },
-        { value: '7', name: 'Julho' },
-        { value: '8', name: 'Agosto' },
-        { value: '9', name: 'Setembro' },
-        { value: '10', name: 'Outubro' },
-        { value: '11', name: 'Novembro' },
-        { value: '12', name: 'Dezembro' },
-      ],
-      lenghtXl: 4,
-      lenghtMd: 12,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Bairro',
-      formControlName: 'districtFilter',
-      type: 'select',
-      select: [
-        { value: '1', name: 'Alto da Esperança' },
-        { value: '2', name: 'Alto Santa Inês' },
-        { value: '3', name: 'Centro' },
-      ],
-      lenghtXl: 4,
-      lenghtMd: 12,
-      lenghtSm: 12,
-    },
-  ];
-
   public formAddCristian: FormGroup;
   public formFilter: FormGroup;
   public subscription: Subscription = new Subscription();
+  public pageable: Pageable;
+  public pageInfo: PageInfo;
+  public filters: any;
+  public selectedChristians: Christian[] = [];
 
-  constructor(public dialog: MatDialog, private store$: Store<AppState>) {}
+  public selectAllCheckBox = false;
+
+  @ViewChildren('checkBox') public checkBox: any;
+  @ViewChild('checkBoxAll', { static: false }) public checkBoxAll: any;
+
+  constructor(
+    public dialog: MatDialog,
+    private store$: Store<AppState>,
+    private christianService: ChristianService
+  ) {}
 
   ngOnInit(): void {
+    this.subscribeToFilters();
+    this.subscribeToPageInfo();
+    this.subscribeToPageable();
     this.subscribeToChristians();
-    this.store$.dispatch(new fromChristian.actions.ListChristians());
+
+    this.store$.dispatch(
+      new fromChristian.actions.ListChristians(this.filters, this.pageable)
+    );
 
     this.formAddCristian = new FormGroup({
       name: new FormControl(null, [Validators.required]),
@@ -185,26 +85,12 @@ export class ChristiansComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public selectChristian(christian: any) {
+  public selectChristian(christian: Christian) {
+    this.store$.dispatch(new fromChristian.actions.SelectChristian(christian));
     this.dialog.open(DialogViewComponent, {
       width: '1100px',
       data: {
-        type: 'view',
         typeOfData: 'christian',
-        titleView: 'Visualizar Dados',
-        buttonsDialog: this.buttonsView,
-        tableHeader: [
-          { name: 'N.' },
-          { name: 'Nome' },
-          { name: 'Telefone' },
-          { name: 'E-mail' },
-          { name: 'Aniversário' },
-          { name: 'Cidade' },
-          { name: 'Rua' },
-          { name: 'Número' },
-          { name: 'Bairro' },
-        ],
-        tableBody: christian,
       },
     });
   }
@@ -228,7 +114,7 @@ export class ChristiansComponent implements OnInit, OnDestroy {
   public openModalPayTithing(christian: any) {
     this.store$.dispatch(new fromChristian.actions.SelectChristian(christian));
     this.dialog.open(PayTithingComponent, {
-      width: '600px'
+      width: '600px',
     });
   }
 
@@ -240,5 +126,153 @@ export class ChristiansComponent implements OnInit, OnDestroy {
           this.christians = state;
         })
     );
+  }
+
+  public subscribeToPageable() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChristian.selectors.selectPageable))
+        .subscribe((state) => {
+          this.pageable = { ...state };
+        })
+    );
+  }
+
+  public subscribeToPageInfo() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChristian.selectors.selectPageInfo))
+        .subscribe((state) => {
+          this.pageInfo = { ...state };
+        })
+    );
+  }
+
+  public subscribeToFilters() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChristian.selectors.selectFilters))
+        .subscribe((state) => {
+          this.filters = { ...state };
+        })
+    );
+  }
+
+  public loadPage(page: number) {
+    this.store$.dispatch(
+      new fromChristian.actions.ListChristians(this.filters, {
+        direction: this.pageable.direction,
+        size: this.pageable.size,
+        sort: this.pageable.sort,
+        page: page,
+      })
+    );
+  }
+
+  public searchByNameChristian(nameChristian) {
+    this.store$.dispatch(
+      new fromChristian.actions.ListChristians(
+        {
+          name: nameChristian,
+          monthOfBirthday: this.filters.monthOfBirthday,
+        },
+        {
+          direction: this.pageable.direction,
+          size: this.pageable.size,
+          sort: this.pageable.sort,
+          page: this.pageable.page,
+        }
+      )
+    );
+  }
+  public searchByMonthBirthday(month) {
+    this.store$.dispatch(
+      new fromChristian.actions.ListChristians(
+        {
+          name: this.filters.name,
+          monthOfBirthday: month,
+        },
+        {
+          direction: this.pageable.direction,
+          size: this.pageable.size,
+          sort: this.pageable.sort,
+          page: this.pageable.page,
+        }
+      )
+    );
+  }
+
+  public resetSearch() {
+    this.store$.dispatch(
+      new fromChristian.actions.ListChristians(
+        {
+          name: '',
+          monthOfBirthday: this.filters.monthOfBirthday,
+        },
+        {
+          direction: this.pageable.direction,
+          size: this.pageable.size,
+          sort: this.pageable.sort,
+          page: this.pageable.page,
+        }
+      )
+    );
+  }
+
+  public selectAll(completed: boolean) {
+    if (completed) {
+      this.selectAllCheckBox = true;
+      this.checkBox._results.forEach((element) => {
+        element._checked = true;
+      });
+      this.selectedChristians = [...this.christians];
+      this.selectAllCheckBox = true;
+    } else {
+      this.selectAllCheckBox = false;
+      this.selectedChristians = [];
+      this.checkBox._results.forEach((element) => {
+        element._checked = false;
+      });
+    }
+  }
+
+  public select(christian: Christian) {
+    const c = this.selectedChristians.find(
+      (element) => element.id === christian.id
+    );
+    if (c) {
+      this.selectAllCheckBox = false;
+      this.checkBoxAll._checked = false;
+      this.selectedChristians = this.selectedChristians.filter(
+        (element) => element.id !== christian.id
+      );
+    } else {
+      this.selectedChristians.push(christian);
+    }
+  }
+
+  public isInserted(id: number): boolean {
+    return this.selectedChristians.some((element) => element.id === id);
+  }
+
+  public exportPdf() {
+    let doc = new jsPDF();
+    let col = ['Nome', 'Bairro'];
+    let rows = [];
+    for (var key in this.selectedChristians) {
+      let temp = [
+        this.selectedChristians[key].name,
+        this.selectedChristians[key].address.district,
+      ];
+      rows.push(temp);
+    }
+    doc.autoTable(col, rows, { styles: { fontSize: 20 } });
+    doc.save('dizimistas.pdf');
+  }
+
+  public selectAllRetrive() {
+    this.christianService.retrieveChristians().subscribe((data) => {
+      this.selectedChristians = [...data];
+    });
   }
 }

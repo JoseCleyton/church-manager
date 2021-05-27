@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Church } from 'src/app/shared/model/church.model';
+import { PageInfo } from 'src/app/shared/model/page-info.model';
+import { Pageable } from 'src/app/shared/model/pageable.model';
 
 export enum ChurchActionsTypes {
   GET_QUANTITY = '[Church] Get Quantity',
@@ -35,11 +37,16 @@ export class GetQuantitySuccess implements Action {
 
 export class ListChurchs implements Action {
   readonly type = ChurchActionsTypes.LIST_CHURCHS;
-  constructor() {}
+  constructor(public filters: any, public pageable: Pageable) {}
 }
 export class ListChurchsSuccess implements Action {
   readonly type = ChurchActionsTypes.LIST_CHURCHS_SUCCES;
-  constructor(public payload: any) {}
+  constructor(
+    public filters: any,
+    public pageable: Pageable,
+    public pageInfo: PageInfo,
+    public payload: any
+  ) {}
 }
 
 export class ListAllChurchs implements Action {

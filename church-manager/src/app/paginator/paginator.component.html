@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-paginator [length]="pagination.length" [pageSize]="pagination.pageSize"
-    [pageSizeOptions]="pagination.pageSizeOptions">
+  <mat-paginator #matPaginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="pageEvent($event)">
   </mat-paginator>
 </div>

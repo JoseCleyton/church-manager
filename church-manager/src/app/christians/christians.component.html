@@ -1,34 +1,94 @@
 <app-header></app-header>
-<div id="list" class="row">
+<div id="list" class="row mt-1">
+  <app-page-header
+    [type]="type"
+    (searchNameChristian)="searchByNameChristian($event)"
+    (searchMonth)="searchByMonthBirthday($event)"
+    (reset)="resetSearch()"
+  ></app-page-header>
+  <div
+    *ngIf="selectedChristians.length > 0"
+    class="col mt-3"
+    style="max-height: 2.4rem"
+  >
+    <button mat-raised-button (click)="exportPdf()">
+      <mat-icon aria-hidden="false">file_download</mat-icon>
+    </button>
+    <span class="ml-1" *ngIf="selectedChristians.length > 0">
+      Selecionados:
+      <span class="fw-600">{{ selectedChristians.length }} </span>
+    </span>
+    <span
+      class="ml-1"
+      *ngIf="
+        selectAllCheckBox && selectedChristians.length < pageInfo.totalElements
+      "
+      >Itens restantes:
+      <span class="fw-600"
+        >{{ pageInfo.totalElements - selectedChristians.length }}
+      </span></span
+    >
+    <button
+      *ngIf="
+        selectAllCheckBox && selectedChristians.length < pageInfo.totalElements
+      "
+      class="ml-1"
+      mat-raised-button
+      (click)="selectAllRetrive()"
+      style="color: blue"
+    >
+      Selecionar Todos
+    </button>
+  </div>
   <div class="table-responsive">
-    <app-page-header [type]="type" [typesForm]="typesForm" [typesFormFilter]="typesFormFilter" [titleDialog]="title"
-      [subTitle]="subTitle" [titleFilter]="titleFilter" [buttonsDialog]="buttonsDialog" [buttonsFilter]="buttonsFilter"
-      [formAdd]="formAddCristian" [formFilter]="formFilter"></app-page-header>
     <table class="table table-hover">
       <thead class="thead">
         <tr>
+          <th>
+            <mat-checkbox
+              #checkBoxAll
+              class="example-margin"
+              (change)="selectAll($event.checked)"
+            ></mat-checkbox>
+          </th>
           <th scope="col">N.</th>
           <th scope="col">Nome</th>
+          <th scope="col">Data Nascimento</th>
           <th scope="col">Telefone</th>
-          <th scope="col">E-mail</th>
           <th scope="col">Ação</th>
         </tr>
       </thead>
       <tbody *ngIf="christians.length > 0; else empty">
         <tr *ngFor="let item of christians" (click)="selectChristian(item)">
+          <td (click)="preventDefault($event)">
+            <mat-checkbox
+              class="example-margin"
+              #checkBox
+              [value]="isInserted(item.id)"
+              (click)="select(item)"
+            ></mat-checkbox>
+          </td>
           <td>
             <p class="number-user">{{ item.id }}</p>
           </td>
           <td>
-            <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-50.png" />{{ item.name }}
+            <img
+              class="img-30-30"
+              src="../../assets/images/icons8-usuário-masculino-50.png"
+            />{{ item.name }}
           </td>
           <td>
-            <img class="img-30-30" src="../../assets/images/icons8-telefone-sem-uso-100.png" />
-            {{ item.phone }}
+            <img
+              class="img-30-30"
+              src="../../assets/images/icons8-data-até-64.png"
+            />{{ item.birthDate | date: "dd/MM/yyyy" }}
           </td>
           <td>
-            <img class="img-30-30" src="../../assets/images/icons8-nova-mensagem-48.png" />
-            {{ item.email }}
+            <img
+              class="img-30-30"
+              src="../../assets/images/icons8-telefone-sem-uso-100.png"
+            />
+            {{ item.phone | phoneCustom }}
           </td>
           <td (click)="preventDefault($event)">
             <button class="btn" type="button" [matMenuTriggerFor]="menu">
@@ -53,11 +113,18 @@
       <ng-template #empty>
         <tr>
           <td colspan="5">
-            <div class="alert alert-warning d-flex justify-content-center">Nenhum resultado para sua busca</div>
+            <div class="alert alert-warning d-flex justify-content-center">
+              Nenhum resultado para sua busca
+            </div>
           </td>
         </tr>
       </ng-template>
     </table>
-    <app-paginator></app-paginator>
+    <app-paginator
+      [pageSize]="pageable.size"
+      [length]="pageInfo.totalElements"
+      (pageEventEmitter)="loadPage($event)"
+    >
+    </app-paginator>
   </div>
 </div>

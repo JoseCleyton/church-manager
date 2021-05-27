@@ -1,5 +1,3 @@
-import { DialogEditComponent } from '../shared/components/ui/dialog-edit/dialog-edit.component';
-import { DialogDeleteComponent } from '../shared/components/ui/dialog-delete/dialog-delete.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -11,6 +9,8 @@ import { AppState } from '../state';
 import { Church } from '../shared/model/church.model';
 import { DeleteChurchComponent } from './delete-church/delete-church.component';
 import { EditChurchComponent } from './edit-church/edit-church.component';
+import { Pageable } from '../shared/model/pageable.model';
+import { PageInfo } from '../shared/model/page-info.model';
 @Component({
   selector: 'app-church',
   templateUrl: './church.component.html',
@@ -18,147 +18,47 @@ import { EditChurchComponent } from './edit-church/edit-church.component';
 })
 export class ChurchComponent implements OnInit, OnDestroy {
   public type = 'church';
-  public title = 'Nova Capela';
-  public subTitle = 'Dados da Capela';
-  public titleFilter = 'Filtrar';
-
-  public buttonsDialog = [
-    { function: 'Cancelar', type: 'basic', justify: 'start' },
-    { function: 'Adicionar', type: 'primary', justify: 'end' },
-  ];
-
-  public buttonsEdit = [
-    { function: 'Cancelar', type: 'basic', justify: 'start' },
-    { function: 'Editar', type: 'primary', justify: 'end' },
-  ];
-
-  public buttonsDelete = [
-    { function: 'Cancelar', type: 'basic', justify: 'start' },
-    { function: 'Deletar', type: 'primary', justify: 'end' },
-  ];
-
-  public buttonsFilter = [
-    { function: 'Cancelar', type: 'basic', justify: 'start' },
-    { function: 'Aplicar', type: 'primary', justify: 'end' },
-  ];
 
   public buttonsView = [
     { function: 'Fechar', type: 'basic', justify: 'center' },
-  ];
-
-  public typesForm = [
-    {
-      label: 'Nome',
-      formControlName: 'name',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Telefone',
-      formControlName: 'phone',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-    {
-      label: 'E-mail',
-      formControlName: 'email',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Responsavel',
-      formControlName: 'responsible',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Login',
-      formControlName: 'login',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Bairro',
-      formControlName: 'district',
-      lenghtXl: 3,
-      lenghtMd: 6,
-      lenghtSm: 12,
-    },
-  ];
-
-  public typesFormFilter = [
-    {
-      label: 'Nome',
-      formControlName: 'nameFilter',
-      type: 'input',
-      lenghtXl: 4,
-      lenghtMd: 12,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Responsavel',
-      formControlName: 'responsibleFilter',
-      type: 'input',
-      lenghtXl: 4,
-      lenghtMd: 12,
-      lenghtSm: 12,
-    },
-    {
-      label: 'Bairro',
-      formControlName: 'districtFilter',
-      type: 'select',
-      select: [
-        { value: '1', name: 'Alto da Esperança' },
-        { value: '2', name: 'Alto Santa Inês' },
-        { value: '3', name: 'Centro' },
-      ],
-      lenghtXl: 4,
-      lenghtMd: 12,
-      lenghtSm: 12,
-    },
   ];
 
   public formAddChurch: FormGroup;
   public formFilter: FormGroup;
 
   public churchs: Church[] = [];
-
+  public pageable: Pageable;
+  public pageInfo: PageInfo;
+  public filters: any;
   public subscription: Subscription = new Subscription();
 
   constructor(public dialog: MatDialog, private store$: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.subscribeToFilters();
+    this.subscribeToPageInfo();
+    this.subscribeToPageable();
     this.createForms();
-    this.store$.dispatch(new fromChurch.actions.ListChurchs());
+    this.store$.dispatch(
+      new fromChurch.actions.ListChurchs(
+        {
+          name: this.filters.name,
+        },
+        this.pageable
+      )
+    );
     this.subscribeToChurchs();
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-  public selectChurch(church: any) {
+
+  public selectChurch(church: Church) {
+    this.store$.dispatch(new fromChurch.actions.SelectChurch(church));
     this.dialog.open(DialogViewComponent, {
       width: '1100px',
       data: {
-        type: 'view',
         typeOfData: 'church',
-        titleView: 'Visualizar Dados',
-        buttonsDialog: this.buttonsView,
-        tableHeader: [
-          { name: 'Nome' },
-          { name: 'Telefone' },
-          { name: 'E-mail' },
-          { name: 'Bairro' },
-          { name: 'Responsavel' },
-          { name: 'Dizimistas' },
-          { name: 'Dízimos (Mês)' },
-          { name: 'Login' },
-        ],
-        tableBody: church,
       },
     });
   }
@@ -190,6 +90,36 @@ export class ChurchComponent implements OnInit, OnDestroy {
     );
   }
 
+  public subscribeToPageable() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChurch.selectors.selectPageable))
+        .subscribe((state) => {
+          this.pageable = { ...state };
+        })
+    );
+  }
+
+  public subscribeToPageInfo() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChurch.selectors.selectPageInfo))
+        .subscribe((state) => {
+          this.pageInfo = { ...state };
+        })
+    );
+  }
+
+  public subscribeToFilters() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChurch.selectors.selectFilters))
+        .subscribe((state) => {
+          this.filters = { ...state };
+        })
+    );
+  }
+
   private createForms() {
     this.formAddChurch = new FormGroup({
       name: new FormControl(null, [Validators.required]),
@@ -205,5 +135,53 @@ export class ChurchComponent implements OnInit, OnDestroy {
       districtFilter: new FormControl(null),
       responsibleFilter: new FormControl(null),
     });
+  }
+
+  public loadPage(page: number) {
+    this.store$.dispatch(
+      new fromChurch.actions.ListChurchs(
+        {
+          name: this.filters.name,
+        },
+        {
+          direction: this.pageable.direction,
+          size: this.pageable.size,
+          sort: this.pageable.sort,
+          page: page,
+        }
+      )
+    );
+  }
+
+  public searchByNameChurch(nameChurch: string) {
+    this.store$.dispatch(
+      new fromChurch.actions.ListChurchs(
+        {
+          name: nameChurch,
+        },
+        {
+          direction: this.pageable.direction,
+          size: this.pageable.size,
+          sort: this.pageable.sort,
+          page: this.pageable.page,
+        }
+      )
+    );
+  }
+
+  public resetSearch() {
+    this.store$.dispatch(
+      new fromChurch.actions.ListChurchs(
+        {
+          name: '',
+        },
+        {
+          direction: this.pageable.direction,
+          size: this.pageable.size,
+          sort: this.pageable.sort,
+          page: this.pageable.page,
+        }
+      )
+    );
   }
 }
