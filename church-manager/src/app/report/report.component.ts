@@ -88,7 +88,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   public length = 100;
   public pageSizeOptions = [2, 3];
 
-  public churchs: Church[];
+  public churchs: Church[] = [];
 
   public totalTithings: number;
   public tithings: Tithing[];
@@ -185,11 +185,9 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.store$
         .pipe(select(fromChurch.selectors.selectChurchs))
         .subscribe((state) => {
-          this.churchs = state;
+          this.churchs = [...state];
           if (this.churchs.length > 0) {
-            const church = this.churchs.filter(
-              (church) => church.user.admin
-            )[0];
+            const church = this.churchs.find((church) => church.user.admin);
             this.formChurch.get('church').setValue(church.id);
             this.dispatchTithings();
           }

@@ -51,7 +51,7 @@ export class EditChurchComponent implements OnInit, OnDestroy {
       street: this.formEditChurch.get('street').value,
       email: this.formEditChurch.get('email').value,
       phone: this.formEditChurch.get('phone').value,
-      numberOfTithers: this.formEditChurch.get('numberOfTithers').value,
+      numberOfTithers: this.selectedChurch.numberOfTithers,
       user: this.selectedChurch.user,
     };
 
@@ -89,9 +89,6 @@ export class EditChurchComponent implements OnInit, OnDestroy {
       ]),
       responsible: new FormControl(this.selectedChurch.responsible, [
         Validators.required,
-      ]),
-      numberOfTithers: new FormControl(this.selectedChurch.numberOfTithers, [
-        Validators.min(1),
       ]),
     });
   }

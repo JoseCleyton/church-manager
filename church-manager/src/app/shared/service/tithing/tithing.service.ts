@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { URLS } from '../../constants/url.enum';
+import { environment } from 'src/environments/environment';
 import { Tithing } from '../../model/tithing.model';
 
 @Injectable({
@@ -11,30 +11,30 @@ export class TithingService {
   constructor(private http: HttpClient) {}
 
   public fetchLatestRecords() {
-    return this.http.get(`${URLS.apiRootDsv}tithing/latest-records`);
+    return this.http.get(`${environment.apiRootDsv}tithing/latest-records`);
   }
 
   public listTithingsAdm(idChurch: number, dateStart: string, dateEnd: string) {
     return this.http.get(
-      `${URLS.apiRootDsv}tithing/${idChurch}?dateStart=${dateStart}&dateEnd=${dateEnd}`
+      `${environment.apiRootDsv}tithing/${idChurch}?dateStart=${dateStart}&dateEnd=${dateEnd}`
     );
   }
-  
+
   public listTithings(dateStart: string, dateEnd: string) {
     return this.http.get(
-      `${URLS.apiRootDsv}tithing?dateStart=${dateStart}&dateEnd=${dateEnd}`
+      `${environment.apiRootDsv}tithing?dateStart=${dateStart}&dateEnd=${dateEnd}`
     );
   }
 
   public getTotal() {
-    return this.http.get(`${URLS.apiRootDsv}tithing/total`);
+    return this.http.get(`${environment.apiRootDsv}tithing/total`);
   }
 
   public getTotalByChurch(idChurch: number) {
-    return this.http.get(`${URLS.apiRootDsv}tithing/total/${idChurch}`);
+    return this.http.get(`${environment.apiRootDsv}tithing/total/${idChurch}`);
   }
 
   public addTithing(tithing: Tithing): Observable<Tithing> {
-    return this.http.post<Tithing>(`${URLS.apiRootDsv}tithing`, tithing);
+    return this.http.post<Tithing>(`${environment.apiRootDsv}tithing`, tithing);
   }
 }

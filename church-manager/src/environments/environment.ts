@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiRootDsv: 'http://localhost:8080/',
+  // apiRootDsv: 'https://api-church-manager.herokuapp.com/',
+  // apiRootPro: 'https://api-church-manager.herokuapp.com/'
 };
 
 /*
