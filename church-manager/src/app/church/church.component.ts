@@ -11,6 +11,7 @@ import { DeleteChurchComponent } from './delete-church/delete-church.component';
 import { EditChurchComponent } from './edit-church/edit-church.component';
 import { Pageable } from '../shared/model/pageable.model';
 import { PageInfo } from '../shared/model/page-info.model';
+import { ChangePasswordComponent } from '../shared/components/ui/change-password/change-password.component';
 @Component({
   selector: 'app-church',
   templateUrl: './church.component.html',
@@ -183,5 +184,15 @@ export class ChurchComponent implements OnInit, OnDestroy {
         }
       )
     );
+  }
+
+  public changePassword(church: Church) {
+    this.store$.dispatch(new fromChurch.actions.SelectChurch(church));
+    this.dialog.open(ChangePasswordComponent, {
+      width: '600px',
+      data: {
+        type: 'church',
+      },
+    });
   }
 }

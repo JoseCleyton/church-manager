@@ -47,7 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     AuthGuardGuard,
     LoadingService,
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
   ],
   bootstrap: [AppComponent],
 })

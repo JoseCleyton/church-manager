@@ -51,6 +51,7 @@ export class DialogViewComponent implements OnInit, OnDestroy {
         })
     );
   }
+  
   public subscribeToSelectChristian() {
     this.subscription.add(
       this.store$

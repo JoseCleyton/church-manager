@@ -7,39 +7,68 @@
     </div>
   </div>
   <mat-toolbar>
-    <div class="row d-flex justify-content-end align-items-center" style="width: 100%; margin: auto">
+    <div
+      class="row d-flex justify-content-end align-items-center"
+      style="width: 100%; margin: auto"
+    >
       <div class="col-3 icons-menu">
-        <img *ngIf="url === '/feature/dashboard'" class="img-10-10"
-          src="../../assets/images/icons8-círculo-preenchido-16.png" />
+        <img
+          *ngIf="url === '/feature/dashboard'"
+          class="img-10-10"
+          src="../../assets/images/icons8-círculo-preenchido-16.png"
+        />
         <button class="btn" routerLink="dashboard">
-          <mat-icon class="material-icons-outlined" aria-hidden="true">dashboard</mat-icon>
+          <mat-icon class="material-icons-outlined" aria-hidden="true"
+            >dashboard</mat-icon
+          >
         </button>
       </div>
       <div *ngIf="isAdmin" class="col-2 icons-menu">
-        <img *ngIf="url === '/feature/church'" class="img-10-10"
-          src="../../assets/images/icons8-círculo-preenchido-16.png" />
+        <img
+          *ngIf="url === '/feature/church'"
+          class="img-10-10"
+          src="../../assets/images/icons8-círculo-preenchido-16.png"
+        />
         <button class="btn" routerLink="church">
-          <img class="img-26-26" src="../../assets/images/icons8-igreja-50.png" />
+          <img
+            class="img-26-26"
+            src="../../assets/images/icons8-igreja-50.png"
+          />
         </button>
       </div>
       <div class="col-2 icons-menu">
-        <img *ngIf="url === '/feature/christians'" class="img-10-10"
-          src="../../assets/images/icons8-círculo-preenchido-16.png" />
+        <img
+          *ngIf="url === '/feature/christians'"
+          class="img-10-10"
+          src="../../assets/images/icons8-círculo-preenchido-16.png"
+        />
         <button class="btn" routerLink="christians">
-          <img class="img-26-26" src="../../assets/images/icons8-conferência-64.png" />
+          <img
+            class="img-26-26"
+            src="../../assets/images/icons8-conferência-64.png"
+          />
         </button>
       </div>
       <div class="col-2 icons-menu">
-        <img *ngIf="url === '/feature/report'" class="img-10-10"
-          src="../../assets/images/icons8-círculo-preenchido-16.png" />
+        <img
+          *ngIf="url === '/feature/report'"
+          class="img-10-10"
+          src="../../assets/images/icons8-círculo-preenchido-16.png"
+        />
         <button class="btn" routerLink="report">
-          <img class="img-26-26" src="../../assets/images/icons8-gráfico-combinado-50.png" />
+          <img
+            class="img-26-26"
+            src="../../assets/images/icons8-gráfico-combinado-50.png"
+          />
         </button>
       </div>
 
-      <div class="col-3 icons-menu ">
+      <div class="col-3 icons-menu">
         <button class="btn" (click)="logout()">
-          <img class="img-35-35" src="../../assets/images/icons8-conta-de-teste-160.png" />
+          <img
+            class="img-35-35"
+            src="../../assets/images/icons8-conta-de-teste-160.png"
+          />
         </button>
       </div>
     </div>
@@ -52,38 +81,72 @@
   </h3>
   <div class="row" style="width: 100%; margin: auto">
     <div class="col-12 icons-menu" style="margin-top: 3rem">
-      <img *ngIf="url === '/feature/dashboard'" class="img-10-10"
-        src="../../assets/images/icons8-círculo-preenchido-16.png" />
+      <img
+        *ngIf="url === '/feature/dashboard'"
+        class="img-10-10"
+        src="../../assets/images/icons8-círculo-preenchido-16.png"
+      />
       <button class="btn" routerLink="dashboard">
-        <mat-icon class="material-icons-outlined" aria-hidden="true">dashboard</mat-icon>
+        <mat-icon class="material-icons-outlined" aria-hidden="true"
+          >dashboard</mat-icon
+        >
       </button>
     </div>
     <div *ngIf="isAdmin" class="col-12 icons-menu">
-      <img *ngIf="url === '/feature/church'" class="img-10-10"
-        src="../../assets/images/icons8-círculo-preenchido-16.png" />
+      <img
+        *ngIf="url === '/feature/church'"
+        class="img-10-10"
+        src="../../assets/images/icons8-círculo-preenchido-16.png"
+      />
       <button class="btn" routerLink="church">
         <img class="img-26-26" src="../../assets/images/icons8-igreja-50.png" />
       </button>
     </div>
     <div class="col-12 icons-menu">
-      <img *ngIf="url === '/feature/christians'" class="img-10-10"
-        src="../../assets/images/icons8-círculo-preenchido-16.png" />
+      <img
+        *ngIf="url === '/feature/christians'"
+        class="img-10-10"
+        src="../../assets/images/icons8-círculo-preenchido-16.png"
+      />
       <button class="btn" routerLink="christians">
-        <img class="img-26-26" src="../../assets/images/icons8-conferência-64.png" />
+        <img
+          class="img-26-26"
+          src="../../assets/images/icons8-conferência-64.png"
+        />
       </button>
     </div>
     <div class="col-12 icons-menu">
-      <img *ngIf="url === '/feature/report'" class="img-10-10"
-        src="../../assets/images/icons8-círculo-preenchido-16.png" />
+      <img
+        *ngIf="url === '/feature/report'"
+        class="img-10-10"
+        src="../../assets/images/icons8-círculo-preenchido-16.png"
+      />
       <button class="btn" routerLink="report">
-        <img class="img-26-26" src="../../assets/images/icons8-gráfico-combinado-50.png" />
+        <img
+          class="img-26-26"
+          src="../../assets/images/icons8-gráfico-combinado-50.png"
+        />
       </button>
     </div>
 
     <div class="col-12" id="icon-account">
-      <button class="btn" (click)="logout()">
-        <img class="img-35-35" src="../../assets/images/icons8-conta-de-teste-160.png" />
+      <button class="btn" [matMenuTriggerFor]="menu">
+        <img
+          class="img-35-35"
+          src="../../assets/images/icons8-conta-de-teste-160.png"
+        />
       </button>
     </div>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon aria-hidden="false">logout</mat-icon>
+        Sair
+      </button>
+      <button mat-menu-item (click)="changePassword()">
+        <mat-icon aria-hidden="false">vpn_key</mat-icon>
+        Alterar Senha
+      </button>
+    </mat-menu>
   </div>
 </div>

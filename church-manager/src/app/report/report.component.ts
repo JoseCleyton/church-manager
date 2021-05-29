@@ -123,15 +123,21 @@ export class ReportComponent implements OnInit, OnDestroy {
       endDate: new FormControl(null, [Validators.required]),
     });
 
-    this.subscribeToPageInfo();
-    this.subscribeToListTithings();
-    this.subscribeToTotalTithings();
+    this.createSubscribes();
     this.dispatchs();
-    this.subscribeToChurchs();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  private createSubscribes() {
+    if (this.isAdmin) {
+      this.subscribeToChurchs();
+    }
+    this.subscribeToPageInfo();
+    this.subscribeToListTithings();
+    this.subscribeToTotalTithings();
   }
 
   public subscribeToListTithings() {

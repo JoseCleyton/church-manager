@@ -1,6 +1,10 @@
 <app-header></app-header>
 <div id="list" class="row mt-1">
-  <app-page-header [type]="type" (searchNameChurch)="searchByNameChurch($event)" (reset)="resetSearch()">
+  <app-page-header
+    [type]="type"
+    (searchNameChurch)="searchByNameChurch($event)"
+    (reset)="resetSearch()"
+  >
   </app-page-header>
   <div class="table-responsive">
     <table class="table table-hover">
@@ -16,17 +20,29 @@
       <tbody *ngIf="churchs.length > 0; else empty">
         <tr *ngFor="let item of churchs" (click)="selectChurch(item)">
           <td>
-            <img class="img-30-30" src="../../assets/images/icons8-igreja-128.png" />
+            <img
+              class="img-30-30"
+              src="../../assets/images/icons8-igreja-128.png"
+            />
             {{ item.name }}
           </td>
           <td>
-            <img class="img-40-40" src="../../assets/images/icons8-endereço-100.png" />{{ item.district }}
+            <img
+              class="img-40-40"
+              src="../../assets/images/icons8-endereço-100.png"
+            />{{ item.district }}
           </td>
           <td>
-            <img class="img-30-30" src="../../assets/images/icons8-usuário-masculino-50.png" />{{ item.responsible }}
+            <img
+              class="img-30-30"
+              src="../../assets/images/icons8-usuário-masculino-50.png"
+            />{{ item.responsible }}
           </td>
           <td>
-            <img class="img-35-35" src="../../assets/images/icons8-chamada-em-conferência-50.png" />
+            <img
+              class="img-35-35"
+              src="../../assets/images/icons8-chamada-em-conferência-50.png"
+            />
             {{ item.numberOfTithers }}
           </td>
           <td (click)="preventDefault($event)">
@@ -39,7 +55,12 @@
                 Editar
               </button>
               <button mat-menu-item (click)="delete(item)">
-                <mat-icon aria-hidden="false">delete</mat-icon> Excluir
+                <mat-icon aria-hidden="false">delete</mat-icon>
+                Deletar
+              </button>
+              <button mat-menu-item (click)="changePassword(item)">
+                <mat-icon aria-hidden="false">vpn_key</mat-icon>
+                Alterar Senha
               </button>
             </mat-menu>
           </td>
@@ -48,12 +69,18 @@
       <ng-template #empty>
         <tr>
           <td colspan="5">
-            <div class="alert alert-warning d-flex justify-content-center">Nenhum resultado para sua busca</div>
+            <div class="alert alert-warning d-flex justify-content-center">
+              Nenhum resultado para sua busca
+            </div>
           </td>
         </tr>
       </ng-template>
     </table>
-    <app-paginator [pageSize]="pageable.size" [length]="pageInfo.totalElements" (pageEventEmitter)="loadPage($event)">
+    <app-paginator
+      [pageSize]="pageable.size"
+      [length]="pageInfo.totalElements"
+      (pageEventEmitter)="loadPage($event)"
+    >
     </app-paginator>
   </div>
 </div>

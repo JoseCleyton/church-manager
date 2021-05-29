@@ -56,7 +56,8 @@ export class AddChurchComponent implements OnInit {
     this.formAddChurch.reset();
     this.closeDialog();
   }
-  closeDialog(): void {
+
+ public closeDialog(): void {
     this.dialogRef.close();
   }
 }

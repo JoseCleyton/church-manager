@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LogoutModule } from '../shared/components/ui/logout/logout.module';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [FeatureComponent, MenuComponent],
   imports: [
@@ -17,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
     LogoutModule,
     MatIconModule,
+    MatMenuModule
   ],
 })
 export class FeatureModule {}

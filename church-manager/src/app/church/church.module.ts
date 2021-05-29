@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { DeleteChurchComponent } from './delete-church/delete-church.component';
 import { EditChurchComponent } from './edit-church/edit-church.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { ChangePasswordModule } from '../shared/components/ui/change-password/change-password.module';
 
 @NgModule({
   declarations: [ChurchComponent, AddChurchComponent, DeleteChurchComponent, EditChurchComponent],
@@ -36,7 +37,8 @@ import { NgxMaskModule } from 'ngx-mask';
     MatButtonModule,
     MatInputModule,
     NgxMaskModule.forRoot(),
-    PageHeaderModule
+    PageHeaderModule,
+    ChangePasswordModule
   ]
 })
 export class ChurchModule { }
