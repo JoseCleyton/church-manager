@@ -16,6 +16,11 @@ export class ChristianService {
       `${environment.apiRootDsv}christian?name=${filters.name}&monthOfBirthday=${filters.monthOfBirthday}&page=${pageable.page}&size=${pageable.size}&direction=${pageable.direction}&sort=${pageable.sort}`
     );
   }
+  public findByIdChristian(id: string) {
+    return this.http.get<any>(
+      `${environment.apiRootDsv}christian/${id}`
+    );
+  }
   public getQuantityChristians() {
     return this.http.get(`${environment.apiRootDsv}christian/quantity`);
   }

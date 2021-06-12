@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiRootDsv: 'https://api-church-manager.herokuapp.com/',
 };

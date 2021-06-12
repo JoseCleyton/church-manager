@@ -77,6 +77,14 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
             this.router.navigateByUrl('/login');
           }
 
+          if (err.status === 404) {
+            this.store$.dispatch(
+              new fromAlert.actions.AddAlert({
+                type: 'error',
+                message: err.error.message,
+              })
+            );
+          }
           return throwError(err);
         }),
         finalize(() => {

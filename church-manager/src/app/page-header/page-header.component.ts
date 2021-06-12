@@ -29,12 +29,16 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   public subjectSearchBynameChurch$: Subject<any> = new Subject();
 
   public searchByNameChristian$: Observable<any> = new Observable();
-  public subjectSearchBynameChristian$: Subject<any> = new Subject();
+  public subjectSearchByNameChristian$: Subject<any> = new Subject();
+
+  public searchByNumberChristian$: Observable<any> = new Observable();
+  public subjectSearchByNumberChristian$: Subject<any> = new Subject();
 
   public formFilterChristian: FormGroup;
   public formFilterChurch: FormGroup;
 
   @Output() searchNameChristian: EventEmitter<string> = new EventEmitter();
+  @Output() searchNumberChristian: EventEmitter<string> = new EventEmitter();
   @Output() searchMonth: EventEmitter<string> = new EventEmitter();
   @Output() reset: EventEmitter<string> = new EventEmitter();
 
@@ -73,7 +77,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.searchByNameChristian$ = this.subjectSearchBynameChristian$.pipe(
+    this.searchByNameChristian$ = this.subjectSearchByNameChristian$.pipe(
       debounceTime(1000),
       distinctUntilChanged(),
       switchMap((name: string) => {
@@ -81,6 +85,17 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
           return of();
         }
         return of(name);
+      })
+    );
+
+    this.searchByNumberChristian$ = this.subjectSearchByNumberChristian$.pipe(
+      debounceTime(1000),
+      distinctUntilChanged(),
+      switchMap((number: string) => {
+        if (number.trim() === '') {
+          return of();
+        }
+        return of(number);
       })
     );
 
@@ -93,6 +108,12 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.searchByNameChristian$.subscribe((name) => {
         this.searchNameChristian.emit(name);
+      })
+    );
+
+    this.subscription.add(
+      this.searchByNumberChristian$.subscribe((number) => {
+        this.searchNumberChristian.emit(number);
       })
     );
   }
@@ -112,7 +133,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
       width: '900px',
     });
   }
-  
+
   public searchByNameChurch(nameChurch: string) {
     this.subjectSearchBynameChurch$.next(nameChurch);
     if (nameChurch.length === 0) {
@@ -121,8 +142,15 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   }
 
   public searchByNameChristian(nameChristian: string) {
-    this.subjectSearchBynameChristian$.next(nameChristian);
+    this.subjectSearchByNameChristian$.next(nameChristian);
     if (nameChristian.length === 0) {
+      this.resetSearch();
+    }
+  }
+
+  public searchByNumberChristian(number: string) {
+    this.subjectSearchByNumberChristian$.next(number);
+    if (number.length === 0) {
       this.resetSearch();
     }
   }
@@ -142,6 +170,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
       });
     } else {
       this.formFilterChristian = new FormGroup({
+        number: new FormControl(null),
         name: new FormControl(null),
         monthOfBirthday: new FormControl(null),
       });
@@ -177,6 +206,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
             this.formFilterChristian
               .get('monthOfBirthday')
               .setValue(state.monthOfBirthday);
+            this.formFilterChristian.get('number').setValue(state.id);
           }
         })
     );

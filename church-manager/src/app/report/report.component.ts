@@ -132,12 +132,12 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   private createSubscribes() {
-    if (this.isAdmin) {
-      this.subscribeToChurchs();
-    }
     this.subscribeToPageInfo();
     this.subscribeToListTithings();
     this.subscribeToTotalTithings();
+    if (this.isAdmin) {
+      this.subscribeToChurchs();
+    }
   }
 
   public subscribeToListTithings() {
@@ -194,7 +194,7 @@ export class ReportComponent implements OnInit, OnDestroy {
           this.churchs = [...state];
           if (this.churchs.length > 0) {
             const church = this.churchs.find((church) => church.user.admin);
-            this.formChurch.get('church').setValue(church.id);
+            this.formChurch.get('church').setValue(church ? church.id : 1);
             this.dispatchTithings();
           }
         })

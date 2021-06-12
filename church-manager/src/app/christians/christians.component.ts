@@ -169,7 +169,7 @@ export class ChristiansComponent implements OnInit, OnDestroy {
     );
   }
 
-  public searchByNameChristian(nameChristian) {
+  public searchByNameChristian(nameChristian: string) {
     this.store$.dispatch(
       new fromChristian.actions.ListChristians(
         {
@@ -185,6 +185,11 @@ export class ChristiansComponent implements OnInit, OnDestroy {
       )
     );
   }
+
+  public searchByNumberChristian(number: string) {
+    this.store$.dispatch(new fromChristian.actions.FindByIdChristians(number));
+  }
+
   public searchByMonthBirthday(month) {
     this.store$.dispatch(
       new fromChristian.actions.ListChristians(

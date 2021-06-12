@@ -1,19 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AppState } from '../state';
 @Component({
   selector: 'app-feature',
   templateUrl: './feature.component.html',
   styleUrls: ['./feature.component.scss'],
 })
-export class FeatureComponent implements OnInit, OnDestroy {
+export class FeatureComponent implements OnInit {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.width = window.innerWidth;
+  }
+
   public subscription: Subscription = new Subscription();
+  public width;
 
-  constructor(private store$: Store<AppState>) {}
+  constructor() {}
 
-  ngOnInit(): void {}
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  ngOnInit(): void {
+    this.width = window.innerWidth;
   }
 }

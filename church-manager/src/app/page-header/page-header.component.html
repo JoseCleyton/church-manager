@@ -1,7 +1,27 @@
 <form *ngIf="type === 'christian'" [formGroup]="formFilterChristian">
-  <div class="row ml">
+  <div class="row">
     <div class="col" style="margin-top: 0.7rem">
-      <mat-form-field class="example-full-width">
+      <mat-form-field style="width: 5rem">
+        <mat-label>Número</mat-label>
+
+        <input
+          #inpuNumber
+          (input)="searchByNumberChristian(inpuNumber.value)"
+          matInput
+          placeholder="Número"
+          formControlName="number"
+        />
+        <mat-icon
+          *ngIf="formFilterChristian.get('number').value"
+          id="iconClose"
+          matSuffix
+          (click)="resetSearch()"
+          >close</mat-icon
+        >
+      </mat-form-field>
+    </div>
+    <div class="col" style="margin-top: 0.7rem">
+      <mat-form-field>
         <mat-label>Nome do Dizimista</mat-label>
         <input
           #input
@@ -11,7 +31,10 @@
           formControlName="name"
         />
         <mat-icon
-          *ngIf="formFilterChristian.get('name').value.length > 0"
+          *ngIf="
+            formFilterChristian.get('name').value &&
+            formFilterChristian.get('name').value.length > 0
+          "
           id="iconClose"
           matSuffix
           (click)="resetSearch()"
@@ -21,7 +44,7 @@
     </div>
 
     <div class="col" style="margin-top: 0.7rem">
-      <mat-form-field class="example-full-width">
+      <mat-form-field style="width: 9rem;">
         <mat-label>Mês de Aniversário</mat-label>
         <mat-select
           (selectionChange)="searchByMonthBirthday($event.value)"
@@ -50,7 +73,7 @@
 <form *ngIf="type === 'church'" [formGroup]="formFilterChurch">
   <div class="row ml">
     <div class="col" style="margin-top: 0.7rem">
-      <mat-form-field appearance="legacy" style="width: 15rem">
+      <mat-form-field style="width: 15rem">
         <mat-label>Nome da Igreja</mat-label>
         <input
           #input

@@ -1,8 +1,9 @@
 <app-header></app-header>
-<div id="list" class="row mt-1">
+<div class="row mt-1" style="padding-right: 1rem;">
   <app-page-header
     [type]="type"
     (searchNameChristian)="searchByNameChristian($event)"
+    (searchNumberChristian)="searchByNumberChristian($event)"
     (searchMonth)="searchByMonthBirthday($event)"
     (reset)="resetSearch()"
   ></app-page-header>

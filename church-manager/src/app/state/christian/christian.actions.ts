@@ -10,6 +10,9 @@ export enum ChristianActionsTypes {
   LIST_CHRISTIANS = '[Christian] List Christians',
   LIST_CHRISTIAN_SUCCES = '[Christian] List Christians Success',
 
+  FIND_BY_CHRISTIANS = '[Christian] Find By Id Christian',
+  FIND_BY_CHRISTIAN_SUCCES = '[Christian] Find By Id Christian Success',
+
   ADD_CHRISTIAN = '[Christian] Add Christian',
   ADD_CHRISTIAN_SUCCES = '[Christian] Add Christian Success',
 
@@ -36,6 +39,14 @@ export class ListChristiansSuccess implements Action {
   ) {}
 }
 
+export class FindByIdChristians implements Action {
+  readonly type = ChristianActionsTypes.FIND_BY_CHRISTIANS;
+  constructor(public id: string) {}
+}
+export class FindByIdChristiansSuccess implements Action {
+  readonly type = ChristianActionsTypes.FIND_BY_CHRISTIAN_SUCCES;
+  constructor(public payload: any) {}
+}
 export class AddChristian implements Action {
   readonly type = ChristianActionsTypes.ADD_CHRISTIAN;
   constructor(public christian: Christian) {}
@@ -75,6 +86,8 @@ export class GetQuantityChristiansSucces implements Action {
 export type ChristianActions =
   | ListChristians
   | ListChristiansSuccess
+  | FindByIdChristians
+  | FindByIdChristiansSuccess
   | AddChristian
   | AddChurchSuccess
   | SelectChristian

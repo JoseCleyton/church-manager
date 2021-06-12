@@ -14,8 +14,9 @@ export interface ChristianState {
 
 export const initialState: ChristianState = {
   filters: {
+    id: '',
     name: '',
-    monthOfBirthday: 0
+    monthOfBirthday: 0,
   },
   pageable: {
     direction: 'ASC',
@@ -46,6 +47,23 @@ export function christianReducer(
         christians: action.payload,
       };
     }
+    case ChristianActionsTypes.FIND_BY_CHRISTIAN_SUCCES: {
+      state.christians = [];
+      return {
+        ...state,
+        filters: {
+          id: action.payload.id,
+          name: state.filters.name,
+          monthOfBirthday: state.filters.monthOfBirthday,
+        },
+        christians: [action.payload],
+        pageInfo: {
+          totalElements: 1,
+          totalPages: 1,
+        },
+      };
+    }
+
     case ChristianActionsTypes.ADD_CHRISTIAN_SUCCES: {
       return {
         ...state,

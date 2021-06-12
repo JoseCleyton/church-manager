@@ -48,6 +48,30 @@ export class ChristianEffects {
         )
     )
   );
+
+  @Effect()
+  findByIdChristian$ = this.actions$.pipe(
+    ofType<actions.FindByIdChristians>(
+      actions.ChristianActionsTypes.FIND_BY_CHRISTIANS
+    ),
+    switchMap((action) =>
+      this.christianService.findByIdChristian(action.id).pipe(
+        map(
+          (response) => {
+            return new actions.FindByIdChristiansSuccess(response);
+          },
+          catchError((error) => {
+            new fromAlert.actions.AddAlert({
+              type: 'error',
+              message: error.message,
+            });
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+
   @Effect()
   getQuantityChristians$ = this.actions$.pipe(
     ofType<actions.GetQuantityChristians>(

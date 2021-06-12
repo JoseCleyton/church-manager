@@ -1,17 +1,10 @@
 #menu {
   margin-left: 01rem;
-  width: 8rem;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  height: 100%;
+  align-items: start;
+  text-align: start;
+  justify-content: start;
 }
-#menu-up {
-  display: none;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-}
+
 .icons-menu {
   padding: 0.7rem;
 }
@@ -52,9 +45,6 @@
 }
 
 @media screen and (max-width: 500px) {
-  #menu-up {
-    display: block;
-  }
   #menu {
     display: none;
   }
