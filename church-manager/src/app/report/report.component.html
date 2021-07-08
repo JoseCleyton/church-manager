@@ -10,7 +10,7 @@
     "
   >
     <h4 style="font-weight: 600">
-      Total : {{ totalTithings | currency: "BRL":"symbol" }}
+      Total (mês): {{ totalTithings | currency: "BRL":"symbol" }}
     </h4>
   </div>
 
@@ -136,13 +136,7 @@
 
       <mat-step [stepControl]="tithes">
         <ng-template matStepLabel>Relatório de Dízimos</ng-template>
-
         <div class="table-responsive">
-          <!-- 
-            <app-page-header [typesFormFilter]="typesFormFilter" [titleFilter]="titleFilter"
-              [buttonsFilter]="buttonsFilter" [isAdd]="false" [formFilter]="formFilter"></app-page-header>
-          -->
-
           <table class="table table-hover">
             <thead class="thead">
               <tr>
@@ -176,13 +170,6 @@
               </tr>
             </tbody>
           </table>
-          <!-- 
-<app-paginator
-            [pageSize]="pageSize"
-            [length]="length"
-            [pageSizeOptions]="pageSizeOptions"
-          ></app-paginator>
-          -->
         </div>
       </mat-step>
     </mat-horizontal-stepper>

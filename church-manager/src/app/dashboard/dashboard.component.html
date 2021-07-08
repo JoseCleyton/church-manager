@@ -4,7 +4,10 @@
     <mat-card class="mat-card">
       <div class="row">
         <div class="col-12">
-          <img class="img-60-60" src="../../assets/images/icons8-igreja-128.png" />
+          <img
+            class="img-60-60"
+            src="../../assets/images/icons8-igreja-128.png"
+          />
         </div>
         <div class="col-6 d-flex justify-content-start align-items-center mt-1">
           <h4>Capelas</h4>
@@ -19,7 +22,10 @@
     <mat-card class="mat-card">
       <div class="row">
         <div class="col-12">
-          <img class="img-60-60" src="../../assets/images/icons8-chamada-em-conferencia-50.png" />
+          <img
+            class="img-60-60"
+            src="../../assets/images/icons8-chamada-em-conferencia-50.png"
+          />
         </div>
         <div class="col-6 d-flex justify-content-start align-items-center mt-1">
           <h4>Dizimistas</h4>
@@ -34,10 +40,13 @@
     <mat-card class="mat-card">
       <div class="row">
         <div class="col-12">
-          <img class="img-60-60" src="../../assets/images/icons8-dinheiro-150.png" />
+          <img
+            class="img-60-60"
+            src="../../assets/images/icons8-dinheiro-150.png"
+          />
         </div>
         <div class="col-6 d-flex justify-content-start align-items-center mt-1">
-          <h4>Dízimo</h4>
+          <h4>Dízimos</h4>
         </div>
         <div class="col-6 d-flex justify-content-end align-items-center mt-1">
           <p class="p">{{ totalTithings | currency: "BRL":"symbol" }}</p>
@@ -59,8 +68,14 @@
         </button>
       </div>
       <div class="col-12">
-        <canvas baseChart [datasets]="lineChartDataPolarArea" [labels]="lineChartLabelsPolarArea"
-          [colors]="lineChartColorsPolarArea" [legend]="lineChartLegendPolarArea" [chartType]="lineChartTypePolarArea">
+        <canvas
+          baseChart
+          [datasets]="lineChartDataPolarArea"
+          [labels]="lineChartLabelsPolarArea"
+          [colors]="lineChartColorsPolarArea"
+          [legend]="lineChartLegendPolarArea"
+          [chartType]="lineChartTypePolarArea"
+        >
         </canvas>
       </div>
     </div>
@@ -76,8 +91,14 @@
         </button>
       </div>
       <div class="col-12">
-        <canvas baseChart [datasets]="lineChartDataBar" [labels]="lineChartLabelsBar" [colors]="lineChartColorsBar"
-          [legend]="lineChartLegendBar" [chartType]="lineChartTypeBar">
+        <canvas
+          baseChart
+          [datasets]="lineChartDataBar"
+          [labels]="lineChartLabelsBar"
+          [colors]="lineChartColorsBar"
+          [legend]="lineChartLegendBar"
+          [chartType]="lineChartTypeBar"
+        >
         </canvas>
       </div>
     </div>

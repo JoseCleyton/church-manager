@@ -115,9 +115,17 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 d-flex align-items-center">
+    <div class="row mt-3">
+      <div class="col-3 d-flex justify-content-start align-items-center">
         <h4>Credenciais de Usuário</h4>
+      </div>
+      <div class="col-9 d-flex justify-content-start align-items-start">
+        <mat-icon
+          (click)="openRulesPassword()"
+          class="material-icons-outlined help"
+          aria-hidden="false"
+          >help_outline</mat-icon
+        >
       </div>
       <div class="col-xl-3 col-md-6 col-sm-12">
         <mat-form-field>
@@ -134,18 +142,33 @@
         </mat-form-field>
       </div>
       <div class="col-xl-3 col-md-6 col-sm-12">
-        <mat-form-field>
-          <mat-label>Senha *</mat-label>
-          <input matInput formControlName="password" />
-          <mat-error
-            *ngIf="
-              formAddChurch.get('password').touched &&
-              formAddChurch.get('password').hasError('required')
-            "
+        <div class="relative">
+          <mat-form-field>
+            <mat-label>Senha *</mat-label>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              matInput
+              formControlName="password"
+            />
+            <mat-error
+              *ngIf="
+                formAddChurch.get('password').touched &&
+                formAddChurch.get('password').hasError('required')
+              "
+            >
+              Senha é <strong>obrigatório</strong>
+            </mat-error>
+          </mat-form-field>
+          <button
+            class="btn center-v-password"
+            type="button"
+            (click)="showPassword = !showPassword"
           >
-            Senha é <strong>obrigatório</strong>
-          </mat-error>
-        </mat-form-field>
+            <mat-icon aria-hidden="false">{{
+              showPassword ? "visibility" : "visibility_off"
+            }}</mat-icon>
+          </button>
+        </div>
       </div>
     </div>
   </form>

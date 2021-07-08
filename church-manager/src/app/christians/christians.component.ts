@@ -231,7 +231,6 @@ export class ChristiansComponent implements OnInit, OnDestroy {
         element._checked = true;
       });
       this.selectedChristians = [...this.christians];
-      this.selectAllCheckBox = true;
     } else {
       this.selectAllCheckBox = false;
       this.selectedChristians = [];
@@ -253,6 +252,10 @@ export class ChristiansComponent implements OnInit, OnDestroy {
       );
     } else {
       this.selectedChristians.push(christian);
+      this.selectAllCheckBox =
+        this.selectedChristians.length === this.pageInfo.totalElements;
+      this.checkBoxAll._checked =
+        this.selectedChristians.length === this.pageInfo.totalElements;
     }
   }
 

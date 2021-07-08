@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="row mt-1" style="padding-right: 1rem;">
+<div class="row mt-1" style="padding-right: 1rem">
   <app-page-header
     [type]="type"
     (searchNameChristian)="searchByNameChristian($event)"
@@ -47,6 +47,7 @@
         <tr>
           <th>
             <mat-checkbox
+              *ngIf="christians && christians.length > 0"
               #checkBoxAll
               class="example-margin"
               (change)="selectAll($event.checked)"

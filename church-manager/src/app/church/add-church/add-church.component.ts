@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { RulePasswordComponent } from 'src/app/shared/components/ui/rule-password/rule-password.component';
 import { Church } from 'src/app/shared/model/church.model';
 import { AppState } from 'src/app/state';
 import * as fromChurch from '../../state/church';
@@ -13,10 +15,12 @@ import * as fromChurch from '../../state/church';
 })
 export class AddChurchComponent implements OnInit {
   public formAddChurch: FormGroup;
-
+  public showPassword = false;
+  
   constructor(
     public dialogRef: MatDialogRef<AddChurchComponent>,
-    private store$: Store<AppState>
+    private store$: Store<AppState>,
+    private _bottomSheet: MatBottomSheet
   ) {}
 
   ngOnInit(): void {
@@ -30,8 +34,18 @@ export class AddChurchComponent implements OnInit {
       number: new FormControl(null, [Validators.required]),
       responsible: new FormControl(null, [Validators.required]),
       numberOfTithers: new FormControl(null, [Validators.min(1)]),
-      login: new FormControl(null, [Validators.required, Validators.minLength(5)]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(5)]),
+      login: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(5),
+      ]),
+      password: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(
+          new RegExp(
+            '(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=.*[$*&@#%!])(?=[^0-9]*[0-9]).{5,}'
+          )
+        ),
+      ]),
     });
   }
 
@@ -57,7 +71,11 @@ export class AddChurchComponent implements OnInit {
     this.closeDialog();
   }
 
- public closeDialog(): void {
+  public closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  public openRulesPassword() {
+    this._bottomSheet.open(RulePasswordComponent);
   }
 }
