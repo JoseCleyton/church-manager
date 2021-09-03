@@ -7,9 +7,15 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { ChartsModule } from 'ng2-charts';
 import { MatIconModule } from '@angular/material/icon';
-
 @NgModule({
   declarations: [DashboardComponent],
-  imports: [CommonModule, DashboardRoutingModule, MatCardModule, ChartsModule, HeaderModule, MatIconModule],
+  imports: [
+    CommonModule,
+    DashboardRoutingModule,
+    MatCardModule,
+    ChartsModule,
+    HeaderModule,
+    MatIconModule,
+  ],
 })
 export class DashboardModule {}

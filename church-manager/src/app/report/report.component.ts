@@ -1,14 +1,24 @@
 import { Label, Color } from 'ng2-charts';
 import { ChartDataSets } from 'chart.js';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as fromTithing from '../state/tithing';
+import { select, Store } from '@ngrx/store';
+import { AppState } from '../state';
+import { Subscription } from 'rxjs';
+import { formatDate } from '../shared/utils/utils';
+import { Tithing } from '../shared/model/tithing.model';
+import { PageInfoDateFilter } from '../shared/model/page-info-date-filter.model';
+import { DateAdapter } from '@angular/material/core';
+import * as fromChurch from '../state/church';
+import { Church } from '../shared/model/church.model';
+import { datePipeFormatPipe } from '../shared/pipes/datePipeTransform';
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss'],
 })
-export class ReportComponent implements OnInit {
+export class ReportComponent implements OnInit, OnDestroy {
   public lineChartDataBar: ChartDataSets[];
   public lineChartLabelsBar: Label[];
   public lineChartColorsBar: Color[];
@@ -31,7 +41,7 @@ export class ReportComponent implements OnInit {
   public lineChartPluginsLine;
 
   public tithes = [];
-  public data = [];
+  public formChurch: FormGroup;
   public formFilter: FormGroup;
 
   public typesFormFilter = [
@@ -78,17 +88,29 @@ export class ReportComponent implements OnInit {
   public length = 100;
   public pageSizeOptions = [2, 3];
 
-  public churchs = [];
-  public isFilter = false;
-  public days = [];
-  public months = [];
-  public years = [];
-  constructor() {}
+  public churchs: Church[] = [];
 
+  public totalTithings: number;
+  public tithings: Tithing[];
+  public pageInfo: PageInfoDateFilter;
+  public subscription: Subscription = new Subscription();
+  public isAdmin = false;
+
+  public formFilterDate: FormGroup;
+
+  constructor(
+    private store$: Store<AppState>,
+    private dateAdapter: DateAdapter<Date>,
+    private datePipe: datePipeFormatPipe
+  ) {
+    this.dateAdapter.setLocale('pt-BR');
+  }
   ngOnInit(): void {
-    this.createGraphBar();
-    this.createGraphDoughnutPie();
-    this.createGraphLine();
+    this.isAdmin = localStorage.getItem('isAdmin') === 'A' ? true : false;
+
+    this.formChurch = new FormGroup({
+      church: new FormControl(null, [Validators.required]),
+    });
 
     this.formFilter = new FormGroup({
       nameFilter: new FormControl(null),
@@ -96,104 +118,115 @@ export class ReportComponent implements OnInit {
       districtFilter: new FormControl(null),
     });
 
-    this.data = [
-      {
-        name: 'João',
-        month: '02',
-        value: '150',
-        date: '10/02/2021',
-      },
-      {
-        name: 'Maria',
-        month: '03',
-        value: '110',
-        date: '80/03/2021',
-      },
-      {
-        name: 'Severino',
-        month: '04',
-        value: '500',
-        date: '30/03/2021',
-      },
-    ];
+    this.formFilterDate = new FormGroup({
+      startDate: new FormControl(null, [Validators.required]),
+      endDate: new FormControl(null, [Validators.required]),
+    });
 
-    this.churchs = [
-      {
-        id: '1',
-        name: 'Matriz',
-      },
-      { id: '2', name: 'Santa Inês' },
-      {
-        id: '3',
-        name: 'Santa Ana',
-      },
-      {
-        id: '4',
-        name: 'Nossa Senhora do Rosário',
-      },
-      {
-        id: '5',
-        name: 'São José',
-      },
-    ];
-    this.days = [
-      '01',
-      '02',
-      '03',
-      '04',
-      '05',
-      '06',
-      '07',
-      '08',
-      '09',
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17',
-      '18',
-      '19',
-      '20',
-      '21',
-      '22',
-      '23',
-      '24',
-      '25',
-      '26',
-      '27',
-      '28',
-      '29',
-      '30',
-      '31',
-    ];
-    this.months = [
-      '01',
-      '02',
-      '03',
-      '04',
-      '05',
-      '06',
-      '07',
-      '08',
-      '09',
-      '10',
-      '11',
-      '12',
-    ];
-    this.years = ['2020', '2021', '2022'];
+    this.createSubscribes();
+    this.dispatchs();
   }
 
-  private createGraphBar() {
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  private createSubscribes() {
+    this.subscribeToPageInfo();
+    this.subscribeToListTithings();
+    this.subscribeToTotalTithings();
+    if (this.isAdmin) {
+      this.subscribeToChurchs();
+    }
+  }
+
+  public subscribeToListTithings() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromTithing.selectors.selectTithings))
+        .subscribe((state) => {
+          this.tithings = state;
+          if (this.tithings) {
+            this.createChartBar();
+            this.createChartDoughnutPie();
+            this.createChartLine();
+          }
+        })
+    );
+  }
+  public subscribeToTotalTithings() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromTithing.selectors.selectTotal))
+        .subscribe((state) => {
+          this.totalTithings = state;
+        })
+    );
+  }
+  public subscribeToPageInfo() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromTithing.selectors.selectPageInfo))
+        .subscribe((state) => {
+          this.pageInfo = state;
+          this.formFilterDate
+            .get('startDate')
+            .setValue(
+              new Date(
+                this.datePipe.transform(this.pageInfo.startDate, 'yyyy/MM/dd')
+              )
+            );
+          this.formFilterDate
+            .get('endDate')
+            .setValue(
+              new Date(
+                this.datePipe.transform(this.pageInfo.endDate, 'yyyy/MM/dd')
+              )
+            );
+        })
+    );
+  }
+  public subscribeToChurchs() {
+    this.subscription.add(
+      this.store$
+        .pipe(select(fromChurch.selectors.selectChurchs))
+        .subscribe((state) => {
+          this.churchs = [...state];
+          if (this.churchs.length > 0) {
+            const church = this.churchs.find((church) => church.user.admin);
+            this.formChurch.get('church').setValue(church ? church.id : 1);
+            this.dispatchTithings();
+          }
+        })
+    );
+  }
+  private createChartBar() {
+    const dates = this.tithings.map((tithing) => tithing.date);
+
+    const datesFiltering = dates.filter(
+      (tithing, index) => dates.indexOf(tithing) === index
+    );
+    let dataValue = [];
+    for (let i = 0; i < datesFiltering.length; i++) {
+      const date = datesFiltering[i];
+      let value = 0;
+      for (let j = 0; j < this.tithings.length; j++) {
+        const tithing = this.tithings[j];
+        if (date === tithing.date) {
+          value += tithing.value;
+        }
+      }
+      dataValue.push(value);
+    }
+
     this.lineChartDataBar = [
       {
-        data: [1000, 2000, 900],
-        label: 'Dízimos Últimos meses',
+        data: dataValue,
+        label: 'Dízimos Por dia',
       },
     ];
-    this.lineChartLabelsBar = ['Janeiro', 'Fevereiro', 'Março'];
+
+    this.lineChartLabelsBar = datesFiltering.map((date) => formatDate(date));
 
     this.lineChartColorsBar = [
       {
@@ -202,6 +235,9 @@ export class ReportComponent implements OnInit {
           'rgba(53, 121, 255)',
           'rgb(249, 141, 180)',
           'rgb(146, 207, 226',
+          'rgb(121, 17, 74)',
+          'rgb(249, 255, 147)',
+          'rgb(255, 153, 255)',
         ],
       },
     ];
@@ -209,16 +245,37 @@ export class ReportComponent implements OnInit {
     this.lineChartLegendBar = 'true';
 
     this.lineChartTypeBar = 'bar';
-    this.lineChartPluginsBar = [];
   }
-  private createGraphDoughnutPie() {
+
+  private createChartDoughnutPie() {
+    const dates = this.tithings.map((tithing) => tithing.date);
+
+    const datesFiltering = dates.filter(
+      (tithing, index) => dates.indexOf(tithing) === index
+    );
+    let dataValue = [];
+    for (let i = 0; i < datesFiltering.length; i++) {
+      const date = datesFiltering[i];
+      let value = 0;
+      for (let j = 0; j < this.tithings.length; j++) {
+        const tithing = this.tithings[j];
+        if (date === tithing.date) {
+          value += tithing.value;
+        }
+      }
+      dataValue.push(value);
+    }
+
     this.lineChartDataDoughnutPie = [
       {
-        data: [1000, 2000, 900],
-        label: 'Dízimos Últimos meses',
+        data: dataValue,
+        label: 'Dízimos Por dia',
       },
     ];
-    this.lineChartLabelsDoughnutPie = ['Janeiro', 'Fevereiro', 'Março'];
+
+    this.lineChartLabelsDoughnutPie = datesFiltering.map((date) =>
+      formatDate(date)
+    );
 
     this.lineChartColorsDoughnutPie = [
       {
@@ -226,24 +283,45 @@ export class ReportComponent implements OnInit {
         backgroundColor: [
           'rgba(53, 121, 255)',
           'rgb(249, 141, 180)',
-          'rgb(146, 207, 226)',
+          'rgb(146, 207, 226',
+          'rgb(121, 17, 74)',
+          'rgb(249, 255, 147)',
+          'rgb(255, 153, 255)',
         ],
       },
     ];
 
     this.lineChartLegendDoughnutPie = 'true';
-
     this.lineChartTypeDoughnutPie = 'doughnut';
-    this.lineChartPluginsDoughnutPie = [];
   }
-  private createGraphLine() {
+
+  private createChartLine() {
+    const dates = this.tithings.map((tithing) => tithing.date);
+
+    const datesFiltering = dates.filter(
+      (tithing, index) => dates.indexOf(tithing) === index
+    );
+    let dataValue = [];
+    for (let i = 0; i < datesFiltering.length; i++) {
+      const date = datesFiltering[i];
+      let value = 0;
+      for (let j = 0; j < this.tithings.length; j++) {
+        const tithing = this.tithings[j];
+        if (date === tithing.date) {
+          value += tithing.value;
+        }
+      }
+      dataValue.push(value);
+    }
+
     this.lineChartDataLine = [
       {
-        data: [1000, 2000, 900],
-        label: 'Dízimos Últimos meses',
+        data: dataValue,
+        label: 'Dízimos Por dia',
       },
     ];
-    this.lineChartLabelsLine = ['Janeiro', 'Fevereiro', 'Março'];
+
+    this.lineChartLabelsLine = datesFiltering.map((date) => formatDate(date));
 
     this.lineChartColorsLine = [
       {
@@ -253,8 +331,79 @@ export class ReportComponent implements OnInit {
     ];
 
     this.lineChartLegendLine = 'true';
-
     this.lineChartTypeLine = 'line';
-    this.lineChartPluginsLine = [];
+  }
+
+  private dispatchs() {
+    if (this.isAdmin) {
+      this.store$.dispatch(new fromChurch.actions.ListAllChurchs());
+      this.store$.dispatch(new fromTithing.actions.RetrieveTotal());
+    }else{
+      this.store$.dispatch(new fromTithing.actions.GetTotal());
+    }
+  }
+
+  public searchByDate() {
+    if (this.isAdmin) {
+      this.store$.dispatch(
+        new fromTithing.actions.ListTithingsAdm(
+          this.formChurch.get('church').value,
+          this.datePipe.transform(
+            this.formFilterDate.get('startDate').value,
+            'yyyy-MM-dd'
+          ),
+          this.datePipe.transform(
+            this.formFilterDate.get('endDate').value,
+            'yyyy-MM-dd'
+          )
+        )
+      );
+    } else {
+      this.store$.dispatch(
+        new fromTithing.actions.ListTithings(
+          this.datePipe.transform(
+            this.formFilterDate.get('startDate').value,
+            'yyyy-MM-dd'
+          ),
+          this.datePipe.transform(
+            this.formFilterDate.get('endDate').value,
+            'yyyy-MM-dd'
+          )
+        )
+      );
+    }
+  }
+  private dispatchTithings() {
+    if (this.isAdmin) {
+      this.store$.dispatch(
+        new fromTithing.actions.ListTithingsAdm(
+          this.formChurch.get('church').value,
+          this.datePipe.transform(this.pageInfo.startDate, 'yyyy-MM-dd'),
+          this.datePipe.transform(this.pageInfo.endDate, 'yyyy-MM-dd')
+        )
+      );
+    } else {
+      this.store$.dispatch(
+        new fromTithing.actions.ListTithings(
+          this.datePipe.transform(this.pageInfo.startDate, 'yyyy-MM-dd'),
+          this.datePipe.transform(this.pageInfo.endDate, 'yyyy-MM-dd')
+        )
+      );
+    }
+  }
+
+  public changeChurch() {
+    this.store$.dispatch(
+      new fromTithing.actions.ListTithingsAdm(
+        this.formChurch.get('church').value,
+        this.datePipe.transform(this.pageInfo.startDate, 'yyyy-MM-dd'),
+        this.datePipe.transform(this.pageInfo.endDate, 'yyyy-MM-dd')
+      )
+    );
+    this.store$.dispatch(
+      new fromTithing.actions.GetTotalByChurch(
+        this.formChurch.get('church').value
+      )
+    );
   }
 }

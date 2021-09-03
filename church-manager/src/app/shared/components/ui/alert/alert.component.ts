@@ -9,51 +9,29 @@ import * as fromAlert from '../../../../state/alert';
   styleUrls: ['./alert.component.scss'],
 })
 export class AlertComponent implements OnInit, OnDestroy {
-  public alertsSuccess = [];
-  public alertsErrs = [];
-  public alertsWarning = [];
+  public alerts = [];
   public subscription: Subscription = new Subscription();
 
   constructor(private store$: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.subscribeToAlertsSuccess();
-    this.subscribeToAlertsErrs();
-    this.subscribeToAlertsWarning();
+    this.subscribeToAlerts();
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  public subscribeToAlertsSuccess() {
+  public subscribeToAlerts() {
     this.subscription.add(
       this.store$
-        .pipe(select(fromAlert.selectors.selectAlertsSuccess))
+        .pipe(select(fromAlert.selectors.selectAlerts))
         .subscribe((state) => {
-          this.alertsSuccess = state;
+          this.alerts = state;
         })
     );
   }
 
-  public subscribeToAlertsErrs() {
-    this.subscription.add(
-      this.store$
-        .pipe(select(fromAlert.selectors.selectAlertsErrs))
-        .subscribe((state) => {
-          this.alertsErrs = state;
-        })
-    );
-  }
-  public subscribeToAlertsWarning() {
-    this.subscription.add(
-      this.store$
-        .pipe(select(fromAlert.selectors.selectAlertsWarning))
-        .subscribe((state) => {
-          this.alertsWarning = state;
-        })
-    );
-  }
-  public closeAlertError() {
-    this.store$.dispatch(new fromAlert.actions.ResetAlert());
+  public closeAlertError(id: number) {
+    this.store$.dispatch(new fromAlert.actions.RemoveAlert(id));
   }
 }

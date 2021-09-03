@@ -3,7 +3,6 @@
 html,
 body {
   height: 100%;
-  overflow: hidden;
 }
 body {
   margin: 0;
@@ -37,4 +36,8 @@ td:hover {
 .img-35-35 {
   width: 35px;
   height: 35px;
+}
+.invalid {
+  color: red;
+  font-weight: 300;
 }

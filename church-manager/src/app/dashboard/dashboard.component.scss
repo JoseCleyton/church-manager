@@ -1,7 +1,10 @@
+#dashboard{
+  grid-row: 10;
+}
+
 #title {
   font-weight: 600;
 }
-
 .mat-card {
   border-radius: 1rem;
   height: 8rem;
@@ -16,11 +19,7 @@
   font-weight: bold;
 }
 
-.margin-top-1 {
-  margin-top: 1rem;
-}
-
-.margin-top-1 h4 {
+.mt-1 h4 {
   opacity: 0.5;
 }
 
@@ -49,7 +48,7 @@
   #section-two {
     padding: 1rem;
   }
-  .margin-bottom-1{
+  .mb-1{
     margin-bottom: 1rem;
   }
 }
