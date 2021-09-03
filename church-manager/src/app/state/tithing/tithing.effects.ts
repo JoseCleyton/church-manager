@@ -113,6 +113,27 @@ export class ChristianEffects {
   );
 
   @Effect()
+  retrieveTotal$ = this.actions$.pipe(
+    ofType<actions.RetrieveTotal>(actions.TithingActionsTypes.RETRIEVE_TOTAL),
+    switchMap(() =>
+      this.tithingService.retrieveTotal().pipe(
+        map(
+          (response) => {
+            return new actions.RetrieveTotalSucces(response);
+          },
+          catchError((error) => {
+            new fromAlert.actions.AddAlert({
+              type: 'error',
+              message: error.message,
+            });
+            return EMPTY;
+          })
+        )
+      )
+    )
+  );
+
+  @Effect()
   getTotalByChurch$ = this.actions$.pipe(
     ofType<actions.GetTotalByChurch>(
       actions.TithingActionsTypes.GET_TOTAL_BY_CHURCH

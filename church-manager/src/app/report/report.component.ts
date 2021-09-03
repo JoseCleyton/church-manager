@@ -337,8 +337,10 @@ export class ReportComponent implements OnInit, OnDestroy {
   private dispatchs() {
     if (this.isAdmin) {
       this.store$.dispatch(new fromChurch.actions.ListAllChurchs());
+      this.store$.dispatch(new fromTithing.actions.RetrieveTotal());
+    }else{
+      this.store$.dispatch(new fromTithing.actions.GetTotal());
     }
-    this.store$.dispatch(new fromTithing.actions.GetTotal());
   }
 
   public searchByDate() {

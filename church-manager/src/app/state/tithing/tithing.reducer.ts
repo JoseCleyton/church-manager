@@ -37,6 +37,12 @@ export function tithingReducer(
         total: action.payload,
       };
     }
+    case TithingActionsTypes.RETRIEVE_TOTAL_SUCCESS: {
+      return {
+        ...state,
+        total: action.payload,
+      };
+    }
     case TithingActionsTypes.GET_TOTAL_BY_CHURCH_SUCCESS: {
       return {
         ...state,

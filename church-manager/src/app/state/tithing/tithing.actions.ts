@@ -6,6 +6,9 @@ export enum TithingActionsTypes {
   GET_TOTAL = '[Tithing] Get Total',
   GET_TOTAL_SUCCESS = '[Tithing] Get Total Success',
 
+  RETRIEVE_TOTAL = '[Tithing] Retrieve Total',
+  RETRIEVE_TOTAL_SUCCESS = '[Tithing] Retrieve Total Success',
+
   GET_TOTAL_BY_CHURCH = '[Tithing] Get Total By Church',
   GET_TOTAL_BY_CHURCH_SUCCESS = '[Tithing] Get Total By Church Success',
 
@@ -68,6 +71,14 @@ export class GetTotalSucces implements Action {
   constructor(public payload: any) {}
 }
 
+export class RetrieveTotal implements Action {
+  readonly type = TithingActionsTypes.RETRIEVE_TOTAL;
+  constructor() {}
+}
+export class RetrieveTotalSucces implements Action {
+  readonly type = TithingActionsTypes.RETRIEVE_TOTAL_SUCCESS;
+  constructor(public payload: any) {}
+}
 export class GetTotalByChurch implements Action {
   readonly type = TithingActionsTypes.GET_TOTAL_BY_CHURCH;
   constructor(public idChurch: number) {}
@@ -88,5 +99,7 @@ export type TithingActions =
   | AddTithingSuccess
   | GetTotal
   | GetTotalSucces
+  | RetrieveTotal
+  | RetrieveTotalSucces
   | GetTotalByChurch
   | GetTotalByChurchSucces;

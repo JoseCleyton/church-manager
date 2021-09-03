@@ -30,6 +30,10 @@ export class TithingService {
     return this.http.get(`${environment.apiRootDsv}tithing/total`);
   }
 
+  public retrieveTotal() {
+    return this.http.get(`${environment.apiRootDsv}tithing/total/retrieve`);
+  }
+
   public getTotalByChurch(idChurch: number) {
     return this.http.get(`${environment.apiRootDsv}tithing/total/${idChurch}`);
   }

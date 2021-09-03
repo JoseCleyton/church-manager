@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiRootDsv: 'http://www.church-manager.kinghost.net/api/',
-  // apiRootDsv: 'http://localhost:8080/',
+  // apiRootDsv: 'http://www.church-manager.kinghost.net/api/',
+  apiRootDsv: 'http://localhost:8080/',
   // apiRootPro: 'https://api-church-manager.herokuapp.com/'
 };
 

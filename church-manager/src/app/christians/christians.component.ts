@@ -253,9 +253,9 @@ export class ChristiansComponent implements OnInit, OnDestroy {
     } else {
       this.selectedChristians.push(christian);
       this.selectAllCheckBox =
-        this.selectedChristians.length === this.pageInfo.totalElements;
+        this.selectedChristians.length === this.christians.length;
       this.checkBoxAll._checked =
-        this.selectedChristians.length === this.pageInfo.totalElements;
+        this.selectedChristians.length === this.christians.length;
     }
   }
 
